@@ -240,6 +240,22 @@ public class Product extends JDialog {
 	
 	private void specSearch() {
 		tableInit();
+		
+		Dao_Product dao = new Dao_Product();
+		ArrayList<Dto_Product> dtolist = null;
+		
+		if (cbSelect.getSelectedIndex() == 0) {
+			dtolist = dao.search(tfSearch.getText());
+		}
+		
+		int listCount = dtolist.size();
+
+		for (int i = 0; i < listCount; i++) {
+			String temp = Integer.toString(dtolist.get(i).getSeqno());
+			String[] qTxt = { temp, dtolist.get(i).getName(), Integer.toString(dtolist.get(i).getPrice()) };
+			outerTable.addRow(qTxt);
+			innerTable.setRowHeight(i, 50);
+		}
 	}
 
 } // ------- END
