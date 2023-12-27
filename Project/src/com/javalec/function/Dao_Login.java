@@ -29,44 +29,31 @@ public class Dao_Login {
 	}
 
 	
-	public Dao_Login(String id, String pw) {
-		this.id = id;
+	public Dao_Login(String pw) {
 		this.pw = pw;
 	}
 	
 	
 	// Method
 	public boolean loginAction() {
-		boolean returnFlag = false;
+		boolean boolFlag = false;
 		
-		PreparedStatement ps = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
-			Statement stmt = conn.createStatement();
+			Statement st = conn.createStatement();
 			
 			String query = "select id, pw from customer where id = '" + id + "' && pw = '" + pw + "'";
-			ResultSet rs = stmt.executeQuery(query);
 			
-			if (rs.next()) {
-				System.out.println(rs.getString(1));
-				System.out.println(rs.getString(2));
-				System.out.println(id);
-				System.out.println(pw);
-				if (rs.getString(1).equals(id) && rs.getString(2).equals(pw)) {
-					System.out.println("get in");
-					returnFlag = true;
-					System.out.println(returnFlag);
-				}
-			}
-			conn.close();
+			ResultSet rs = st.executeQuery(query);
+			
+			if (rs.next()) if (rs.getString(1).equals(id) && rs.getString(2).equals(pw)) boolFlag = true;
 		}
 		catch (Exception e) {
-			System.out.println("get in catch");
-			return returnFlag = false;
+			boolFlag = false;
 		}
 		
-		return returnFlag;
+		return boolFlag;
 	}
 	
 }

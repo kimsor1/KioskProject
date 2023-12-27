@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -20,6 +22,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.FocusAdapter;
 
 public class Register extends JDialog {
 
@@ -84,28 +87,26 @@ public class Register extends JDialog {
 	private JTextField getTfId() {
 		if (tfId == null) {
 			tfId = new JTextField();
-			tfId.setText("아이디 입력");
-			tfId.setForeground(Color.LIGHT_GRAY);
-			tfId.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					String hintId = "아이디 입력";
-					
-					Font lostFont = new Font("Lucida Grande", Font.ITALIC, 13);
-					Font gainFont = new Font("Lucida Grande", Font.PLAIN, 13);
-					
-					
-					if (tfId.getText().length() == 0) {
-						tfId.setText(hintId);
-						tfId.setFont(lostFont);
-						tfId.setForeground(Color.LIGHT_GRAY);
-					}
-					else {
+			tfId.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					if (tfId.getText().equals("아이디 입력")) {
 						tfId.setText("");
-						tfId.setFont(gainFont);
 						tfId.setForeground(Color.BLACK);
+						tfId.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+				@Override
+				public void focusLost(FocusEvent e) {
+					if (tfId.getText().equals("")) {
+						tfId.setText("아이디 입력");
+						tfId.setForeground(Color.LIGHT_GRAY);
+						tfId.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 					}
 				}
 			});
+			tfId.setText("아이디 입력");
+			tfId.setForeground(Color.LIGHT_GRAY);
 			tfId.setBounds(57, 201, 416, 47);
 			tfId.setColumns(10);
 		}
@@ -114,13 +115,26 @@ public class Register extends JDialog {
 	private JTextField getTfPw() {
 		if (tfPw == null) {
 			tfPw = new JTextField();
-			tfPw.setText("비밀번호 입력");
-			tfPw.setForeground(Color.LIGHT_GRAY);
-			tfPw.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					setFont();
+			tfPw.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					if (tfPw.getText().equals("비밀번호 입력")) {
+						tfPw.setText("");
+						tfPw.setForeground(Color.BLACK);
+						tfPw.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+				@Override
+				public void focusLost(FocusEvent e) {
+					if (tfPw.getText().equals("")) {
+						tfPw.setText("비밀번호 입력");
+						tfPw.setForeground(Color.LIGHT_GRAY);
+						tfPw.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
 				}
 			});
+			tfPw.setText("비밀번호 입력");
+			tfPw.setForeground(Color.LIGHT_GRAY);
 			tfPw.setColumns(10);
 			tfPw.setBounds(57, 260, 416, 47);
 		}
@@ -129,13 +143,27 @@ public class Register extends JDialog {
 	private JTextField getTfPhone() {
 		if (tfPhone == null) {
 			tfPhone = new JTextField();
+			tfPhone.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					if (tfPhone.getText().equals("전화번호 입력")) {
+						tfPhone.setText("");
+						tfPhone.setForeground(Color.BLACK);
+						tfPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+				@Override
+				public void focusLost(FocusEvent e) {
+					if (tfPhone.getText().equals("")) {
+						tfPhone.setText("전화번호 입력");
+						tfPhone.setForeground(Color.LIGHT_GRAY);
+						tfPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+				
+			});
 			tfPhone.setText("전화번호 입력");
 			tfPhone.setForeground(Color.LIGHT_GRAY);
-			tfPhone.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					setFont();
-				}
-			});
 			tfPhone.setColumns(10);
 			tfPhone.setBounds(57, 319, 416, 47);
 		}
@@ -144,13 +172,26 @@ public class Register extends JDialog {
 	private JTextField getTfAddress() {
 		if (tfAddress == null) {
 			tfAddress = new JTextField();
-			tfAddress.setText("이메일 입력");
-			tfAddress.setForeground(Color.LIGHT_GRAY);
-			tfAddress.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					setFont();
+			tfAddress.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					if (tfAddress.getText().equals("주소 입력")) {
+						tfAddress.setText("");
+						tfAddress.setForeground(Color.BLACK);
+						tfAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+				@Override
+				public void focusLost(FocusEvent e) {
+					if (tfAddress.getText().equals("")) {
+						tfAddress.setText("주소 입력");
+						tfAddress.setForeground(Color.LIGHT_GRAY);
+						tfAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
 				}
 			});
+			tfAddress.setText("주소 입력");
+			tfAddress.setForeground(Color.LIGHT_GRAY);
 			tfAddress.setColumns(10);
 			tfAddress.setBounds(57, 378, 416, 47);
 		}
@@ -159,13 +200,26 @@ public class Register extends JDialog {
 	private JTextField getTfBirth() {
 		if (tfBirth == null) {
 			tfBirth = new JTextField();
-			tfBirth.setText("생일 입력");
-			tfBirth.setForeground(Color.LIGHT_GRAY);
-			tfBirth.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					setFont();
+			tfBirth.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					if (tfBirth.getText().equals("생일 입력")) {
+						tfBirth.setText("");
+						tfBirth.setForeground(Color.BLACK);
+						tfBirth.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+				@Override
+				public void focusLost(FocusEvent e) {
+					if (tfBirth.getText().equals("")) {
+						tfBirth.setText("생일 입력");
+						tfBirth.setForeground(Color.LIGHT_GRAY);
+						tfBirth.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
 				}
 			});
+			tfBirth.setText("생일 입력");
+			tfBirth.setForeground(Color.LIGHT_GRAY);
 			tfBirth.setColumns(10);
 			tfBirth.setBounds(57, 439, 416, 47);
 		}
@@ -175,7 +229,7 @@ public class Register extends JDialog {
 		if (lbOk == null) {
 			lbOk = new JLabel("확인");
 			lbOk.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbOk.setForeground(SystemColor.controlHighlight);
+			lbOk.setForeground(Color.LIGHT_GRAY);
 			lbOk.setBounds(198, 535, 61, 16);
 		}
 		return lbOk;
@@ -183,7 +237,7 @@ public class Register extends JDialog {
 	private JLabel getLbCancle() {
 		if (lbCancle == null) {
 			lbCancle = new JLabel("취소");
-			lbCancle.setForeground(SystemColor.controlHighlight);
+			lbCancle.setForeground(Color.LIGHT_GRAY);
 			lbCancle.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 			lbCancle.setBounds(305, 535, 61, 16);
 		}
@@ -193,7 +247,7 @@ public class Register extends JDialog {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("|");
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_2.setForeground(SystemColor.controlHighlight);
+			lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 			lblNewLabel_2.setBounds(232, 535, 61, 16);
 		}
@@ -230,42 +284,6 @@ public class Register extends JDialog {
 		login.setVisible(true);
 		
 		this.setVisible(false);
-	}
-	
-	private void setFont() {
-		String idHint = "아이디 입력";
-		String pwHint = "비밀번호 입력";
-		String phoneHint = "전화번호 입력";
-		String emailHint = "이메일 입력";
-		String addressHint = "주소 입력";
-		
-		Font gainFont = new Font("Lucida Grande", Font.PLAIN, 13);
-		Font lostFont = new Font("Lucida Grande", Font.ITALIC, 13);
-
-		tfId.setText(idHint);	// 텍스트 필드 힌트의 기본 문자
-		tfId.setFont(lostFont);	// 텍스트 필드 힌트의 기본 폰트
-		tfId.setForeground(Color.LIGHT_GRAY);	// 텍스트 필드 힌트의 기본 색상
-		tfId.addFocusListener(new FocusListener() {
-			
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (tfId.getText().equals("")) {
-					tfId.setText(idHint);
-					tfId.setFont(lostFont);
-					tfId.setForeground(Color.LIGHT_GRAY);
-				}
-				
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				if (tfId.getText().equals(idHint)) {
-					tfId.setText("");
-					tfId.setFont(gainFont);
-					tfId.setForeground(Color.BLACK);
-				}
-			}
-		});
 	}
 	
 }
