@@ -239,7 +239,7 @@ public class Product extends JDialog {
 	}
 	
 	private void specSearch() {
-		
+		tableInit();
 	}
 
 } // ------- END
