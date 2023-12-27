@@ -15,6 +15,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.SystemColor;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+
+import com.javalec.function.*;
 
 public class Product extends JDialog {
 
@@ -26,7 +31,7 @@ public class Product extends JDialog {
 	private JButton btnbasket;
 	private JButton btndetail;
 	private JTable innerTable;
-	
+
 	// Table
 	private final DefaultTableModel outerTable = new DefaultTableModel();
 
@@ -51,6 +56,13 @@ public class Product extends JDialog {
 	 * Create the dialog.
 	 */
 	public Product() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				tableInit();
+				searchAction();
+			}
+		});
 		setForeground(SystemColor.window);
 		setFont(new Font("Lucida Grande", Font.BOLD, 27));
 		setTitle("상품 목록");
@@ -65,14 +77,16 @@ public class Product extends JDialog {
 		getContentPane().add(getBtndetail());
 
 	}
+
 	private JComboBox getCbSelect() {
 		if (cbSelect == null) {
 			cbSelect = new JComboBox();
-			cbSelect.setModel(new DefaultComboBoxModel(new String[] {"제품명", "사이즈", "색상"}));
+			cbSelect.setModel(new DefaultComboBoxModel(new String[] { "제품명", "사이즈", "색상" }));
 			cbSelect.setBounds(28, 71, 100, 27);
 		}
 		return cbSelect;
 	}
+
 	private JTextField getTfSearch() {
 		if (tfSearch == null) {
 			tfSearch = new JTextField();
@@ -81,6 +95,7 @@ public class Product extends JDialog {
 		}
 		return tfSearch;
 	}
+
 	private JButton getBtnSearch() {
 		if (btnSearch == null) {
 			btnSearch = new JButton("검색");
@@ -88,6 +103,7 @@ public class Product extends JDialog {
 		}
 		return btnSearch;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -96,6 +112,7 @@ public class Product extends JDialog {
 		}
 		return scrollPane;
 	}
+
 	private JButton getBtnbasket() {
 		if (btnbasket == null) {
 			btnbasket = new JButton("장바구니");
@@ -103,6 +120,7 @@ public class Product extends JDialog {
 		}
 		return btnbasket;
 	}
+
 	private JButton getBtndetail() {
 		if (btndetail == null) {
 			btndetail = new JButton("상세보기");
@@ -110,6 +128,7 @@ public class Product extends JDialog {
 		}
 		return btndetail;
 	}
+
 	private JTable getInnerTable() {
 		if (innerTable == null) {
 			innerTable = new JTable();
@@ -118,4 +137,35 @@ public class Product extends JDialog {
 		}
 		return innerTable;
 	}
-}
+
+	// ---------- Method
+
+	private void tableInit() {
+
+		// Coulmn명 초기화
+		outerTable.addColumn("Seq");
+		outerTable.addColumn("상품명");
+		outerTable.addColumn("가격");
+		outerTable.setColumnCount(3);
+
+		int i = outerTable.getRowCount();
+		for (int j = 0; j < i; j++) {
+			outerTable.removeRow(0);
+		}
+
+	}
+
+	private void searchAction() {
+		Dao_Product dao = new Dao_Product();
+		ArrayList<Dto_Product> dtolist = dao.selectList();
+
+		int listCount = dtolist.size();
+
+		for (int i = 0; i < listCount; i++) {
+			String temp = Integer.toString(dtolist.get(i).getSeqno());
+			String[] qTxt = { temp, dtolist.get(i).getName(), Integer.toString(dtolist.get(i).getPrice()) };
+			outerTable.addRow(qTxt);
+		}
+	}
+
+} // ------- END
