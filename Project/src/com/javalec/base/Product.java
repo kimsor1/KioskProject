@@ -10,8 +10,11 @@ import javax.swing.JScrollPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.SystemColor;
 import java.awt.Font;
@@ -20,6 +23,10 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import com.javalec.function.*;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Product extends JDialog {
 
@@ -34,6 +41,7 @@ public class Product extends JDialog {
 
 	// Table
 	private final DefaultTableModel outerTable = new DefaultTableModel();
+	private JComboBox cbSort;
 
 	/**
 	 * Launch the application.
@@ -75,6 +83,7 @@ public class Product extends JDialog {
 		getContentPane().add(getScrollPane());
 		getContentPane().add(getBtnbasket());
 		getContentPane().add(getBtndetail());
+		getContentPane().add(getCbSort());
 
 	}
 
@@ -82,7 +91,7 @@ public class Product extends JDialog {
 		if (cbSelect == null) {
 			cbSelect = new JComboBox();
 			cbSelect.setModel(new DefaultComboBoxModel(new String[] { "제품명", "사이즈", "색상" }));
-			cbSelect.setBounds(28, 71, 100, 27);
+			cbSelect.setBounds(28, 80, 100, 40);
 		}
 		return cbSelect;
 	}
@@ -90,7 +99,7 @@ public class Product extends JDialog {
 	private JTextField getTfSearch() {
 		if (tfSearch == null) {
 			tfSearch = new JTextField();
-			tfSearch.setBounds(130, 70, 235, 26);
+			tfSearch.setBounds(130, 79, 235, 40);
 			tfSearch.setColumns(10);
 		}
 		return tfSearch;
@@ -99,7 +108,12 @@ public class Product extends JDialog {
 	private JButton getBtnSearch() {
 		if (btnSearch == null) {
 			btnSearch = new JButton("검색");
-			btnSearch.setBounds(365, 70, 117, 29);
+			btnSearch.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					specSearch();
+				}
+			});
+			btnSearch.setBounds(365, 80, 117, 40);
 		}
 		return btnSearch;
 	}
@@ -107,7 +121,7 @@ public class Product extends JDialog {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(28, 110, 454, 484);
+			scrollPane.setBounds(28, 163, 454, 431);
 			scrollPane.setViewportView(getInnerTable());
 		}
 		return scrollPane;
@@ -138,6 +152,20 @@ public class Product extends JDialog {
 		return innerTable;
 	}
 
+	private JComboBox getCbSort() {
+		if (cbSort == null) {
+			cbSort = new JComboBox();
+			cbSort.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					sortAction();
+				}
+			});
+			cbSort.setModel(new DefaultComboBoxModel(new String[] { "기본순", "낮은가격순", "높은가격순" }));
+			cbSort.setBounds(375, 132, 107, 27);
+		}
+		return cbSort;
+	}
+
 	// ---------- Method
 
 	private void tableInit() {
@@ -148,7 +176,23 @@ public class Product extends JDialog {
 		outerTable.addColumn("가격");
 		outerTable.setColumnCount(3);
 
+		int colNo = 0;
+		TableColumn col = innerTable.getColumnModel().getColumn(colNo);
+		int width = 30;
+		col.setPreferredWidth(width);
+
+		colNo = 1;
+		col = innerTable.getColumnModel().getColumn(colNo);
+		width = 200;
+		col.setPreferredWidth(width);
+
+		colNo = 2;
+		col = innerTable.getColumnModel().getColumn(colNo);
+		width = 150;
+		col.setPreferredWidth(width);
+
 		int i = outerTable.getRowCount();
+
 		for (int j = 0; j < i; j++) {
 			outerTable.removeRow(0);
 		}
@@ -165,7 +209,37 @@ public class Product extends JDialog {
 			String temp = Integer.toString(dtolist.get(i).getSeqno());
 			String[] qTxt = { temp, dtolist.get(i).getName(), Integer.toString(dtolist.get(i).getPrice()) };
 			outerTable.addRow(qTxt);
+			innerTable.setRowHeight(i, 50);
 		}
+	}
+
+	private void sortAction() {
+		tableInit();
+		
+		Dao_Product dao = new Dao_Product();
+		ArrayList<Dto_Product> dtolist = null;
+		
+		if (cbSort.getSelectedIndex() == 1) {
+			dtolist = dao.sort("asc");
+		}
+		else if (cbSort.getSelectedIndex() == 2) {
+			dtolist = dao.sort("desc");
+		}else {
+			dtolist = dao.selectList();
+		}
+		
+		int listCount = dtolist.size();
+
+		for (int i = 0; i < listCount; i++) {
+			String temp = Integer.toString(dtolist.get(i).getSeqno());
+			String[] qTxt = { temp, dtolist.get(i).getName(), Integer.toString(dtolist.get(i).getPrice()) };
+			outerTable.addRow(qTxt);
+			innerTable.setRowHeight(i, 50);
+		}
+	}
+	
+	private void specSearch() {
+		
 	}
 
 } // ------- END
