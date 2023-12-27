@@ -9,6 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
+import java.awt.Color;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class Product extends JDialog {
 
@@ -20,6 +26,9 @@ public class Product extends JDialog {
 	private JButton btnbasket;
 	private JButton btndetail;
 	private JTable innerTable;
+	
+	// Table
+	private final DefaultTableModel outerTable = new DefaultTableModel();
 
 	/**
 	 * Launch the application.
@@ -42,7 +51,11 @@ public class Product extends JDialog {
 	 * Create the dialog.
 	 */
 	public Product() {
-		setBounds(100, 100, 450, 501);
+		setForeground(SystemColor.window);
+		setFont(new Font("Lucida Grande", Font.BOLD, 27));
+		setTitle("상품 목록");
+		getContentPane().setBackground(SystemColor.infoText);
+		setBounds(100, 100, 512, 683);
 		getContentPane().setLayout(null);
 		getContentPane().add(getCbSelect());
 		getContentPane().add(getTfSearch());
@@ -63,7 +76,7 @@ public class Product extends JDialog {
 	private JTextField getTfSearch() {
 		if (tfSearch == null) {
 			tfSearch = new JTextField();
-			tfSearch.setBounds(130, 70, 180, 26);
+			tfSearch.setBounds(130, 70, 235, 26);
 			tfSearch.setColumns(10);
 		}
 		return tfSearch;
@@ -71,14 +84,14 @@ public class Product extends JDialog {
 	private JButton getBtnSearch() {
 		if (btnSearch == null) {
 			btnSearch = new JButton("검색");
-			btnSearch.setBounds(309, 70, 117, 29);
+			btnSearch.setBounds(365, 70, 117, 29);
 		}
 		return btnSearch;
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(28, 110, 400, 300);
+			scrollPane.setBounds(28, 110, 454, 484);
 			scrollPane.setViewportView(getInnerTable());
 		}
 		return scrollPane;
@@ -86,20 +99,22 @@ public class Product extends JDialog {
 	private JButton getBtnbasket() {
 		if (btnbasket == null) {
 			btnbasket = new JButton("장바구니");
-			btnbasket.setBounds(97, 438, 117, 29);
+			btnbasket.setBounds(110, 606, 117, 35);
 		}
 		return btnbasket;
 	}
 	private JButton getBtndetail() {
 		if (btndetail == null) {
 			btndetail = new JButton("상세보기");
-			btndetail.setBounds(233, 438, 117, 29);
+			btndetail.setBounds(275, 606, 117, 35);
 		}
 		return btndetail;
 	}
 	private JTable getInnerTable() {
 		if (innerTable == null) {
 			innerTable = new JTable();
+			innerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			innerTable.setModel(outerTable);
 		}
 		return innerTable;
 	}
