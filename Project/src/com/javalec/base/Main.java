@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Main {
 
@@ -71,8 +73,11 @@ public class Main {
 		// Main 프레임 오프
 		frame.setVisible(false);
 		
-//		// Login 창 띄우기
-//		Login login = new Login();
-//		login.setVisible(true);
+		// Login 창 띄우기
+		Login login = new Login();
+		login.setVisible(true);
+		
 	}
+	
+	
 }
