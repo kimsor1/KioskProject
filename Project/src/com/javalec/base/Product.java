@@ -13,13 +13,13 @@ import javax.swing.JTable;
 public class Product extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private JComboBox comboBox;
-	private JTextField textField;
-	private JButton btnNewButton;
+	private JComboBox cbSelect;
+	private JTextField tfSearch;
+	private JButton btnSearch;
 	private JScrollPane scrollPane;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
-	private JTable table;
+	private JButton btnbasket;
+	private JButton btndetail;
+	private JTable innerTable;
 
 	/**
 	 * Launch the application.
@@ -44,63 +44,63 @@ public class Product extends JDialog {
 	public Product() {
 		setBounds(100, 100, 450, 501);
 		getContentPane().setLayout(null);
-		getContentPane().add(getComboBox());
-		getContentPane().add(getTextField());
-		getContentPane().add(getBtnNewButton());
+		getContentPane().add(getCbSelect());
+		getContentPane().add(getTfSearch());
+		getContentPane().add(getBtnSearch());
 		getContentPane().add(getScrollPane());
-		getContentPane().add(getBtnNewButton_1());
-		getContentPane().add(getBtnNewButton_2());
+		getContentPane().add(getBtnbasket());
+		getContentPane().add(getBtndetail());
 
 	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"제품명", "사이즈", "색상"}));
-			comboBox.setBounds(28, 71, 100, 27);
+	private JComboBox getCbSelect() {
+		if (cbSelect == null) {
+			cbSelect = new JComboBox();
+			cbSelect.setModel(new DefaultComboBoxModel(new String[] {"제품명", "사이즈", "색상"}));
+			cbSelect.setBounds(28, 71, 100, 27);
 		}
-		return comboBox;
+		return cbSelect;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(130, 70, 180, 26);
-			textField.setColumns(10);
+	private JTextField getTfSearch() {
+		if (tfSearch == null) {
+			tfSearch = new JTextField();
+			tfSearch.setBounds(130, 70, 180, 26);
+			tfSearch.setColumns(10);
 		}
-		return textField;
+		return tfSearch;
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("검색");
-			btnNewButton.setBounds(309, 70, 117, 29);
+	private JButton getBtnSearch() {
+		if (btnSearch == null) {
+			btnSearch = new JButton("검색");
+			btnSearch.setBounds(309, 70, 117, 29);
 		}
-		return btnNewButton;
+		return btnSearch;
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(28, 110, 400, 300);
-			scrollPane.setViewportView(getTable());
+			scrollPane.setViewportView(getInnerTable());
 		}
 		return scrollPane;
 	}
-	private JButton getBtnNewButton_1() {
-		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("장바구니");
-			btnNewButton_1.setBounds(97, 438, 117, 29);
+	private JButton getBtnbasket() {
+		if (btnbasket == null) {
+			btnbasket = new JButton("장바구니");
+			btnbasket.setBounds(97, 438, 117, 29);
 		}
-		return btnNewButton_1;
+		return btnbasket;
 	}
-	private JButton getBtnNewButton_2() {
-		if (btnNewButton_2 == null) {
-			btnNewButton_2 = new JButton("상세보기");
-			btnNewButton_2.setBounds(233, 438, 117, 29);
+	private JButton getBtndetail() {
+		if (btndetail == null) {
+			btndetail = new JButton("상세보기");
+			btndetail.setBounds(233, 438, 117, 29);
 		}
-		return btnNewButton_2;
+		return btndetail;
 	}
-	private JTable getTable() {
-		if (table == null) {
-			table = new JTable();
+	private JTable getInnerTable() {
+		if (innerTable == null) {
+			innerTable = new JTable();
 		}
-		return table;
+		return innerTable;
 	}
 }

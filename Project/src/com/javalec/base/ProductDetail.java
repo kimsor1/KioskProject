@@ -12,14 +12,14 @@ public class ProductDetail extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
-	private JTextField textField;
+	private JTextField tfPname;
 	private JLabel lblNewLabel_1_1;
-	private JTextField textField_1;
+	private JTextField tfPsize;
 	private JLabel lblNewLabel_1_2;
-	private JTextField textField_2;
+	private JTextField tfPcolor;
 	private JLabel lblNewLabel_1_3;
-	private JTextField textField_3;
-	private JButton btnNewButton;
+	private JTextField tfPstock;
+	private JButton btnBack;
 
 	/**
 	 * Launch the application.
@@ -46,20 +46,20 @@ public class ProductDetail extends JDialog {
 		getContentPane().setLayout(null);
 		getContentPane().add(getLblNewLabel());
 		getContentPane().add(getLblNewLabel_1());
-		getContentPane().add(getTextField());
+		getContentPane().add(getTfPname());
 		getContentPane().add(getLblNewLabel_1_1());
-		getContentPane().add(getTextField_1());
+		getContentPane().add(getTfPsize());
 		getContentPane().add(getLblNewLabel_1_2());
-		getContentPane().add(getTextField_2());
+		getContentPane().add(getTfPcolor());
 		getContentPane().add(getLblNewLabel_1_3());
-		getContentPane().add(getTextField_3());
-		getContentPane().add(getBtnNewButton());
+		getContentPane().add(getTfPstock());
+		getContentPane().add(getBtnBack());
 
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("New label");
-			lblNewLabel.setBounds(106, 72, 211, 175);
+			lblNewLabel.setBounds(112, 59, 211, 175);
 		}
 		return lblNewLabel;
 	}
@@ -70,13 +70,14 @@ public class ProductDetail extends JDialog {
 		}
 		return lblNewLabel_1;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(158, 274, 160, 26);
-			textField.setColumns(10);
+	private JTextField getTfPname() {
+		if (tfPname == null) {
+			tfPname = new JTextField();
+			tfPname.setEditable(false);
+			tfPname.setBounds(158, 274, 160, 26);
+			tfPname.setColumns(10);
 		}
-		return textField;
+		return tfPname;
 	}
 	private JLabel getLblNewLabel_1_1() {
 		if (lblNewLabel_1_1 == null) {
@@ -85,13 +86,14 @@ public class ProductDetail extends JDialog {
 		}
 		return lblNewLabel_1_1;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-			textField_1.setBounds(157, 314, 160, 26);
+	private JTextField getTfPsize() {
+		if (tfPsize == null) {
+			tfPsize = new JTextField();
+			tfPsize.setEditable(false);
+			tfPsize.setColumns(10);
+			tfPsize.setBounds(157, 314, 160, 26);
 		}
-		return textField_1;
+		return tfPsize;
 	}
 	private JLabel getLblNewLabel_1_2() {
 		if (lblNewLabel_1_2 == null) {
@@ -100,13 +102,14 @@ public class ProductDetail extends JDialog {
 		}
 		return lblNewLabel_1_2;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setColumns(10);
-			textField_2.setBounds(158, 357, 160, 26);
+	private JTextField getTfPcolor() {
+		if (tfPcolor == null) {
+			tfPcolor = new JTextField();
+			tfPcolor.setEditable(false);
+			tfPcolor.setColumns(10);
+			tfPcolor.setBounds(158, 357, 160, 26);
 		}
-		return textField_2;
+		return tfPcolor;
 	}
 	private JLabel getLblNewLabel_1_3() {
 		if (lblNewLabel_1_3 == null) {
@@ -115,19 +118,20 @@ public class ProductDetail extends JDialog {
 		}
 		return lblNewLabel_1_3;
 	}
-	private JTextField getTextField_3() {
-		if (textField_3 == null) {
-			textField_3 = new JTextField();
-			textField_3.setColumns(10);
-			textField_3.setBounds(158, 403, 160, 26);
+	private JTextField getTfPstock() {
+		if (tfPstock == null) {
+			tfPstock = new JTextField();
+			tfPstock.setEditable(false);
+			tfPstock.setColumns(10);
+			tfPstock.setBounds(158, 403, 160, 26);
 		}
-		return textField_3;
+		return tfPstock;
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("뒤로가기");
-			btnNewButton.setBounds(150, 441, 117, 29);
+	private JButton getBtnBack() {
+		if (btnBack == null) {
+			btnBack = new JButton("뒤로가기");
+			btnBack.setBounds(150, 441, 117, 29);
 		}
-		return btnNewButton;
+		return btnBack;
 	}
 }
