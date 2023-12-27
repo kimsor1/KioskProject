@@ -1,5 +1,5 @@
 package com.javalec.function;
 
-public class Dto {
+public class Dto_Product {
 
 }

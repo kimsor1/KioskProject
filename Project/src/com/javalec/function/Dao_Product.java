@@ -1,6 +1,6 @@
 package com.javalec.function;
 
-public class Dao {
+public class Dao_Product {
 	
 	// Field
 		private final String url_mysql = ShareVar.dbName;
