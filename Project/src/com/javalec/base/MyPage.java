@@ -11,6 +11,8 @@ public class MyPage extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JLabel lblNewLabel;
 	private JTextField textField;
+	private JLabel lblNewLabel_1;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -38,6 +40,8 @@ public class MyPage extends JDialog {
 		getContentPane().setLayout(null);
 		getContentPane().add(getLblNewLabel());
 		getContentPane().add(getTextField());
+		getContentPane().add(getLblNewLabel_1());
+		getContentPane().add(getTextField_1());
 
 	}
 
@@ -55,5 +59,20 @@ public class MyPage extends JDialog {
 			textField.setColumns(10);
 		}
 		return textField;
+	}
+	private JLabel getLblNewLabel_1() {
+		if (lblNewLabel_1 == null) {
+			lblNewLabel_1 = new JLabel("비밀번호 :");
+			lblNewLabel_1.setBounds(36, 55, 61, 16);
+		}
+		return lblNewLabel_1;
+	}
+	private JTextField getTextField_1() {
+		if (textField_1 == null) {
+			textField_1 = new JTextField();
+			textField_1.setColumns(10);
+			textField_1.setBounds(135, 50, 130, 26);
+		}
+		return textField_1;
 	}
 }
