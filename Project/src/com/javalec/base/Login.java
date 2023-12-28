@@ -227,7 +227,7 @@ public class Login extends JDialog {
 			btnTitle.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					moveBack();
+					moveMain();
 				}
 			});
 			btnTitle.setBounds(45, 141, 429, 100);
@@ -264,21 +264,13 @@ public class Login extends JDialog {
 		return pw;
 	}
 	
-	
-	
-	// ---- Fucntion ----
-	
-	private void main() {
+// ---- Fucntion ----
+	// logo 클릭 시 메인 화면으로 back
+	private void moveMain() {
 		// 화면 메인으로 돌리기
 		Main window = new Main();
 		// 이거 사용 안하면 프로그램이 그냥 종료됨
 		window.main(null);
-		
-	}
-	
-	// logo 클릭 시 메인 화면으로 back
-	private void moveBack() {
-		main();
 		this.setVisible(false);
 	}
 	
