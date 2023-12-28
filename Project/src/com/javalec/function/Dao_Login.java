@@ -40,15 +40,14 @@ public class Dao_Login {
 		this.pw = pw;
 	}
 
-	public Dao_Login(String phone, String address, String birth) {
-		super();
+	public Dao_Login(String name, String phone, String address, String birth) {
+		this.name = name;
 		this.phone = phone;
 		this.address = address;
 		this.birth = birth;
 	}
 	
 	public Dao_Login(String id, String name, String phone, String address, String pw, String birth) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
@@ -84,7 +83,7 @@ public class Dao_Login {
 	
 	// ID 중복확인을 위함
 	public boolean checkIdAction() {
-		boolean boolFlag = false;
+		boolean boolFlag = true;
 		String query = "select id from customer where id = '" + id + "'";
 		
 		try {
@@ -95,7 +94,7 @@ public class Dao_Login {
 			ResultSet rs = st.executeQuery(query);
 			
 			if (rs.next()) {
-					boolFlag = true;
+				boolFlag = false;
 			}
 			conn.close();
 			
@@ -103,22 +102,24 @@ public class Dao_Login {
 		catch (Exception e ) {
 			e.printStackTrace();
 		}
+		System.out.println(boolFlag);
 		return boolFlag;
 	}
 	
 	// ID 찾기
-	public void checkFindIdAction() {
+	public boolean checkFindIdAction() {
 		boolean boolFlag = false;
-		
+		String query = "select id from customer where name = '" + name + "' and phone = '" + phone + "' and address = '" + address + "' and birth = '" + birth + "'";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
 			Statement st = conn.createStatement();
 			
-			String query = "select id from customer where phone = '" + phone + "' && address = '" + address + "' && birth = '" + birth + "'";
 			ResultSet rs = st.executeQuery(query);
+			
 			if (rs.next()) {
 				JOptionPane.showMessageDialog(null, "아이디는 " + rs.getString(1) + "입니다");
+				boolFlag = true;
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "등록된 정보의 아이디가 없습니다");
@@ -128,6 +129,7 @@ public class Dao_Login {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		return boolFlag;
 	}
 	
 	// 회원가입 완료

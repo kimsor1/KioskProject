@@ -303,6 +303,12 @@ public class Register extends JDialog {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (register()) {
+						completeRegister();
+						JOptionPane.showMessageDialog(null, "회원가입이 완료 되었습니다", "알림", JOptionPane.ERROR_MESSAGE);
+						Login login = new Login();
+						login.setVisible(true);
+						dispose();
+						
 					}
 				}
 			});
@@ -341,7 +347,7 @@ public class Register extends JDialog {
 		if (btnCheckDup == null) {
 			btnCheckDup = new JButton("중복확인");
 			btnCheckDup.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
+				public void actionPerformed(ActionEvent e) {
 					checkId();
 					flag = true;
 				}
@@ -457,6 +463,11 @@ public class Register extends JDialog {
 			pw.requestFocus();
 			check = false;
 		}
+		else if (tfName.getText().equals("이름 입력")) {
+			JOptionPane.showMessageDialog(null, "이름 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+			tfName.requestFocus();
+			check = false;
+		}
 		else if (tfPhone.getText().equals("전화번호 입력")) {
 			JOptionPane.showMessageDialog(null, "전화번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfPhone.requestFocus();
@@ -496,7 +507,7 @@ public class Register extends JDialog {
 			JOptionPane.showMessageDialog(null, "아이디를 입력하세요");
 		}
 		else {
-			if (dao.checkIdAction()) {
+			if (dao.checkIdAction() == false) {
 				JOptionPane.showMessageDialog(null, "중복된 아이디입니다", "알림", JOptionPane.ERROR_MESSAGE);
 			}
 			else {
@@ -516,21 +527,22 @@ public class Register extends JDialog {
 		}
 	}
 	
-//	private void completeRegister() {
-//		char[] pass = pw.getPassword();
-//		String sPass = new String(pass);
-//		
-//		String id = tfId.getText().trim();
-//		String name = 
-//		String pw = sPass.trim();
-//		String phone = tfPhone.getText().trim();
-//		String address = tfAddress.getText().trim();
-//		String birth = tfBirth.getText().trim();
-//		
-//		Dao_Login dao = new Dao_Login
-//		
-//		
-//	}
+	private void completeRegister() {
+		char[] pass = pw.getPassword();
+		String sPass = new String(pass);
+		
+		String id = tfId.getText().trim();
+		String name = tfName.getText().trim();
+		String phone = tfPhone.getText().trim();
+		String address = tfAddress.getText().trim();
+		String pw = sPass.trim();
+		String birth = tfBirth.getText().trim();
+		
+		Dao_Login dao = new Dao_Login(id, name, phone, address, pw, birth);
+		
+		dao.completeRegister();
+		
+	}
 	
 }
 

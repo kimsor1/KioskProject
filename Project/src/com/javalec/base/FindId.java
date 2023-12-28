@@ -219,7 +219,11 @@ public class FindId extends JDialog {
 			lbOk.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					checkFindId();
+					if (checkFindId()) {
+						Login login = new Login();
+						login.setVisible(true);
+						dispose();
+					}
 				}
 			});
 			lbOk.setForeground(Color.LIGHT_GRAY);
@@ -318,13 +322,18 @@ public class FindId extends JDialog {
 	}
 	
 	// 아이디 찾기 확인
-	private void checkFindId() {
+	private boolean checkFindId() {
+		boolean boolFlag = false;
+		String name = tfName.getText().trim();
 		String phone = tfPhone.getText().trim();
 		String address = tfAddress.getText().trim();
 		String birth = tfBirth.getText().trim();
 		
-		Dao_Login dao = new Dao_Login(phone, address, birth);
-		dao.checkFindIdAction();
+		Dao_Login dao = new Dao_Login(name, phone, address, birth);
+		if (dao.checkFindIdAction()) {
+			boolFlag = true;
+		}
+		return boolFlag;
 		
 		
 	}
