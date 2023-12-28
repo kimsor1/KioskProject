@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.javalec.base.Main;
+import com.javalec.function.Dao_Login;
 
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -24,6 +25,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FindPw extends JDialog {
 
@@ -244,9 +247,20 @@ public class FindPw extends JDialog {
 	private JLabel getLbOk() {
 		if (lbOk == null) {
 			lbOk = new JLabel("확인");
+			lbOk.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// checkFindPw가 트루라면 login 화면을 띄우고 현재 화면은 종
+					if (checkFindPw()) {
+						Login login = new Login();
+						login.setVisible(true);
+						dispose();
+					}
+				}
+			});
 			lbOk.setForeground(Color.LIGHT_GRAY);
 			lbOk.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbOk.setBounds(183, 588, 61, 16);
+			lbOk.setBounds(183, 568, 61, 16);
 		}
 		return lbOk;
 	}
@@ -256,16 +270,22 @@ public class FindPw extends JDialog {
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lblNewLabel_2.setBounds(217, 588, 61, 16);
+			lblNewLabel_2.setBounds(217, 568, 61, 16);
 		}
 		return lblNewLabel_2;
 	}
 	private JLabel getLbCancel() {
 		if (lbCancel == null) {
 			lbCancel = new JLabel("취소");
+			lbCancel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cancel();
+				}
+			});
 			lbCancel.setForeground(Color.LIGHT_GRAY);
 			lbCancel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbCancel.setBounds(290, 588, 61, 16);
+			lbCancel.setBounds(290, 568, 61, 16);
 		}
 		return lbCancel;
 	}
@@ -331,6 +351,34 @@ public class FindPw extends JDialog {
 				tfBirth.requestFocus();
 			}
 		}
+	}
+	
+	private void cancel() {
+		int checkCancle = JOptionPane.showConfirmDialog(null, "아이디 찾기를 취소 하시겠습니까?", "알림", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+		
+		if (checkCancle == JOptionPane.YES_OPTION) {
+			Login login = new Login();
+			login.setVisible(true);
+			
+			this.setVisible(false);
+		}
+	}
+	
+	
+	private boolean checkFindPw() {
+		boolean boolFlag = false;
+		String id = tfId.getText().trim();
+		String name = tfName.getText().trim();
+		String phone = tfPhone.getText().trim();
+		String address = tfAddress.getText().trim();
+		String brith = tfBirth.getText().trim();
+		
+		Dao_Login dao = new Dao_Login(id, name, phone, address, brith);
+		if (dao.checkFindPwAction()) {
+			boolFlag = true;
+		}
+		return boolFlag;
+				
 	}
 	
 }

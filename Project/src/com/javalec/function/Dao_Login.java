@@ -47,6 +47,14 @@ public class Dao_Login {
 		this.birth = birth;
 	}
 	
+	public Dao_Login(String id, String name, String phone, String address, String birth) {
+		this.id = id;
+		this.name = name;
+		this.phone = phone;
+		this.address = address;
+		this.birth = birth;
+	}
+
 	public Dao_Login(String id, String name, String phone, String address, String pw, String birth) {
 		this.id = id;
 		this.name = name;
@@ -132,6 +140,34 @@ public class Dao_Login {
 		return boolFlag;
 	}
 	
+	// 비밀번호 찾기
+	public boolean checkFindPwAction() {
+		boolean boolFlag = false;
+		String query = "select pw from customer where id = '" + id + "' and name = '" + name + "' and phone = '" + phone + "' and address = '" + address + "' and birth = '" + birth + "'";
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
+			Statement st = conn.createStatement();
+			
+			ResultSet rs = st.executeQuery(query);
+			
+			if (rs.next()) {
+				JOptionPane.showMessageDialog(null, "패스워드는 " + rs.getString(1) + "입니다");
+				boolFlag = true;
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "입력하신 정보가 틀렸습니다");
+			}
+			
+			conn.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return boolFlag;
+	}
+	
 	// 회원가입 완료
 	public void completeRegister() {
 		PreparedStatement ps = null;
@@ -159,4 +195,6 @@ public class Dao_Login {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }
