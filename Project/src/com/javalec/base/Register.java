@@ -25,8 +25,12 @@ import java.awt.event.FocusListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.FocusAdapter;
 import javax.swing.JPasswordField;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Register extends JDialog {
 
@@ -44,6 +48,7 @@ public class Register extends JDialog {
 	private JButton btnCheckDup;
 	private JButton btnTitle;
 	private JPasswordField pw;
+	private boolean flag = false;
 
 	/**
 	 * Launch the application.
@@ -104,11 +109,15 @@ public class Register extends JDialog {
 				}
 				@Override
 				public void focusLost(FocusEvent e) {
+					focusLostId();
+					
 					if (tfId.getText().equals("")) {
 						tfId.setText("아이디 입력");
 						tfId.setForeground(Color.LIGHT_GRAY);
 						tfId.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 					}
+					
+					
 				}
 			});
 			tfId.setText("아이디 입력");
@@ -126,7 +135,11 @@ public class Register extends JDialog {
 				@Override
 				public void focusLost(FocusEvent e) {
 					// 비밀번호가 입력 됬다면 tf 가리기 입력되지 않았다면 pw필드 가리기
-					if (changePw().length() > 0) {
+					
+					char[] pass = pw.getPassword();
+					String sPass = new String(pass);
+					
+					if (sPass.trim().length() > 0) {
 						tfPw.setVisible(false);
 						pw.setVisible(true);
 					}
@@ -184,6 +197,7 @@ public class Register extends JDialog {
 						tfPhone.setForeground(Color.LIGHT_GRAY);
 						tfPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 					}
+					focusLostPhone();
 				}
 				
 			});
@@ -241,6 +255,7 @@ public class Register extends JDialog {
 						tfBirth.setForeground(Color.LIGHT_GRAY);
 						tfBirth.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 					}
+					focusLostBirth();
 				}
 			});
 			tfBirth.setText("생일 입력");
@@ -255,6 +270,12 @@ public class Register extends JDialog {
 	private JLabel getLbOk() {
 		if (lbOk == null) {
 			lbOk = new JLabel("확인");
+			lbOk.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					register();
+				}
+			});
 			lbOk.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 			lbOk.setForeground(Color.LIGHT_GRAY);
 			lbOk.setBounds(198, 535, 61, 16);
@@ -264,6 +285,12 @@ public class Register extends JDialog {
 	private JLabel getLbCancle() {
 		if (lbCancle == null) {
 			lbCancle = new JLabel("취소");
+			lbCancle.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					cancel();
+				}
+			});
 			lbCancle.setForeground(Color.LIGHT_GRAY);
 			lbCancle.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 			lbCancle.setBounds(305, 535, 61, 16);
@@ -286,6 +313,7 @@ public class Register extends JDialog {
 			btnCheckDup.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					checkId();
+					flag = true;
 				}
 			});
 			btnCheckDup.setBackground(Color.GRAY);
@@ -312,6 +340,7 @@ public class Register extends JDialog {
 	
 	/// ---- Function ----
 	
+	// 로고 클릭시 메인 화면으로 이동
 	private void moveBack() {
 		Main window = new Main();
 		window.main(null);
@@ -319,28 +348,121 @@ public class Register extends JDialog {
 		this.setVisible(false);
 	}
 	
-	// char의 pw를 string으로 변환
-	private String changePw() {
-		char[] pass = pw.getPassword();
-		String strPass = new String(pass);
-		
-		return strPass.trim();
+	// 아이디 정규 표현
+	private void focusLostId() {
+		// 문자열 형태의 정규표현식 문법을 정규식 패턴으로 변환
+		Pattern pattern = Pattern.compile("^[a-z|A-Z|0-9]*$"); // Pattern 객체로 컴파일된 정규식은 뒤의 Matcher 클래스에서 사용된다
+		Matcher matcher = pattern.matcher(tfId.getText()); // 패턴 객체로 문자열을 필터링한뒤 그 결과값들을 담은 매처 객체 생성
+
+		if (!tfPhone.getText().equals("아이디 입력")) {
+			if (!matcher.matches()) {
+				JOptionPane.showMessageDialog(null, "영어와 숫자만 입력하세요.");
+				tfId.requestFocus();
+			}	
+		}
 	}
 	
-	private void checkId() {
+	// 전화번호 정규식
+	private void focusLostPhone() {
+		// 정확하지 않은 전화번호 입력시 에러 표현
+		Pattern pattern = Pattern.compile("^\\d{3}-\\d{3,4}-\\d{4}$");
+		Matcher matcher = pattern.matcher(tfPhone.getText());
+
+		if (!tfPhone.getText().equals("전화번호 입력")) {
+			if (!matcher.matches()) {
+			JOptionPane.showMessageDialog(null, "010-0000-0000 타입 형식의 번호를 입력하세요.");
+			tfPhone.requestFocus();
+
+			}
+
+		}
+
+	}
+	
+	// 생일 정규식 형식
+	private void focusLostBirth() {
+		Pattern pattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+		Matcher matcher = pattern.matcher(tfBirth.getText());
+		
+		if (!tfBirth.getText().equals("생일 입력")) {
+			if (!matcher.matches()) {
+				JOptionPane.showMessageDialog(null, "1995-01-01 형식의 생일을 입력하세요.");
+				tfBirth.requestFocus();
+			}
+		}
+	}
+	
+	// 아이디 등록 입력 체크, 중복 체크
+	private void register() {
 		String checkId = tfId.getText().trim();
+		char[] pass = pw.getPassword();
+		String sPass = new String(pass);
+		Dao_Login dao = new Dao_Login(checkId, sPass.trim());
 		
-		Dao_Login dao = new Dao_Login(checkId, changePw());
+		if (tfId.getText().equals("아이디 입력")) {
+			JOptionPane.showMessageDialog(null, "아이디를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+			tfId.requestFocus();
+		}
+		else if (! flag) {
+			JOptionPane.showMessageDialog(null, "중복 체크를 해주세요", "알림", JOptionPane.ERROR_MESSAGE);
+			btnCheckDup.requestFocus();
+		}
+		else if (tfPw.getText().equals("비밀번호 입력") && sPass.trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+			pw.requestFocus();
+		}
+		else if (tfPhone.getText().equals("전화번호 입력")) {
+			JOptionPane.showMessageDialog(null, "전화번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+			tfPhone.requestFocus();
+		}
+		else if (tfAddress.getText().equals("주소 입력")) {
+			JOptionPane.showMessageDialog(null, "주소를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+			tfAddress.requestFocus();
+		}
+		else if (tfBirth.getText().equals("생일 입력")) {
+			JOptionPane.showMessageDialog(null, "생일을 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+			tfBirth.requestFocus();
+		}
+		else if (dao.checkIdAction() == false) {
+			JOptionPane.showMessageDialog(null, "중복 체크가 완료되지 않았습니다", "알림", JOptionPane.ERROR_MESSAGE);
+			btnCheckDup.requestFocus();
+		}
 		
-		if (checkId.length() == 0) {
+	}
+	
+	// 아이디 체크
+	private void checkId() {
+		flag = false;
+		// char의 pw를 string으로 변환
+		char[] pass = pw.getPassword();
+		String sPass = new String(pass);
+		
+		String checkId = tfId.getText().trim();
+		Dao_Login dao = new Dao_Login(checkId, sPass.trim());
+		
+		if (checkId.equals("아이디 입력")) {
 			JOptionPane.showMessageDialog(null, "아이디를 입력하세요");
 		}
-		else dao.checkIdAction();
+		else {
+			if (dao.checkIdAction()) {
+				JOptionPane.showMessageDialog(null, "중복된 아이디입니다", "알림", JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "사용 가능한 아이디입니다", "알림", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
-	
-	
-	
-	
+	// 취소 버튼
+	private void cancel() {
+		int checkCancle = JOptionPane.showConfirmDialog(null, "회원가입을 취소 하시겠습니까?", "알림", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+		
+		if (checkCancle == JOptionPane.YES_OPTION) {
+			Login login = new Login();
+			login.setVisible(true);
+			
+			this.setVisible(false);
+		}
+	}
 	
 }
 

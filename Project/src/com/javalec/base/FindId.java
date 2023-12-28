@@ -33,7 +33,7 @@ public class FindId extends JDialog {
 	public FindId() {
 		setFont(new Font("Lucida Grande", Font.BOLD, 27));
 		setTitle("아이디 찾기");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 512, 683);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
