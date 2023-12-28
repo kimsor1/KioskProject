@@ -30,7 +30,7 @@ public class Dao_Product {
 	}
 
 	// Method
-	
+
 	// ArrayList를 사용하여 데이터 값 찾아 불러오기
 	public ArrayList<Dto_Product> selectList() {
 		ArrayList<Dto_Product> dtoList = new ArrayList<Dto_Product>(); // Dto_Product라는 타입을 가진 ArrayList 생성
@@ -42,12 +42,12 @@ public class Dao_Product {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
 			Statement stmt_mysql = conn_mysql.createStatement();
-			
+
 			// 데이터 추가, 수정, 삭제가 아니기에 executeQuery문 사용
 			ResultSet rs = stmt_mysql.executeQuery(whereDefault);
 
 			while (rs.next()) {
-				int wkSeq = rs.getInt(1); 
+				int wkSeq = rs.getInt(1);
 				String wkName = rs.getString(2);
 				int wkprice = rs.getInt(3);
 
@@ -75,7 +75,7 @@ public class Dao_Product {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
 			Statement stmt_mysql = conn_mysql.createStatement();
-			
+
 			// 오름차순일때
 			if (sort.equals("asc")) {
 				ResultSet rs = stmt_mysql.executeQuery(A); // asc구문 삽입
@@ -110,6 +110,37 @@ public class Dao_Product {
 		}
 
 		return dtoList;
+	}
+
+	public ArrayList<Dto_Product> search(String name) {
+		ArrayList<Dto_Product> dtoList = new ArrayList<Dto_Product>(); // Dto_Product라는 타입을 가진 ArrayList 생성
+		PreparedStatement ps = null;
+
+		// SQL 구문
+		String A = "select seq,name,price from product where name like '%" + name + "%'";
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+			Statement stmt_mysql = conn_mysql.createStatement();
+
+			ResultSet rs = stmt_mysql.executeQuery(A); // 데이터 가져옴
+
+			while (rs.next()) {
+				int wkSeq = rs.getInt(1);
+				String wkName = rs.getString(2);
+				int wkprice = rs.getInt(3);
+
+				Dto_Product dto = new Dto_Product(wkSeq, wkName, wkprice);
+				dtoList.add(dto);
+			}
+			conn_mysql.close();
+
+		} catch (Exception e) {
+			e.printStackTrace(); // 어디서 오류가 났는지 출력
+		}
+
+		return dtoList; // 불러온 데이터가 입력 된 dtoList 리턴
 	}
 
 }

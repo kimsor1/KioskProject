@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class Login extends JDialog {
 
@@ -40,6 +42,7 @@ public class Login extends JDialog {
 	private JLabel lblNewLabel_3_1;
 	private JButton btnTitle;
 	private JPasswordField tfPw;
+	private JTextField tfPw2;
 
 	/**
 	 * Launch the application.
@@ -66,6 +69,7 @@ public class Login extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		contentPanel.add(getTfId());
+		contentPanel.add(getTfPw2());
 		contentPanel.add(getBtnNewButton());
 		contentPanel.add(getLblNewLabel_3());
 		contentPanel.add(getLblNewLabel_3_1());
@@ -87,12 +91,61 @@ public class Login extends JDialog {
 	private JTextField getTfId() {
 		if (tfId == null) {
 			tfId = new JTextField();
+			tfId.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					if(tfId.getText().equals("아이디 입력")) {
+						tfId.setText("");
+						tfId.setForeground(Color.BLACK);
+						tfId.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+				@Override
+				public void focusLost(FocusEvent e) {
+					if(tfId.getText().equals("")) {
+						tfId.setText("아이디 입력");
+						tfId.setForeground(Color.LIGHT_GRAY);
+						tfId.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+			});
+			tfId.setText("아이디 입력");
 			tfId.setBackground(new Color(254, 255, 255));
-			tfId.setForeground(new Color(0, 0, 0));
+			tfId.setForeground(Color.LIGHT_GRAY);
 			tfId.setBounds(46, 289, 416, 47);
 			tfId.setColumns(10);
 		}
 		return tfId;
+	}
+	
+	private JTextField getTfPw2() {
+		if (tfPw2 == null) {
+			tfPw2 = new JTextField();
+			tfPw2.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					if(tfPw2.getText().equals("비밀번호 입력")) {
+						tfPw2.setVisible(false);
+						tfPw.requestFocus();
+					}
+				}
+				@Override
+				public void focusLost(FocusEvent e) {
+					if(tfPw2.getText().equals("")) {
+						tfPw2.setVisible(true);
+						tfPw2.setText("비밀번호 입력");
+						tfPw2.setForeground(Color.LIGHT_GRAY);
+						tfPw2.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+			});
+			tfPw2.setText("비밀번호 입력");
+			tfPw2.setForeground(Color.LIGHT_GRAY);
+			tfPw2.setColumns(10);
+			tfPw2.setBackground(new Color(254, 255, 255));
+			tfPw2.setBounds(46, 348, 416, 47);
+		}
+		return tfPw2;
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
@@ -117,7 +170,7 @@ public class Login extends JDialog {
 					clickRegister();
 				}
 			});
-			lblNewLabel.setForeground(SystemColor.controlHighlight);
+			lblNewLabel.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel.setBounds(139, 510, 61, 16);
 		}
 		return lblNewLabel;
@@ -131,7 +184,7 @@ public class Login extends JDialog {
 					clickFindId();
 				}
 			});
-			lblNewLabel_1.setForeground(SystemColor.controlHighlight);
+			lblNewLabel_1.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_1.setBounds(220, 510, 61, 16);
 		}
 		return lblNewLabel_1;
@@ -139,7 +192,7 @@ public class Login extends JDialog {
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("비밀번호 찾기");
-			lblNewLabel_2.setForeground(SystemColor.controlHighlight);
+			lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_2.setBounds(316, 510, 73, 16);
 		}
 		return lblNewLabel_2;
@@ -149,7 +202,7 @@ public class Login extends JDialog {
 			lblNewLabel_3 = new JLabel(" |");
 			lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel_3.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lblNewLabel_3.setForeground(SystemColor.controlHighlight);
+			lblNewLabel_3.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_3.setBounds(167, 509, 61, 16);
 		}
 		return lblNewLabel_3;
@@ -158,7 +211,7 @@ public class Login extends JDialog {
 		if (lblNewLabel_3_1 == null) {
 			lblNewLabel_3_1 = new JLabel(" |");
 			lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_3_1.setForeground(SystemColor.controlHighlight);
+			lblNewLabel_3_1.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_3_1.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 			lblNewLabel_3_1.setBounds(265, 510, 61, 16);
 		}
@@ -182,10 +235,13 @@ public class Login extends JDialog {
 	private JPasswordField getTfPw() {
 		if (tfPw == null) {
 			tfPw = new JPasswordField();
+			tfPw.setForeground(Color.BLACK);
 			tfPw.setBounds(46, 348, 416, 47);
 		}
 		return tfPw;
 	}
+	
+	
 	
 	// ---- Fucntion ----
 	
@@ -217,28 +273,29 @@ public class Login extends JDialog {
 		
 		String id = tfId.getText().trim();
 		String pw = changePw();
-		Dao_Login dao = new Dao_Login(id, pw);
+		Dao_Login dao = new Dao_Login(pw);
 		
 		
-		if (tfId.getText().length() == 0 && pw.length() == 0) {
-			JOptionPane.showMessageDialog(null, "ID와 PW를 입력하세요");
+		if (id.length() == 0 && pw.length() == 0) {
+			JOptionPane.showMessageDialog(null, "ID와 PW를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfId.requestFocus();
 		}
-		else if (tfId.getText().length() == 0) {
-			JOptionPane.showMessageDialog(null, "ID를 입력하세요");
+		else if (id.length() == 0) {
+			JOptionPane.showMessageDialog(null, "ID를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfId.requestFocus();
 		}
 		else if (pw.length() == 0) {
-			JOptionPane.showMessageDialog(null, "PW를 입력하세요");
+			JOptionPane.showMessageDialog(null, "PW를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfPw.requestFocus();
 		}
-		System.out.println("Attempting login with ID: " + id + " and PW: " + pw);
-		
-		if (dao.loginAction() == true) {
-			JOptionPane.showMessageDialog(null, "로그인 성공 하였습니다");
-		}
 		else {
-			JOptionPane.showMessageDialog(null, "ID 혹은 PW가 틀렸습니다");
+			if (dao.loginAction()) {
+				JOptionPane.showMessageDialog(null, "로그인 성공 하였습니다", "알림", JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "ID 혹은 PW를 다시 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+				tfPw.requestFocus();
+			}
 		}
 		
 	}
