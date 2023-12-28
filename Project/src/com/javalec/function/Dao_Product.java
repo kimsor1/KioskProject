@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Dao_Product {
 
 	// Field
@@ -21,6 +23,10 @@ public class Dao_Product {
 	// Construct
 	public Dao_Product() {
 
+	}
+
+	public Dao_Product(int seqno) {
+		this.seqno = seqno;
 	}
 
 	public Dao_Product(int seqno, String name, int price) {
@@ -64,7 +70,7 @@ public class Dao_Product {
 	}
 
 	// 정렬한 데이터를 ArrayList를 사용하여 값 찾아 불러오기
-	public ArrayList<Dto_Product> sort(String sort) {
+	public ArrayList<Dto_Product> sort(int index) {
 		ArrayList<Dto_Product> dtoList = new ArrayList<Dto_Product>(); // Dto_Product라는 타입을 가진 ArrayList 생성
 
 		// 낮은가격순과 높은가격순은 다른 문장을 사용하기 때문에 분리
@@ -77,7 +83,7 @@ public class Dao_Product {
 			Statement stmt_mysql = conn_mysql.createStatement();
 
 			// 오름차순일때
-			if (sort.equals("asc")) {
+			if (index == 1) {
 				ResultSet rs = stmt_mysql.executeQuery(A); // asc구문 삽입
 
 				while (rs.next()) {
@@ -89,8 +95,9 @@ public class Dao_Product {
 					dtoList.add(dto);
 				}
 			}
+
 			// 내림차순일때
-			if (sort.equals("desc")) {
+			if (index == 2) {
 				ResultSet rs = stmt_mysql.executeQuery(B); // desc 구문 삽입
 
 				while (rs.next()) {
@@ -112,27 +119,57 @@ public class Dao_Product {
 		return dtoList;
 	}
 
-	public ArrayList<Dto_Product> search(String name) {
+	public ArrayList<Dto_Product> search(String name, int index) {
 		ArrayList<Dto_Product> dtoList = new ArrayList<Dto_Product>(); // Dto_Product라는 타입을 가진 ArrayList 생성
 		PreparedStatement ps = null;
 
 		// SQL 구문
 		String A = "select seq,name,price from product where name like '%" + name + "%'";
+		String B = "select seq,name,price from product where name like '%" + name + "%' order by price asc";
+		String C = "select seq,name,price from product where name like '%" + name + "%' order by price desc";
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
 			Statement stmt_mysql = conn_mysql.createStatement();
 
-			ResultSet rs = stmt_mysql.executeQuery(A); // 데이터 가져옴
+			if (index == 0) {
+				ResultSet rs = stmt_mysql.executeQuery(A); // asc구문 삽입
 
-			while (rs.next()) {
-				int wkSeq = rs.getInt(1);
-				String wkName = rs.getString(2);
-				int wkprice = rs.getInt(3);
+				while (rs.next()) {
+					int wkSeq = rs.getInt(1);
+					String wkName = rs.getString(2);
+					int wkprice = rs.getInt(3);
 
-				Dto_Product dto = new Dto_Product(wkSeq, wkName, wkprice);
-				dtoList.add(dto);
+					Dto_Product dto = new Dto_Product(wkSeq, wkName, wkprice);
+					dtoList.add(dto);
+				}
+			}
+
+			if (index == 1) {
+				ResultSet rs = stmt_mysql.executeQuery(B); // asc구문 삽입
+
+				while (rs.next()) {
+					int wkSeq = rs.getInt(1);
+					String wkName = rs.getString(2);
+					int wkprice = rs.getInt(3);
+
+					Dto_Product dto = new Dto_Product(wkSeq, wkName, wkprice);
+					dtoList.add(dto);
+				}
+			}
+
+			if (index == 2) {
+				ResultSet rs = stmt_mysql.executeQuery(C); // asc구문 삽입
+
+				while (rs.next()) {
+					int wkSeq = rs.getInt(1);
+					String wkName = rs.getString(2);
+					int wkprice = rs.getInt(3);
+
+					Dto_Product dto = new Dto_Product(wkSeq, wkName, wkprice);
+					dtoList.add(dto);
+				}
 			}
 			conn_mysql.close();
 
@@ -142,5 +179,37 @@ public class Dao_Product {
 
 		return dtoList; // 불러온 데이터가 입력 된 dtoList 리턴
 	}
+
+	// 클릭한 상품을 상세정보로 넘기기 위한 메소드
+	public Dto_Product tableClick(int seqno) {
+
+		Dto_Product dto = null;
+
+		String A = "select p.seq, p.name, p.price, s.stock_quantity from product as p, storage as s where p.seq = '" + seqno + "' ";
+		String B = "and and s.stocksize = 230 and s.stockcolor = 'white' and p.seq = s.p_id;";
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+			Statement stmt_mysql = conn_mysql.createStatement();
+
+			ResultSet rs = stmt_mysql.executeQuery(A);
+
+			while (rs.next()) {
+				ShareVar.productSeq = rs.getInt(1);
+				ShareVar.productName = rs.getString(2);
+				ShareVar.productPrice = rs.getInt(3);
+				ShareVar.productStock = rs.getInt(4);
+			}
+			
+			conn_mysql.close();
+
+		} catch (Exception e) {
+			e.printStackTrace(); // 어디서 오류가 났는지 출력
+		}
+
+		return dto;
+	}
+	
 
 }

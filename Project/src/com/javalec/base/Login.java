@@ -22,6 +22,8 @@ import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
@@ -225,7 +227,7 @@ public class Login extends JDialog {
 			btnTitle.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					moveBack();
+					moveMain();
 				}
 			});
 			btnTitle.setBounds(45, 141, 429, 100);
@@ -241,7 +243,9 @@ public class Login extends JDialog {
 				@Override
 				public void focusLost(FocusEvent e) {
 					// 비밀번호가 입력 됬다면 tf 가리기 입력되지 않았다면 pw필드 가리기
-					if (changePw().length() > 0) {
+					char[] pass = pw.getPassword();
+					String sPass = new String(pass);
+					if (sPass.length() > 0) {
 						tfPw.setVisible(false);
 						pw.setVisible(true);
 					}
@@ -260,43 +264,45 @@ public class Login extends JDialog {
 		return pw;
 	}
 	
-	
-	
-	// ---- Fucntion ----
-	
-	private void main() {
+// ---- Fucntion ----
+	// logo 클릭 시 메인 화면으로 back
+	private void moveMain() {
 		// 화면 메인으로 돌리기
 		Main window = new Main();
 		// 이거 사용 안하면 프로그램이 그냥 종료됨
 		window.main(null);
-		
-	}
-	
-	// logo 클릭 시 메인 화면으로 back
-	private void moveBack() {
-		main();
 		this.setVisible(false);
 	}
 	
-	// char의 pw를 string으로 변환
-	private String changePw() {
-		char[] pass = pw.getPassword();
-		String strPass = new String(pass);
+	// 회원가입 클릭
+		private void clickRegister() {
+			Register register = new Register();
+			register.setVisible(true);
+			
+			this.setVisible(false);
+		}
 		
-		return strPass.trim();
-	}
-	
+		// 아이디 찾기 클릭
+		private void clickFindId() {
+			FindId fId = new FindId();
+			
+			fId.setVisible(true);
+			this.setVisible(false);
+			
+		}
 	
 	// id, pw가 입력이 되지 않았다면 입력하라고 나오는 알림
 	private void login() {
 		String hintId = "아이디 입력";
 		String hintPw = "비밀번호 입력";
-		String id = tfId.getText().trim();
-		String cPw = changePw();
-		Dao_Login dao = new Dao_Login(cPw);
+		// char의 pw를 string으로 변환
+		char[] pass = pw.getPassword();
+		String sPass = new String(pass);
+		
+		Dao_Login dao = new Dao_Login(tfId.getText().trim(), sPass.trim());
 		
 		
-		if (tfId.getText().trim().equals(hintId) && changePw().equals(hintPw)) {
+		if (tfId.getText().trim().equals(hintId) && tfPw.getText().trim().equals(hintPw)) {
 			JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfId.requestFocus();
 		}
@@ -304,32 +310,19 @@ public class Login extends JDialog {
 			JOptionPane.showMessageDialog(null, "아이디를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfId.requestFocus();
 		}
-		else if (changePw().equals(hintPw)) {
+		else if (sPass.trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
-			tfPw.requestFocus();
+			pw.requestFocus();
 		}
-		
-		
-		if (dao.loginAction()) {
-			JOptionPane.showMessageDialog(null, "로그인 성공 하였습니다", "알림", JOptionPane.ERROR_MESSAGE);
-		}
-		else if (!tfId.getText().trim().equals(hintId) && !changePw().equals(hintPw) && dao.loginAction() == false){
-			JOptionPane.showMessageDialog(null, "아이디 혹은 비밀번호를 다시 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
-			tfPw.requestFocus();
+		else {
+			if (dao.loginAction() == true) {
+				JOptionPane.showMessageDialog(null, "로그인 성공 하였습니다", "알림", JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "아이디 혹은 비밀번호를 다시 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+				pw.requestFocus();
+			}
 		}
 		
 	}
-	
-	
-	private void clickRegister() {
-		Register register = new Register();
-		register.setVisible(true);
-		
-		this.setVisible(false);
-	}
-	
-	private void clickFindId() {
-		
-	}
-	
 }

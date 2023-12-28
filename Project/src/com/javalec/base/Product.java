@@ -27,11 +27,12 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Product extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private JComboBox cbSelect;
 	private JTextField tfSearch;
 	private JButton btnSearch;
 	private JScrollPane scrollPane;
@@ -42,6 +43,8 @@ public class Product extends JDialog {
 	// Table
 	private final DefaultTableModel outerTable = new DefaultTableModel();
 	private JComboBox cbSort;
+	private JLabel lblNewLabel;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -77,29 +80,21 @@ public class Product extends JDialog {
 		getContentPane().setBackground(SystemColor.infoText);
 		setBounds(100, 100, 512, 683);
 		getContentPane().setLayout(null);
-		getContentPane().add(getCbSelect());
 		getContentPane().add(getTfSearch());
 		getContentPane().add(getBtnSearch());
 		getContentPane().add(getScrollPane());
 		getContentPane().add(getBtnbasket());
 		getContentPane().add(getBtndetail());
 		getContentPane().add(getCbSort());
+		getContentPane().add(getLblNewLabel());
+		getContentPane().add(getBtnNewButton());
 
-	}
-
-	private JComboBox getCbSelect() {
-		if (cbSelect == null) {
-			cbSelect = new JComboBox();
-			cbSelect.setModel(new DefaultComboBoxModel(new String[] { "제품명", "사이즈", "색상" }));
-			cbSelect.setBounds(28, 80, 100, 40);
-		}
-		return cbSelect;
 	}
 
 	private JTextField getTfSearch() {
 		if (tfSearch == null) {
 			tfSearch = new JTextField();
-			tfSearch.setBounds(130, 79, 235, 40);
+			tfSearch.setBounds(105, 133, 258, 40);
 			tfSearch.setColumns(10);
 		}
 		return tfSearch;
@@ -108,12 +103,13 @@ public class Product extends JDialog {
 	private JButton getBtnSearch() {
 		if (btnSearch == null) {
 			btnSearch = new JButton("검색");
+			btnSearch.setBackground(SystemColor.window);
 			btnSearch.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					specSearch();
+					search();
 				}
 			});
-			btnSearch.setBounds(365, 80, 117, 40);
+			btnSearch.setBounds(365, 134, 117, 40);
 		}
 		return btnSearch;
 	}
@@ -121,7 +117,7 @@ public class Product extends JDialog {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(28, 163, 454, 431);
+			scrollPane.setBounds(28, 226, 454, 368);
 			scrollPane.setViewportView(getInnerTable());
 		}
 		return scrollPane;
@@ -138,6 +134,14 @@ public class Product extends JDialog {
 	private JButton getBtndetail() {
 		if (btndetail == null) {
 			btndetail = new JButton("상세보기");
+			btndetail.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ProductDetail productDetail = new ProductDetail();
+					productDetail.setVisible(true);
+
+					tableClick();
+				}
+			});
 			btndetail.setBounds(275, 606, 117, 35);
 		}
 		return btndetail;
@@ -146,6 +150,12 @@ public class Product extends JDialog {
 	private JTable getInnerTable() {
 		if (innerTable == null) {
 			innerTable = new JTable();
+			innerTable.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					tableClick();
+				}
+			});
 			innerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			innerTable.setModel(outerTable);
 		}
@@ -157,13 +167,35 @@ public class Product extends JDialog {
 			cbSort = new JComboBox();
 			cbSort.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					sortAction();
+					if (tfSearch.getText().equals("")) {
+						sortAction();
+					} else {
+						search();
+					}
 				}
 			});
 			cbSort.setModel(new DefaultComboBoxModel(new String[] { "기본순", "낮은가격순", "높은가격순" }));
-			cbSort.setBounds(375, 132, 107, 27);
+			cbSort.setBounds(375, 187, 107, 27);
 		}
 		return cbSort;
+	}
+
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("제품명 : ");
+			lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+			lblNewLabel.setForeground(new Color(255, 255, 255));
+			lblNewLabel.setBounds(28, 130, 76, 40);
+		}
+		return lblNewLabel;
+	}
+
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("My");
+			btnNewButton.setBounds(442, 18, 40, 40);
+		}
+		return btnNewButton;
 	}
 
 	// ---------- Method
@@ -215,19 +247,16 @@ public class Product extends JDialog {
 
 	private void sortAction() {
 		tableInit();
-		
+
 		Dao_Product dao = new Dao_Product();
 		ArrayList<Dto_Product> dtolist = null;
-		
-		if (cbSort.getSelectedIndex() == 1) {
-			dtolist = dao.sort("asc");
-		}
-		else if (cbSort.getSelectedIndex() == 2) {
-			dtolist = dao.sort("desc");
-		}else {
+
+		if (cbSort.getSelectedIndex() == 1 || cbSort.getSelectedIndex() == 2) {
+			dtolist = dao.sort(cbSort.getSelectedIndex());
+		} else {
 			dtolist = dao.selectList();
 		}
-		
+
 		int listCount = dtolist.size();
 
 		for (int i = 0; i < listCount; i++) {
@@ -237,17 +266,15 @@ public class Product extends JDialog {
 			innerTable.setRowHeight(i, 50);
 		}
 	}
-	
-	private void specSearch() {
+
+	private void search() {
 		tableInit();
-		
+
 		Dao_Product dao = new Dao_Product();
 		ArrayList<Dto_Product> dtolist = null;
-		
-		if (cbSelect.getSelectedIndex() == 0) {
-			dtolist = dao.search(tfSearch.getText());
-		}
-		
+
+		dtolist = dao.search(tfSearch.getText(), cbSort.getSelectedIndex());
+
 		int listCount = dtolist.size();
 
 		for (int i = 0; i < listCount; i++) {
@@ -256,6 +283,13 @@ public class Product extends JDialog {
 			outerTable.addRow(qTxt);
 			innerTable.setRowHeight(i, 50);
 		}
+	}
+
+	private void tableClick() {
+		int i = innerTable.getSelectedRow();
+		String seqno = (String) innerTable.getValueAt(i, 0);
+		Dao_Product dao = new Dao_Product();
+		dao.tableClick(Integer.parseInt(seqno));
 	}
 
 } // ------- END

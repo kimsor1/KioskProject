@@ -5,9 +5,16 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import com.javalec.function.ShareVar;
+
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import java.awt.Font;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ProductDetail extends JDialog {
 
@@ -16,12 +23,14 @@ public class ProductDetail extends JDialog {
 	private JLabel lblNewLabel_1;
 	private JTextField tfPname;
 	private JButton btnBack;
-	private JTextField tfPsize;
 	private JLabel lblNewLabel_1_1;
-	private JTextField tfPcolor;
 	private JLabel lblNewLabel_1_2;
 	private JTextField tfPstock;
 	private JLabel lblNewLabel_1_3;
+	private JComboBox cbPsize;
+	private JComboBox cbPcolor;
+	private JLabel lblNewLabel_1_3_;
+	private JTextField tfPprice;
 
 	/**
 	 * Launch the application.
@@ -44,6 +53,12 @@ public class ProductDetail extends JDialog {
 	 * Create the dialog.
 	 */
 	public ProductDetail() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				inputData();
+			}
+		});
 		getContentPane().setBackground(SystemColor.infoText);
 		setFont(new Font("Lucida Grande", Font.BOLD, 27));
 		setTitle("상세보기");
@@ -54,21 +69,25 @@ public class ProductDetail extends JDialog {
 		getContentPane().add(getLblNewLabel_1());
 		getContentPane().add(getTfPname());
 		getContentPane().add(getBtnBack());
-		getContentPane().add(getTfPsize());
 		getContentPane().add(getLblNewLabel_1_1_1());
-		getContentPane().add(getTfPcolor());
 		getContentPane().add(getLblNewLabel_1_2_1());
 		getContentPane().add(getTfPstock());
 		getContentPane().add(getLblNewLabel_1_3_1());
+		getContentPane().add(getCbPsize());
+		getContentPane().add(getCbPcolor());
+		getContentPane().add(getLblNewLabel_1_3_1_1());
+		getContentPane().add(getTfPprice());
 
 	}
+
 	private JLabel getLblImage() {
 		if (lblImage == null) {
 			lblImage = new JLabel("");
-			lblImage.setBounds(101, 29, 300, 300);
+			lblImage.setBounds(101, 29, 250, 250);
 		}
 		return lblImage;
 	}
+
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("제품명 : ");
@@ -78,6 +97,7 @@ public class ProductDetail extends JDialog {
 		}
 		return lblNewLabel_1;
 	}
+
 	private JTextField getTfPname() {
 		if (tfPname == null) {
 			tfPname = new JTextField();
@@ -87,6 +107,7 @@ public class ProductDetail extends JDialog {
 		}
 		return tfPname;
 	}
+
 	private JButton getBtnBack() {
 		if (btnBack == null) {
 			btnBack = new JButton("뒤로가기");
@@ -94,15 +115,7 @@ public class ProductDetail extends JDialog {
 		}
 		return btnBack;
 	}
-	private JTextField getTfPsize() {
-		if (tfPsize == null) {
-			tfPsize = new JTextField();
-			tfPsize.setEditable(false);
-			tfPsize.setColumns(10);
-			tfPsize.setBounds(184, 396, 135, 35);
-		}
-		return tfPsize;
-	}
+
 	private JLabel getLblNewLabel_1_1_1() {
 		if (lblNewLabel_1_1 == null) {
 			lblNewLabel_1_1 = new JLabel("사이즈 :");
@@ -112,15 +125,7 @@ public class ProductDetail extends JDialog {
 		}
 		return lblNewLabel_1_1;
 	}
-	private JTextField getTfPcolor() {
-		if (tfPcolor == null) {
-			tfPcolor = new JTextField();
-			tfPcolor.setEditable(false);
-			tfPcolor.setColumns(10);
-			tfPcolor.setBounds(184, 453, 215, 35);
-		}
-		return tfPcolor;
-	}
+
 	private JLabel getLblNewLabel_1_2_1() {
 		if (lblNewLabel_1_2 == null) {
 			lblNewLabel_1_2 = new JLabel("색상 : ");
@@ -130,6 +135,7 @@ public class ProductDetail extends JDialog {
 		}
 		return lblNewLabel_1_2;
 	}
+
 	private JTextField getTfPstock() {
 		if (tfPstock == null) {
 			tfPstock = new JTextField();
@@ -139,6 +145,7 @@ public class ProductDetail extends JDialog {
 		}
 		return tfPstock;
 	}
+
 	private JLabel getLblNewLabel_1_3_1() {
 		if (lblNewLabel_1_3 == null) {
 			lblNewLabel_1_3 = new JLabel("재고 :");
@@ -148,4 +155,50 @@ public class ProductDetail extends JDialog {
 		}
 		return lblNewLabel_1_3;
 	}
-}
+
+	private JComboBox getCbPsize() {
+		if (cbPsize == null) {
+			cbPsize = new JComboBox();
+			cbPsize.setModel(new DefaultComboBoxModel(new String[] {"230", "240", "250", "260", "270"}));
+			cbPsize.setBounds(184, 403, 100, 30);
+		}
+		return cbPsize;
+	}
+
+	private JComboBox getCbPcolor() {
+		if (cbPcolor == null) {
+			cbPcolor = new JComboBox();
+			cbPcolor.setModel(new DefaultComboBoxModel(new String[] {"white", "black"}));
+			cbPcolor.setBounds(184, 460, 100, 27);
+		}
+		return cbPcolor;
+	}
+
+	private JLabel getLblNewLabel_1_3_1_1() {
+		if (lblNewLabel_1_3_ == null) {
+			lblNewLabel_1_3_ = new JLabel("가격 :");
+			lblNewLabel_1_3_.setForeground(SystemColor.menu);
+			lblNewLabel_1_3_.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+			lblNewLabel_1_3_.setBounds(89, 556, 83, 28);
+		}
+		return lblNewLabel_1_3_;
+	}
+
+	private JTextField getTfPprice() {
+		if (tfPprice == null) {
+			tfPprice = new JTextField();
+			tfPprice.setEditable(false);
+			tfPprice.setColumns(10);
+			tfPprice.setBounds(184, 552, 135, 35);
+		}
+		return tfPprice;
+	}
+
+	// -------- Function
+
+	private void inputData() {
+		tfPname.setText(ShareVar.productName);
+		tfPstock.setText(Integer.toString(ShareVar.productStock));
+		tfPprice.setText(Integer.toString(ShareVar.productPrice));
+	}
+}// End
