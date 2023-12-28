@@ -45,6 +45,7 @@ public class Product extends JDialog {
 	private JComboBox cbSort;
 	private JLabel lblNewLabel;
 	private JButton btnNewButton;
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -88,6 +89,7 @@ public class Product extends JDialog {
 		getContentPane().add(getCbSort());
 		getContentPane().add(getLblNewLabel());
 		getContentPane().add(getBtnNewButton());
+		getContentPane().add(getLblNewLabel_1());
 
 	}
 
@@ -198,6 +200,14 @@ public class Product extends JDialog {
 		return btnNewButton;
 	}
 
+	private JLabel getLblNewLabel_1() {
+		if (lblNewLabel_1 == null) {
+			lblNewLabel_1 = new JLabel("New label");
+			lblNewLabel_1.setIcon(new ImageIcon("/Users/sori/Downloads/제목을-입력해주세요_-001-2.png"));
+			lblNewLabel_1.setBounds(124, 30, 268, 73);
+		}
+		return lblNewLabel_1;
+	}
 	// ---------- Method
 
 	private void tableInit() {

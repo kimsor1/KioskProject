@@ -18,16 +18,6 @@ public class Dto_Product {
 		this.name = name;
 		this.price = price;
 	}
-	
-	
-	public Dto_Product(int seqno, String name, int size, String color, int stock, int price) {
-		this.seqno = seqno;
-		this.name = name;
-		this.price = price;
-		this.size = size;
-		this.color = color;
-		this.stock = stock;
-	}
 
 	public int getSeqno() {
 		return seqno;
