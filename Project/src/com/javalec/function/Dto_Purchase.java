@@ -4,53 +4,60 @@ public class Dto_Purchase {
 
 	
 	
-	int seqno;
-	String name;
-	int price;
+	
+     private String pro_id;
+	int sales_price;
+	String color;
 	int size;
+	int quantity;
 				
 		
-	public Dto_Purchase() {
-					
-	}
+	
 
-
-	public Dto_Purchase(int seqno, String name, int price, int size) {
+	//pro_id, quantity, size, sales_price, color
+	public Dto_Purchase(String pro_id, int sales_price, String color,  int size, int quantity) {
 		super();
-		this.seqno = seqno;
-		this.name = name;
-		this.price = price;
+		
+		this.pro_id = pro_id;
+		this.sales_price = sales_price;
+		this.color = color;
 		this.size = size;
+		this.quantity = quantity;
+	}
+
+	
+	
+	
+	
+	
+
+	public String getPro_id() {
+		return pro_id;
 	}
 
 
-	public int getSeqno() {
-		return seqno;
+	public void setPro_id(String pro_id) {
+		this.pro_id = pro_id;
 	}
 
 
-	public void setSeqno(int seqno) {
-		this.seqno = seqno;
+	public int getSales_price() {
+		return sales_price;
 	}
 
 
-	public String getName() {
-		return name;
+	public void setSales_price(int sales_price) {
+		this.sales_price = sales_price;
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
+	public String getColor() {
+		return color;
 	}
 
 
-	public int getPrice() {
-		return price;
-	}
-
-
-	public void setPrice(int price) {
-		this.price = price;
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 
@@ -62,8 +69,18 @@ public class Dto_Purchase {
 	public void setSize(int size) {
 		this.size = size;
 	}
-				
-	
+
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+
 	
 	
 	
