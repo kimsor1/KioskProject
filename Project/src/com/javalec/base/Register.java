@@ -9,9 +9,12 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.javalec.function.Dao_Login;
+import com.javalec.function.Dto_Login;
 
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -23,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.FocusAdapter;
+import javax.swing.JPasswordField;
 
 public class Register extends JDialog {
 
@@ -39,6 +43,7 @@ public class Register extends JDialog {
 	private JLabel lblNewLabel_2;
 	private JButton btnCheckDup;
 	private JButton btnTitle;
+	private JPasswordField pw;
 
 	/**
 	 * Launch the application.
@@ -73,6 +78,7 @@ public class Register extends JDialog {
 		contentPanel.add(getLbOk());
 		contentPanel.add(getLbCancle());
 		contentPanel.add(getLblNewLabel_2());
+		contentPanel.add(getPw());
 		contentPanel.add(getLbBack());
 		contentPanel.add(getBtnTitle());
 	}
@@ -112,24 +118,43 @@ public class Register extends JDialog {
 		}
 		return tfId;
 	}
+	
+	private JPasswordField getPw() {
+		if (pw == null) {
+			pw = new JPasswordField();
+			pw.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusLost(FocusEvent e) {
+					// 비밀번호가 입력 됬다면 tf 가리기 입력되지 않았다면 pw필드 가리기
+					if (changePw().length() > 0) {
+						tfPw.setVisible(false);
+						pw.setVisible(true);
+					}
+					else {
+						pw.setVisible(false);
+						tfPw.setVisible(true);
+						tfPw.setText("비밀번호 입력");
+						tfPw.setForeground(Color.LIGHT_GRAY);
+						tfPw.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+			});
+			pw.setBounds(57, 260, 416, 47);
+		}
+		return pw;
+	}
+	
 	private JTextField getTfPw() {
 		if (tfPw == null) {
 			tfPw = new JTextField();
 			tfPw.addFocusListener(new FocusAdapter() {
 				@Override
 				public void focusGained(FocusEvent e) {
-					if (tfPw.getText().equals("비밀번호 입력")) {
-						tfPw.setText("");
-						tfPw.setForeground(Color.BLACK);
-						tfPw.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-					}
-				}
-				@Override
-				public void focusLost(FocusEvent e) {
-					if (tfPw.getText().equals("")) {
-						tfPw.setText("비밀번호 입력");
-						tfPw.setForeground(Color.LIGHT_GRAY);
-						tfPw.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					if(tfPw.getText().equals("비밀번호 입력")) {
+						tfPw.setVisible(false);
+						pw.setVisible(true);
+						
+						pw.requestFocus();
 					}
 				}
 			});
@@ -225,6 +250,8 @@ public class Register extends JDialog {
 		}
 		return tfBirth;
 	}
+	
+	
 	private JLabel getLbOk() {
 		if (lbOk == null) {
 			lbOk = new JLabel("확인");
@@ -256,6 +283,11 @@ public class Register extends JDialog {
 	private JButton getBtnCheckDup() {
 		if (btnCheckDup == null) {
 			btnCheckDup = new JButton("중복확인");
+			btnCheckDup.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					checkId();
+				}
+			});
 			btnCheckDup.setBackground(Color.GRAY);
 			btnCheckDup.setBounds(393, 211, 71, 29);
 		}
@@ -276,15 +308,39 @@ public class Register extends JDialog {
 	}
 	
 	
+	
+	
 	/// ---- Function ----
 	
-
 	private void moveBack() {
-		Login login = new Login();
-		login.setVisible(true);
+		Main window = new Main();
+		window.main(null);
 		
 		this.setVisible(false);
 	}
+	
+	// char의 pw를 string으로 변환
+	private String changePw() {
+		char[] pass = pw.getPassword();
+		String strPass = new String(pass);
+		
+		return strPass.trim();
+	}
+	
+	private void checkId() {
+		String checkId = tfId.getText().trim();
+		
+		Dao_Login dao = new Dao_Login(checkId, changePw());
+		
+		if (checkId.length() == 0) {
+			JOptionPane.showMessageDialog(null, "아이디를 입력하세요");
+		}
+		else dao.checkIdAction();
+	}
+	
+	
+	
+	
 	
 }
 
