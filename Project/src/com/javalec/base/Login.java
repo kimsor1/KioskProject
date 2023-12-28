@@ -196,6 +196,12 @@ public class Login extends JDialog {
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("비밀번호 찾기");
+			lblNewLabel_2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					clickFindPw();
+				}
+			});
 			lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_2.setBounds(316, 510, 73, 16);
 		}
@@ -275,21 +281,28 @@ public class Login extends JDialog {
 	}
 	
 	// 회원가입 클릭
-		private void clickRegister() {
-			Register register = new Register();
-			register.setVisible(true);
-			
-			this.setVisible(false);
-		}
+	private void clickRegister() {
+		Register register = new Register();
+		register.setVisible(true);
 		
-		// 아이디 찾기 클릭
-		private void clickFindId() {
-			FindId fId = new FindId();
-			
-			fId.setVisible(true);
-			this.setVisible(false);
-			
-		}
+		this.setVisible(false);
+	}
+	
+	// 아이디 찾기 클릭
+	private void clickFindId() {
+		FindId fId = new FindId();
+		
+		fId.setVisible(true);
+		this.setVisible(false);
+		
+	}
+	
+	private void clickFindPw() {
+		FindPw fPw = new FindPw();
+		
+		fPw.setVisible(true);
+		this.setVisible(false);
+	}
 	
 	// id, pw가 입력이 되지 않았다면 입력하라고 나오는 알림
 	private void login() {
