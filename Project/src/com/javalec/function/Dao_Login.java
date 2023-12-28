@@ -23,7 +23,6 @@ public class Dao_Login {
 	private String phone;
 	private String address;
 	private String pw;
-	private String birth;
 	
 	
 	// Constructor
@@ -40,28 +39,25 @@ public class Dao_Login {
 		this.pw = pw;
 	}
 
-	public Dao_Login(String name, String phone, String address, String birth) {
+	public Dao_Login(String name, String phone, String address) {
 		this.name = name;
 		this.phone = phone;
 		this.address = address;
-		this.birth = birth;
 	}
 	
-	public Dao_Login(String id, String name, String phone, String address, String birth) {
+	public Dao_Login(String id, String name, String phone, String address) {
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
 		this.address = address;
-		this.birth = birth;
 	}
 
-	public Dao_Login(String id, String name, String phone, String address, String pw, String birth) {
+	public Dao_Login(String id, String name, String phone, String address, String pw) {
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
 		this.address = address;
 		this.pw = pw;
-		this.birth = birth;
 	}
 
 	// Method
@@ -110,14 +106,13 @@ public class Dao_Login {
 		catch (Exception e ) {
 			e.printStackTrace();
 		}
-		System.out.println(boolFlag);
 		return boolFlag;
 	}
 	
 	// ID 찾기
 	public boolean checkFindIdAction() {
 		boolean boolFlag = false;
-		String query = "select id from customer where name = '" + name + "' and phone = '" + phone + "' and address = '" + address + "' and birth = '" + birth + "'";
+		String query = "select id from customer where name = '" + name + "' and phone = '" + phone + "' and address = '" + address + "'";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
@@ -143,7 +138,7 @@ public class Dao_Login {
 	// 비밀번호 찾기
 	public boolean checkFindPwAction() {
 		boolean boolFlag = false;
-		String query = "select pw from customer where id = '" + id + "' and name = '" + name + "' and phone = '" + phone + "' and address = '" + address + "' and birth = '" + birth + "'";
+		String query = "select pw from customer where id = '" + id + "' and name = '" + name + "' and phone = '" + phone + "' and address = '" + address + "'";
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -176,7 +171,7 @@ public class Dao_Login {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
 			
-			String query = "insert into customer (id, name, phone, address, pw, birth) values (?, ?, ?, ?, ?, ?)";
+			String query = "insert into customer (id, name, phone, address, pw) values (?, ?, ?, ?, ?)";
 			
 			ps = conn.prepareStatement(query);
 			
@@ -185,7 +180,6 @@ public class Dao_Login {
 			ps.setString(3, phone);
 			ps.setString(4, address);
 			ps.setString(5, pw);
-			ps.setString(6, birth);
 			
 			ps.executeUpdate();
 			

@@ -315,7 +315,11 @@ public class Login extends JDialog {
 		Dao_Login dao = new Dao_Login(tfId.getText().trim(), sPass.trim());
 		
 		
-		if (tfId.getText().trim().equals(hintId) && tfPw.getText().trim().equals(hintPw)) {
+//		if (tfId.getText().trim().equals(hintId) && tfPw.getText().trim().equals(hintPw)) {
+//			JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+//			tfId.requestFocus();
+//		}
+		if (tfId.getText().trim().equals(hintId) && sPass.equals("")) {
 			JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfId.requestFocus();
 		}

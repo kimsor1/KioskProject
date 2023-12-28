@@ -9,6 +9,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.javalec.base.Login;
+import com.javalec.base.Main;
 import com.javalec.function.Dao_Login;
 
 import java.awt.Font;
@@ -35,7 +37,6 @@ public class FindId extends JDialog {
 	private JButton btnTitle;
 	private JTextField tfPhone;
 	private JTextField tfAddress;
-	private JTextField tfBirth;
 	private JLabel lbOk;
 	private JLabel lblNewLabel_2;
 	private JLabel lbCancel;
@@ -67,7 +68,6 @@ public class FindId extends JDialog {
 		contentPanel.setLayout(null);
 		contentPanel.add(getTfPhone());
 		contentPanel.add(getTfAddress());
-		contentPanel.add(getTfBirth());
 		contentPanel.add(getTfName());
 		contentPanel.add(getLbOk());
 		contentPanel.add(getLblNewLabel_2());
@@ -184,35 +184,6 @@ public class FindId extends JDialog {
 		}
 		return tfAddress;
 	}
-	private JTextField getTfBirth() {
-		if (tfBirth == null) {
-			tfBirth = new JTextField();
-			tfBirth.addFocusListener(new FocusAdapter() {
-				@Override
-				public void focusGained(FocusEvent e) {
-					if (tfBirth.getText().equals("생년월일 입력")) {
-						tfBirth.setText("");
-						tfBirth.setForeground(Color.BLACK);
-						tfBirth.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-					}
-				}
-				@Override
-				public void focusLost(FocusEvent e) {
-					if (tfBirth.getText().equals("")) {
-						tfBirth.setText("생년월일 입력");
-						tfBirth.setForeground(Color.LIGHT_GRAY);
-						tfBirth.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-					}
-					focusLostBirth();
-				}
-			});
-			tfBirth.setForeground(Color.LIGHT_GRAY);
-			tfBirth.setText("생년월일 입력");
-			tfBirth.setColumns(10);
-			tfBirth.setBounds(56, 385, 416, 47);
-		}
-		return tfBirth;
-	}
 	private JLabel getLbOk() {
 		if (lbOk == null) {
 			lbOk = new JLabel("확인");
@@ -228,7 +199,7 @@ public class FindId extends JDialog {
 			});
 			lbOk.setForeground(Color.LIGHT_GRAY);
 			lbOk.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbOk.setBounds(193, 496, 61, 16);
+			lbOk.setBounds(183, 500, 61, 16);
 		}
 		return lbOk;
 	}
@@ -238,7 +209,7 @@ public class FindId extends JDialog {
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lblNewLabel_2.setBounds(227, 496, 61, 16);
+			lblNewLabel_2.setBounds(227, 500, 61, 16);
 		}
 		return lblNewLabel_2;
 	}
@@ -253,7 +224,7 @@ public class FindId extends JDialog {
 			});
 			lbCancel.setForeground(Color.LIGHT_GRAY);
 			lbCancel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbCancel.setBounds(300, 496, 61, 16);
+			lbCancel.setBounds(300, 500, 61, 16);
 		}
 		return lbCancel;
 	}
@@ -295,20 +266,6 @@ public class FindId extends JDialog {
 
 	}
 	
-	// 생일 정규식 형식
-	private void focusLostBirth() {
-		Pattern pattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
-		Matcher matcher = pattern.matcher(tfBirth.getText());
-		
-		if (!tfBirth.getText().equals("생년월일 입력")) {
-			if (!matcher.matches()) {
-				JOptionPane.showMessageDialog(null, "1995-01-01 형식의 생일을 입력하세요.");
-				tfBirth.requestFocus();
-			}
-		}
-	}
-	
-	
 	// 취소 버튼
 	private void cancel() {
 		int checkCancle = JOptionPane.showConfirmDialog(null, "아이디 찾기를 취소 하시겠습니까?", "알림", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -327,9 +284,8 @@ public class FindId extends JDialog {
 		String name = tfName.getText().trim();
 		String phone = tfPhone.getText().trim();
 		String address = tfAddress.getText().trim();
-		String birth = tfBirth.getText().trim();
 		
-		Dao_Login dao = new Dao_Login(name, phone, address, birth);
+		Dao_Login dao = new Dao_Login(name, phone, address);
 		if (dao.checkFindIdAction()) {
 			boolFlag = true;
 		}

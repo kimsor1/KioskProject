@@ -41,7 +41,6 @@ public class Register extends JDialog {
 	private JTextField tfPw;
 	private JTextField tfPhone;
 	private JTextField tfAddress;
-	private JTextField tfBirth;
 	private JLabel lbOk;
 	private JLabel lbCancel;
 	private JLabel lblNewLabel_2;
@@ -81,7 +80,6 @@ public class Register extends JDialog {
 		contentPanel.add(getTfName());
 		contentPanel.add(getTfPhone());
 		contentPanel.add(getTfAddress());
-		contentPanel.add(getTfBirth());
 		contentPanel.add(getLbOk());
 		contentPanel.add(getLbCancel());
 		contentPanel.add(getLblNewLabel_2());
@@ -265,35 +263,6 @@ public class Register extends JDialog {
 		}
 		return tfAddress;
 	}
-	private JTextField getTfBirth() {
-		if (tfBirth == null) {
-			tfBirth = new JTextField();
-			tfBirth.addFocusListener(new FocusAdapter() {
-				@Override
-				public void focusGained(FocusEvent e) {
-					if (tfBirth.getText().equals("생년월일 입력")) {
-						tfBirth.setText("");
-						tfBirth.setForeground(Color.BLACK);
-						tfBirth.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-					}
-				}
-				@Override
-				public void focusLost(FocusEvent e) {
-					if (tfBirth.getText().equals("")) {
-						tfBirth.setText("생년월일 입력");
-						tfBirth.setForeground(Color.LIGHT_GRAY);
-						tfBirth.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-					}
-					focusLostBirth();
-				}
-			});
-			tfBirth.setText("생년월일 입력");
-			tfBirth.setForeground(Color.LIGHT_GRAY);
-			tfBirth.setColumns(10);
-			tfBirth.setBounds(57, 489, 416, 47);
-		}
-		return tfBirth;
-	}
 	
 	
 	private JLabel getLbOk() {
@@ -314,7 +283,7 @@ public class Register extends JDialog {
 			});
 			lbOk.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 			lbOk.setForeground(Color.LIGHT_GRAY);
-			lbOk.setBounds(198, 580, 61, 16);
+			lbOk.setBounds(183, 550, 61, 16);
 		}
 		return lbOk;
 	}
@@ -329,7 +298,7 @@ public class Register extends JDialog {
 			});
 			lbCancel.setForeground(Color.LIGHT_GRAY);
 			lbCancel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbCancel.setBounds(305, 580, 61, 16);
+			lbCancel.setBounds(300, 550, 61, 16);
 		}
 		return lbCancel;
 	}
@@ -339,7 +308,7 @@ public class Register extends JDialog {
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lblNewLabel_2.setBounds(232, 580, 61, 16);
+			lblNewLabel_2.setBounds(227, 550, 61, 16);
 		}
 		return lblNewLabel_2;
 	}
@@ -427,19 +396,6 @@ public class Register extends JDialog {
 
 	}
 	
-	// 생일 정규식 형식
-	private void focusLostBirth() {
-		Pattern pattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
-		Matcher matcher = pattern.matcher(tfBirth.getText());
-		
-		if (!tfBirth.getText().equals("생년월일 입력")) {
-			if (!matcher.matches()) {
-				JOptionPane.showMessageDialog(null, "1995-01-01 형식의 생일을 입력하세요");
-				tfBirth.requestFocus();
-			}
-		}
-	}
-	
 	// 아이디 등록 입력 체크, 중복 체크
 	private boolean register() {
 		boolean check = true;
@@ -476,11 +432,6 @@ public class Register extends JDialog {
 		else if (tfAddress.getText().equals("주소 입력")) {
 			JOptionPane.showMessageDialog(null, "주소를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfAddress.requestFocus();
-			check = false;
-		}
-		else if (tfBirth.getText().equals("생일 입력")) {
-			JOptionPane.showMessageDialog(null, "생일을 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
-			tfBirth.requestFocus();
 			check = false;
 		}
 		else if (dao.checkIdAction() == false) {
@@ -536,9 +487,8 @@ public class Register extends JDialog {
 		String phone = tfPhone.getText().trim();
 		String address = tfAddress.getText().trim();
 		String pw = sPass.trim();
-		String birth = tfBirth.getText().trim();
 		
-		Dao_Login dao = new Dao_Login(id, name, phone, address, pw, birth);
+		Dao_Login dao = new Dao_Login(id, name, phone, address, pw);
 		
 		dao.completeRegister();
 		

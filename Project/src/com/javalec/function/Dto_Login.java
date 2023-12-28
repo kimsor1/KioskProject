@@ -9,7 +9,6 @@ public class Dto_Login {
 	private String phone;
 	private String address;
 	private String pw;
-	private String birth;
 	
 	
 	// Constructor
@@ -71,13 +70,4 @@ public class Dto_Login {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getBirth() {
-		return birth;
-	}
-	
-	public void getBirth(String birth) {
-		this.birth = birth;
-	}
-	
 }
