@@ -5,7 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
+import com.javalec.function.Dao_Product;
 import com.javalec.function.ShareVar;
 
 import javax.swing.JButton;
@@ -15,6 +17,11 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class ProductDetail extends JDialog {
 
@@ -31,6 +38,7 @@ public class ProductDetail extends JDialog {
 	private JComboBox cbPcolor;
 	private JLabel lblNewLabel_1_3_;
 	private JTextField tfPprice;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -59,7 +67,7 @@ public class ProductDetail extends JDialog {
 				inputData();
 			}
 		});
-		getContentPane().setBackground(SystemColor.infoText);
+		getContentPane().setBackground(SystemColor.activeCaptionText);
 		setFont(new Font("Lucida Grande", Font.BOLD, 27));
 		setTitle("상세보기");
 		setBackground(SystemColor.window);
@@ -77,13 +85,14 @@ public class ProductDetail extends JDialog {
 		getContentPane().add(getCbPcolor());
 		getContentPane().add(getLblNewLabel_1_3_1_1());
 		getContentPane().add(getTfPprice());
+		getContentPane().add(getLblNewLabel());
 
 	}
 
 	private JLabel getLblImage() {
 		if (lblImage == null) {
 			lblImage = new JLabel("");
-			lblImage.setBounds(101, 29, 250, 250);
+			lblImage.setBounds(128, 82, 250, 250);
 		}
 		return lblImage;
 	}
@@ -93,7 +102,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1 = new JLabel("제품명 : ");
 			lblNewLabel_1.setForeground(SystemColor.menu);
 			lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1.setBounds(89, 345, 83, 28);
+			lblNewLabel_1.setBounds(89, 350, 83, 28);
 		}
 		return lblNewLabel_1;
 	}
@@ -102,7 +111,7 @@ public class ProductDetail extends JDialog {
 		if (tfPname == null) {
 			tfPname = new JTextField();
 			tfPname.setEditable(false);
-			tfPname.setBounds(184, 341, 266, 35);
+			tfPname.setBounds(184, 350, 266, 35);
 			tfPname.setColumns(10);
 		}
 		return tfPname;
@@ -111,6 +120,11 @@ public class ProductDetail extends JDialog {
 	private JButton getBtnBack() {
 		if (btnBack == null) {
 			btnBack = new JButton("뒤로가기");
+			btnBack.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			btnBack.setBounds(186, 589, 133, 40);
 		}
 		return btnBack;
@@ -131,7 +145,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_2 = new JLabel("색상 : ");
 			lblNewLabel_1_2.setForeground(SystemColor.menu);
 			lblNewLabel_1_2.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_2.setBounds(89, 457, 83, 28);
+			lblNewLabel_1_2.setBounds(89, 440, 83, 28);
 		}
 		return lblNewLabel_1_2;
 	}
@@ -141,7 +155,7 @@ public class ProductDetail extends JDialog {
 			tfPstock = new JTextField();
 			tfPstock.setEditable(false);
 			tfPstock.setColumns(10);
-			tfPstock.setBounds(184, 505, 135, 35);
+			tfPstock.setBounds(184, 480, 135, 35);
 		}
 		return tfPstock;
 	}
@@ -151,7 +165,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_3 = new JLabel("재고 :");
 			lblNewLabel_1_3.setForeground(SystemColor.menu);
 			lblNewLabel_1_3.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_3.setBounds(89, 509, 83, 28);
+			lblNewLabel_1_3.setBounds(89, 480, 83, 28);
 		}
 		return lblNewLabel_1_3;
 	}
@@ -159,8 +173,13 @@ public class ProductDetail extends JDialog {
 	private JComboBox getCbPsize() {
 		if (cbPsize == null) {
 			cbPsize = new JComboBox();
-			cbPsize.setModel(new DefaultComboBoxModel(new String[] {"230", "240", "250", "260", "270"}));
-			cbPsize.setBounds(184, 403, 100, 30);
+			cbPsize.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					searchSpec();
+				}
+			});
+			cbPsize.setModel(new DefaultComboBoxModel(new String[] { "230", "240", "250", "260", "270" }));
+			cbPsize.setBounds(184, 400, 100, 30);
 		}
 		return cbPsize;
 	}
@@ -168,8 +187,13 @@ public class ProductDetail extends JDialog {
 	private JComboBox getCbPcolor() {
 		if (cbPcolor == null) {
 			cbPcolor = new JComboBox();
-			cbPcolor.setModel(new DefaultComboBoxModel(new String[] {"white", "black"}));
-			cbPcolor.setBounds(184, 460, 100, 27);
+			cbPcolor.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					searchSpec();
+				}
+			});
+			cbPcolor.setModel(new DefaultComboBoxModel(new String[] { "white", "black" }));
+			cbPcolor.setBounds(184, 440, 100, 27);
 		}
 		return cbPcolor;
 	}
@@ -179,7 +203,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_3_ = new JLabel("가격 :");
 			lblNewLabel_1_3_.setForeground(SystemColor.menu);
 			lblNewLabel_1_3_.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_3_.setBounds(89, 556, 83, 28);
+			lblNewLabel_1_3_.setBounds(89, 520, 83, 28);
 		}
 		return lblNewLabel_1_3_;
 	}
@@ -189,9 +213,18 @@ public class ProductDetail extends JDialog {
 			tfPprice = new JTextField();
 			tfPprice.setEditable(false);
 			tfPprice.setColumns(10);
-			tfPprice.setBounds(184, 552, 135, 35);
+			tfPprice.setBounds(184, 520, 135, 35);
 		}
 		return tfPprice;
+	}
+
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("");
+			lblNewLabel.setIcon(new ImageIcon("/Users/sori/Downloads/제목을-입력해주세요_-001-2.png"));
+			lblNewLabel.setBounds(128, 6, 250, 83);
+		}
+		return lblNewLabel;
 	}
 
 	// -------- Function
@@ -200,5 +233,24 @@ public class ProductDetail extends JDialog {
 		tfPname.setText(ShareVar.productName);
 		tfPstock.setText(Integer.toString(ShareVar.productStock));
 		tfPprice.setText(Integer.toString(ShareVar.productPrice));
+		
+		String filePath = Integer.toString(ShareVar.filename);
+
+		// 파일이 존재하는지 확인
+		File file = new File(filePath);
+		lblImage.setIcon(new ImageIcon(filePath));
+		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
+	}
+
+	private void searchSpec() {
+		Dao_Product dao = new Dao_Product();
+
+		String stirngsize = cbPsize.getSelectedItem().toString();
+		int intsize = Integer.parseInt(stirngsize);
+		String color = cbPcolor.getSelectedItem().toString();
+
+		dao.searchStock(intsize, color);
+
+		inputData();
 	}
 }// End

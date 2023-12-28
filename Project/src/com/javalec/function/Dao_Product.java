@@ -1,5 +1,8 @@
 package com.javalec.function;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -185,23 +188,34 @@ public class Dao_Product {
 
 		Dto_Product dto = null;
 
-		String A = "select p.seq, p.name, p.price, s.stock_quantity from product as p, storage as s where p.seq = '" + seqno + "' ";
-		String B = "and and s.stocksize = 230 and s.stockcolor = 'white' and p.seq = s.p_id;";
+		String A = "select p.seq, p.name, p.price, s.stock_quantity, s.stockimage from product as p, storage as s where p.seq = "
+				+ seqno;
+		String B = " and s.stocksize = 230 and s.stockcolor = 'white' and p.seq = s.p_id;";
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
 			Statement stmt_mysql = conn_mysql.createStatement();
 
-			ResultSet rs = stmt_mysql.executeQuery(A);
+			ResultSet rs = stmt_mysql.executeQuery(A + B);
 
 			while (rs.next()) {
 				ShareVar.productSeq = rs.getInt(1);
 				ShareVar.productName = rs.getString(2);
 				ShareVar.productPrice = rs.getInt(3);
 				ShareVar.productStock = rs.getInt(4);
+				
+				// file
+				ShareVar.filename = ShareVar.filename + 1;
+				File file = new File(Integer.toString(ShareVar.filename));
+				FileOutputStream output = new FileOutputStream(file);
+				InputStream input = rs.getBinaryStream(5);
+				byte[] buffer = new byte[1024];
+				while (input.read(buffer) > 0) {
+					output.write(buffer);
+				}
 			}
-			
+
 			conn_mysql.close();
 
 		} catch (Exception e) {
@@ -210,6 +224,48 @@ public class Dao_Product {
 
 		return dto;
 	}
-	
+
+	// 선택한 스펙에 따라 데이터를 불러오는 메소드
+	public Dto_Product searchStock(int size, String color) {
+
+		Dto_Product dto = null;
+
+		String A = "select p.name, p.price, s.stock_quantity, s.stockimage from product as p, storage as s where p.seq = "
+				+ ShareVar.productSeq ;
+		String B = " and s.stocksize = " + size;
+		String C = " and s.stockcolor = '" + color + "'";
+		String D = " and p.seq = s.p_id;";
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+			Statement stmt_mysql = conn_mysql.createStatement();
+
+			ResultSet rs = stmt_mysql.executeQuery(A + B + C + D);
+
+			while (rs.next()) {
+				ShareVar.productName = rs.getString(1);
+				ShareVar.productPrice = rs.getInt(2);
+				ShareVar.productStock = rs.getInt(3);
+				
+				// file
+				ShareVar.filename = ShareVar.filename + 1;
+				File file = new File(Integer.toString(ShareVar.filename));
+				FileOutputStream output = new FileOutputStream(file);
+				InputStream input = rs.getBinaryStream(4);
+				byte[] buffer = new byte[1024];
+				while (input.read(buffer) > 0) {
+					output.write(buffer);
+				}
+			}
+
+			conn_mysql.close();
+
+		} catch (Exception e) {
+			e.printStackTrace(); // 어디서 오류가 났는지 출력
+		}
+
+		return dto;
+	}
 
 }
