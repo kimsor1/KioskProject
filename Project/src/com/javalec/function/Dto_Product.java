@@ -5,6 +5,9 @@ public class Dto_Product {
 	int seqno;
 	String name;
 	int price;
+	int size;
+	String color;
+	int stock;
 	
 	public Dto_Product(){
 		
@@ -14,6 +17,16 @@ public class Dto_Product {
 		this.seqno = seqno;
 		this.name = name;
 		this.price = price;
+	}
+	
+	
+	public Dto_Product(int seqno, String name, int size, String color, int stock, int price) {
+		this.seqno = seqno;
+		this.name = name;
+		this.price = price;
+		this.size = size;
+		this.color = color;
+		this.stock = stock;
 	}
 
 	public int getSeqno() {
@@ -39,6 +52,32 @@ public class Dto_Product {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+	
+	
 	
 	
 
