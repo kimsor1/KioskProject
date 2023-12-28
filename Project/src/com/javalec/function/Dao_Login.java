@@ -23,6 +23,7 @@ public class Dao_Login {
 	private String phone;
 	private String address;
 	private String pw;
+	private String birth;
 	
 	
 	// Constructor
@@ -30,19 +31,33 @@ public class Dao_Login {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Dao_Login(String id, String pw) {
-		this.id = id;
-		this.pw = pw;
-	}
-	
 	public Dao_Login(String id) {
 		this.id = id;
 	}
 	
+	public Dao_Login(String id, String pw) {
+		this.id = id;
+		this.pw = pw;
+	}
 
+	public Dao_Login(String phone, String address, String birth) {
+		super();
+		this.phone = phone;
+		this.address = address;
+		this.birth = birth;
+	}
+	
+	public Dao_Login(String id, String name, String phone, String address, String pw, String birth) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.phone = phone;
+		this.address = address;
+		this.pw = pw;
+		this.birth = birth;
+	}
 
 	// Method
-	
 	// Login 버튼을 위함
 	public boolean loginAction() {
 		boolean boolFlag = false;
@@ -91,5 +106,55 @@ public class Dao_Login {
 		return boolFlag;
 	}
 	
+	// ID 찾기
+	public void checkFindIdAction() {
+		boolean boolFlag = false;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
+			Statement st = conn.createStatement();
+			
+			String query = "select id from customer where phone = '" + phone + "' && address = '" + address + "' && birth = '" + birth + "'";
+			ResultSet rs = st.executeQuery(query);
+			if (rs.next()) {
+				JOptionPane.showMessageDialog(null, "아이디는 " + rs.getString(1) + "입니다");
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "등록된 정보의 아이디가 없습니다");
+			}
+			conn.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	// 회원가입 완료
+	public void completeRegister() {
+		PreparedStatement ps = null;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
+			
+			String query = "insert into customer (id, name, phone, address, pw, birth) values (?, ?, ?, ?, ?, ?)";
+			
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, id);
+			ps.setString(2, name);
+			ps.setString(3, phone);
+			ps.setString(4, address);
+			ps.setString(5, pw);
+			ps.setString(6, birth);
+			
+			ps.executeUpdate();
+			
+			conn.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
