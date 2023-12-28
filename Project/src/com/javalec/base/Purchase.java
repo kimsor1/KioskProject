@@ -171,13 +171,14 @@ public class Purchase extends JDialog {
 
 	//뒤로가기 버튼 활성화
 	public void backAction() {
+		dispose();												//장바구니 창 닫기
 				if(btnback.isSelected() ) {
 					ProductDetail pd = new ProductDetail();
 					pd.setVisible(true);						//productDetail창 띄우기
+						
 					
 															
-					setVisible(false);							//장바구니 창 닫기
-					dispose();
+//					setVisible(false);							//장바구니 창 닫기
 						
 						
 						
