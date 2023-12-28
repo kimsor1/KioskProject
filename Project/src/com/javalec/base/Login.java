@@ -41,8 +41,8 @@ public class Login extends JDialog {
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_3_1;
 	private JButton btnTitle;
-	private JPasswordField tfPw;
-	private JTextField tfPw2;
+	private JPasswordField pw;
+	private JTextField tfPw;
 
 	/**
 	 * Launch the application.
@@ -69,14 +69,14 @@ public class Login extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		contentPanel.add(getTfId());
-		contentPanel.add(getTfPw2());
+		contentPanel.add(getTfPw());
 		contentPanel.add(getBtnNewButton());
 		contentPanel.add(getLblNewLabel_3());
 		contentPanel.add(getLblNewLabel_3_1());
 		contentPanel.add(getLblNewLabel());
 		contentPanel.add(getLblNewLabel_1());
 		contentPanel.add(getLblNewLabel_2());
-		contentPanel.add(getTfPw());
+		contentPanel.add(getPw());
 		contentPanel.add(getLbLoginBackImage());
 		contentPanel.add(getBtnTitle());
 	}
@@ -91,6 +91,7 @@ public class Login extends JDialog {
 	private JTextField getTfId() {
 		if (tfId == null) {
 			tfId = new JTextField();
+			tfId.setText("아이디 입력");
 			tfId.addFocusListener(new FocusAdapter() {
 				@Override
 				public void focusGained(FocusEvent e) {
@@ -109,7 +110,6 @@ public class Login extends JDialog {
 					}
 				}
 			});
-			tfId.setText("아이디 입력");
 			tfId.setBackground(new Color(254, 255, 255));
 			tfId.setForeground(Color.LIGHT_GRAY);
 			tfId.setBounds(46, 289, 416, 47);
@@ -118,34 +118,36 @@ public class Login extends JDialog {
 		return tfId;
 	}
 	
-	private JTextField getTfPw2() {
-		if (tfPw2 == null) {
-			tfPw2 = new JTextField();
-			tfPw2.addFocusListener(new FocusAdapter() {
+	private JTextField getTfPw() {
+		if (tfPw == null) {
+			tfPw = new JTextField();
+			tfPw.addFocusListener(new FocusAdapter() {
 				@Override
 				public void focusGained(FocusEvent e) {
-					if(tfPw2.getText().equals("비밀번호 입력")) {
-						tfPw2.setVisible(false);
-						tfPw.requestFocus();
+					if(tfPw.getText().equals("비밀번호 입력")) {
+						tfPw.setVisible(false);
+						pw.setVisible(true);
+						
+						pw.requestFocus();
 					}
 				}
-				@Override
-				public void focusLost(FocusEvent e) {
-					if(tfPw2.getText().equals("")) {
-						tfPw2.setVisible(true);
-						tfPw2.setText("비밀번호 입력");
-						tfPw2.setForeground(Color.LIGHT_GRAY);
-						tfPw2.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-					}
-				}
+//				@Override
+//				public void focusLost(FocusEvent e) {
+//					if(tfPw.getText().equals("")) {
+//						tfPw.setVisible(true);
+//						tfPw.setText("비밀번호 입력");
+//						tfPw.setForeground(Color.LIGHT_GRAY);
+//						tfPw.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+//					}
+//				}
 			});
-			tfPw2.setText("비밀번호 입력");
-			tfPw2.setForeground(Color.LIGHT_GRAY);
-			tfPw2.setColumns(10);
-			tfPw2.setBackground(new Color(254, 255, 255));
-			tfPw2.setBounds(46, 348, 416, 47);
+			tfPw.setText("비밀번호 입력");
+			tfPw.setForeground(Color.LIGHT_GRAY);
+			tfPw.setColumns(10);
+			tfPw.setBackground(new Color(254, 255, 255));
+			tfPw.setBounds(46, 348, 416, 47);
 		}
-		return tfPw2;
+		return tfPw;
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
@@ -232,13 +234,30 @@ public class Login extends JDialog {
 		return btnTitle;
 		
 	}
-	private JPasswordField getTfPw() {
-		if (tfPw == null) {
-			tfPw = new JPasswordField();
-			tfPw.setForeground(Color.BLACK);
-			tfPw.setBounds(46, 348, 416, 47);
+	private JPasswordField getPw() {
+		if (pw == null) {
+			pw = new JPasswordField();
+			pw.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusLost(FocusEvent e) {
+					// 비밀번호가 입력 됬다면 tf 가리기 입력되지 않았다면 pw필드 가리기
+					if (changePw().length() > 0) {
+						tfPw.setVisible(false);
+						pw.setVisible(true);
+					}
+					else {
+						pw.setVisible(false);
+						tfPw.setVisible(true);
+						tfPw.setText("비밀번호 입력");
+						tfPw.setForeground(Color.LIGHT_GRAY);
+						tfPw.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+					}
+				}
+			});
+			pw.setForeground(Color.BLACK);
+			pw.setBounds(46, 348, 416, 47);
 		}
-		return tfPw;
+		return pw;
 	}
 	
 	
@@ -261,7 +280,7 @@ public class Login extends JDialog {
 	
 	// char의 pw를 string으로 변환
 	private String changePw() {
-		char[] pass = tfPw.getPassword();
+		char[] pass = pw.getPassword();
 		String strPass = new String(pass);
 		
 		return strPass.trim();
@@ -270,32 +289,33 @@ public class Login extends JDialog {
 	
 	// id, pw가 입력이 되지 않았다면 입력하라고 나오는 알림
 	private void login() {
-		
+		String hintId = "아이디 입력";
+		String hintPw = "비밀번호 입력";
 		String id = tfId.getText().trim();
-		String pw = changePw();
-		Dao_Login dao = new Dao_Login(pw);
+		String cPw = changePw();
+		Dao_Login dao = new Dao_Login(cPw);
 		
 		
-		if (id.length() == 0 && pw.length() == 0) {
-			JOptionPane.showMessageDialog(null, "ID와 PW를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+		if (tfId.getText().trim().equals(hintId) && changePw().equals(hintPw)) {
+			JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfId.requestFocus();
 		}
-		else if (id.length() == 0) {
-			JOptionPane.showMessageDialog(null, "ID를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+		else if (tfId.getText().trim().equals(hintId)) {
+			JOptionPane.showMessageDialog(null, "아이디를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfId.requestFocus();
 		}
-		else if (pw.length() == 0) {
-			JOptionPane.showMessageDialog(null, "PW를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+		else if (changePw().equals(hintPw)) {
+			JOptionPane.showMessageDialog(null, "비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfPw.requestFocus();
 		}
-		else {
-			if (dao.loginAction()) {
-				JOptionPane.showMessageDialog(null, "로그인 성공 하였습니다", "알림", JOptionPane.ERROR_MESSAGE);
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "ID 혹은 PW를 다시 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
-				tfPw.requestFocus();
-			}
+		
+		
+		if (dao.loginAction()) {
+			JOptionPane.showMessageDialog(null, "로그인 성공 하였습니다", "알림", JOptionPane.ERROR_MESSAGE);
+		}
+		else if (!tfId.getText().trim().equals(hintId) && !changePw().equals(hintPw) && dao.loginAction() == false){
+			JOptionPane.showMessageDialog(null, "아이디 혹은 비밀번호를 다시 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
+			tfPw.requestFocus();
 		}
 		
 	}
