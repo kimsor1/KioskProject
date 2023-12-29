@@ -309,24 +309,34 @@ public class ProductDetail extends JDialog {
 	}
 
 	private void stockCheck() {
-		if (Integer.parseInt(tfOpp.getText()) > Integer.parseInt(tfPstock.getText())) {
 
-			JOptionPane.showMessageDialog(null, "구매하시려는 수량이 재고보다 많습니다.");
+		if (tfOpp.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "장바구니에 담을 수량을 입력해주세요.");
+		} else {
+			if (Integer.parseInt(tfOpp.getText()) <= 0) {
+				JOptionPane.showMessageDialog(null, "장바구니에 담을 수량을 입력해주세요.");
+				tfOpp.setText("");
+			}
 
-		}
+			else if (Integer.parseInt(tfOpp.getText()) > Integer.parseInt(tfPstock.getText())) {
+				JOptionPane.showMessageDialog(null, "구매하시려는 수량이 재고보다 많습니다.");
+				tfOpp.setText("");
+			}
 
-		if (Integer.parseInt(tfOpp.getText()) <= Integer.parseInt(tfPstock.getText())) {
-			
-			String stirngsize = cbPsize.getSelectedItem().toString();
-			int intsize = Integer.parseInt(stirngsize);
+			else if (Integer.parseInt(tfOpp.getText()) <= Integer.parseInt(tfPstock.getText())
+					&& Integer.parseInt(tfOpp.getText()) > 0) {
 
-			String color = cbPcolor.getSelectedItem().toString();
+				String stirngsize = cbPsize.getSelectedItem().toString();
+				int intsize = Integer.parseInt(stirngsize);
 
-			int opp = Integer.parseInt(tfOpp.getText());
+				String color = cbPcolor.getSelectedItem().toString();
 
-			Dao_Cart cart = new Dao_Cart(ShareVar.id, ShareVar.productSeq, intsize, color, opp);
-			cart.addCart();
+				int opp = Integer.parseInt(tfOpp.getText());
 
+				Dao_Cart cart = new Dao_Cart(ShareVar.id, ShareVar.productSeq, intsize, color, opp);
+				cart.addCart();
+
+			}
 		}
 	}
 }// End

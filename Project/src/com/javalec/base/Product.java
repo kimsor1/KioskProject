@@ -204,6 +204,12 @@ public class Product extends JDialog {
 	private JButton getBtnMyPage() {
 		if (btnMyPage == null) {
 			btnMyPage = new JButton("");
+			btnMyPage.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					MyPage mp = new MyPage();
+					mp.setVisible(true);
+				}
+			});
 			btnMyPage.setBounds(28, 20, 40, 40);
 			btnMyPage.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/user.png")));
 		}

@@ -31,8 +31,27 @@ public class Dao_Cart {
 		this.color = pColor;
 		this.quantity = opp;
 	}
-	
-	
+
+	public void checkStock() {
+		PreparedStatement ps = null;
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+			Statement stmt_mysql = conn_mysql.createStatement();
+
+			String A = "select c.c_id,c.pro_id,sum(c.quantity) as quantity from cart as c group by c.c_id,c.pro_id";
+
+			ps = conn_mysql.prepareStatement(A);
+		
+			ps.executeUpdate();
+
+			conn_mysql.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void addCart() {
 		PreparedStatement ps = null;
@@ -41,7 +60,7 @@ public class Dao_Cart {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
 			Statement stmt_mysql = conn_mysql.createStatement();
-			
+
 			String A = "insert into cart(c_id, pro_id, quantity, size, color) ";
 			String B = "values(?, ?, ?, ?, ?)";
 
@@ -52,7 +71,7 @@ public class Dao_Cart {
 			ps.setInt(4, size);
 			ps.setString(5, color);
 			ps.executeUpdate();
-			
+
 			JOptionPane.showMessageDialog(null,
 					"장바구니에 " + ShareVar.productName + " ( " + color + " ," + size + " )가 " + quantity + "개 담겼습니다.");
 
