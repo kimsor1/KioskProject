@@ -44,129 +44,152 @@ public class Dao_Purchase {
 
 }
 	//장바구니 목록  삭제
-	public void Dao_PurchaseDelete(String userId, ArrayList<String> productIds, ArrayList<Integer> quantities) {				
+	public void Dao_PurchaseDelete( String productId, int quantityToRemove) {				
 		Connection conn = null;
 		PreparedStatement pstmtDelete = null;
-		PreparedStatement pstmtInsert = null; 
-			
-				
+		//SQL 접속
+
 		// 선택한 제품들을 장바구니에서 삭제하기 위한 SQl 문
-		String deleteSql = "DELETE FROM cart WHERE user_id = ? AND pro_id = ?";
-				
         try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
-            pstmtDelete = conn.prepareStatement(deleteSql);
+       // 	Class.forName("com.mysql.cj.jdbc.Driver");
+        	String deleteSql = "DELETE FROM cart WHERE id = ? AND quantity = ? ";
+        	conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+        	pstmtDelete = conn.prepareStatement(deleteSql);
+        	// 선택한 제품들을  장바구니에서 삭제
+        	
+        	 pstmtDelete.setString(1, productId);
+             pstmtDelete.setInt(2, quantityToRemove);
+                 pstmtDelete.executeUpdate();
+//             }
+            
 
-            
-            		
-            // 선택한 제품들을  장바구니에서 삭제
-            for (int i = 0; i < productIds.size(); i++) {
-                pstmtDelete.setString(1, userId);
-                pstmtDelete.setString(2, productIds.get(i));														
-                pstmtDelete.executeUpdate();
-            }
-
-            
-            
-            
-            
-//            																						// 구매 내역을 추가하는 SQL 문
-//            String insertSql = "INSERT INTO purchase (user_id, pro_id, quantity) VALUES (?, ?, ?)";
-//            pstmtInsert = conn.prepareStatement(insertSql);
-//
-//            																// 선택한 제품들을 내역에 추가하는 SQL 문
-//            for (int i = 0; i < productIds.size(); i++) {
-//                pstmtInsert.setString(1, userId);
-//                pstmtInsert.setString(2, productIds.get(i));
-//                pstmtInsert.setInt(3, quantities.get(i));
-//                pstmtInsert.executeUpdate();
-//            }
-//
-        } catch (Exception e) {
+   
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
                 if (pstmtDelete != null) pstmtDelete.close();
-                if (pstmtInsert != null) pstmtInsert.close();
                 if (conn != null) conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch ( SQLException e) {
+            	e.printStackTrace();
+                 
             }
         
         }
       
 	}
-  public void purchasecartdelete() {
-	  
-  }
+	// 장바구니를 삭제하고 수량을 업데이트 하는  매서드
+	public void updateQuantity(String proId, int newQuantity) {
+        Connection conn = null;
+        PreparedStatement pstmtUpdate = null;
+
+        try {
+            conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+
+            // 수량을 업데이트하기 위한 SQL 문
+            String updateSql = "UPDATE cart SET quantity = ? WHERE id = ?";
+            pstmtUpdate = conn.prepareStatement(updateSql);
+
+            // 수량을 업데이트
+            pstmtUpdate.setInt(1, newQuantity);
+            pstmtUpdate.setString(2, proId);
+            pstmtUpdate.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmtUpdate != null) pstmtUpdate.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+	
+	
+
 
 	// 장바구니 목록을 구매해서 purchaseTable 로 보내기
-	public void purchaseon(String c_id, String pro_id, int quantity, int size, String color, int date) {
-		
-		String query = "INSERT INTO purchase (\n"
-		+ "  c_id,\n"
-		+ "  pro_id,\n"
-		+ "  quantity,\n"
-		+ "  size,\n"
-		+ "  color,\n"
-		+ "  date\n"
-		+ ")\n"
-		+ "SELECT\n"
-		+ "  DISTINCT c.id,\n"
-		+ "  pro.Seq,\n"
-		+ "  ca.quantity,\n"
-		+ "  ca.size,\n"
-		+ "  ca.color,\n"
-		+ "  date_format(curdate(), '%y-%m-%d')\n"
-		+ "FROM cart ca\n"
-		+ "JOIN customer c ON ca.c_id = c.id\n"
-		+ "JOIN product pro ON ca.pro_id = pro.Seq\n"
-		+ "JOIN storage s ON pro.Seq = s.p_id;";
-		
-		PreparedStatement ps = null;			//검색할때 사용하는 문
-		
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
-			Statement st = con_mysql.createStatement();
+		public void purchaseon(String c_id) {
 			
-			ResultSet rs = st.executeQuery(query);
-			while ( rs.next()) {
-				rs.getString("DISTINCT c.id"); 
-		        rs.getInt("pro.Seq");
-				rs.getInt("ca.quantity");
-				rs.getInt("ca.size");
-				rs.getString("ca.color");
-				rs.getString("date_format(curdate(), '%y-%m-%d')");
-				
-				
-			
-			}
-            ps = con_mysql.prepareStatement(query);
-            
-            ps.setString(1, c_id);
-            ps.setString(2, pro_id);
-            ps.setInt(3, quantity);
-            ps.setInt(4, size);
-            ps.setString(5, color);
-            ps.setInt(6, date);
-            
-            ps.executeUpdate();
-            
-		
-			
-		   con_mysql.close();	
-		}catch (Exception e) {
-                e.printStackTrace();
+			 Connection conn = null;
+			    PreparedStatement pstmtPurchase = null;
+			    PreparedStatement pstmtClearCart = null;
+
+			    String purchaseQuery = "INSERT INTO purchase (c_id, pro_id, quantity, size, color, date)" +
+			            "SELECT DISTINCT c.id, pro.Seq, ca.quantity, ca.size, ca.color, date_format(curdate(), '%y-%m-%d')" +
+			            "FROM cart ca " +
+			            "JOIN customer c ON ca.c_id = c.id " +
+			            "JOIN product pro ON ca.pro_id = pro.Seq " +
+			            "JOIN storage s ON pro.Seq = s.p_id";
+
+			    String clearCartQuery = "DELETE FROM cart WHERE c_id = ?";
+			    
+			    try {
+			        conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+
+
+
+			        // purchase 테이블에 데이터 추가
+			        pstmtPurchase = conn.prepareStatement(purchaseQuery);
+			        pstmtPurchase.executeUpdate();
+
+			        // cart 테이블 비우기
+			        pstmtClearCart = conn.prepareStatement(clearCartQuery);
+			        pstmtClearCart.setString(1, c_id);
+			        pstmtClearCart.executeUpdate();
+
+
+
+			    } catch (SQLException e) {
+			    	e.printStackTrace();
+			        
+			       
+		 
+			        }
+			    }
+					//구매한 물건의 정보를 저장하는 매소드
+		public ArrayList<Dto_Purchase> getPurchaseInformation(String userId) {
+		    ArrayList<Dto_Purchase> purchaseList = new ArrayList<>();
+
+		    Connection conn = null;
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+
+		    try {
+		        conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+
+		        String query = "SELECT p.name, pu.quantity, pu.sales_price FROM purchase pu JOIN product p ON pu.pro_id = p.seq WHERE pu.c_id = ?";
+		        pstmt = conn.prepareStatement(query);
+		        pstmt.setString(1, userId);
+
+		        rs = pstmt.executeQuery();
+
+		        while (rs.next()) {
+		            String name = rs.getString("name");
+		            int quantity = rs.getInt("quantity");
+		            int salesPrice = rs.getInt("sales_price");
+ 
+		      //*******************************
+		            Dto_Purchase purchase = new Dto_Purchase(name, quantity, salesPrice);					// 구매한물건에 대한 정보를 출력해야하는대 안돼내요 .
+		       //********************************
+		   
+	            purchaseList.add(purchase);		 }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    } finally {
+		        try {
+		            if (rs != null) rs.close();
+		            if (pstmt != null) pstmt.close();
+		            if (conn != null) conn.close();
+		        } catch (SQLException e) {
+		            e.printStackTrace();
+		        }
+		    }
+
+		    return purchaseList;
 		}
-		
-		
-		
-		
-	}
-
-
 
 	// 장바구니 화면
 	          
@@ -203,79 +226,6 @@ public class Dao_Purchase {
 	}
 
 
-    //장바구니 삭제
-	//  public void deleteSelectedItems(String userId, ArrayList<String> productIds) {
-	 public void deleteSelectedItems(String id) {
-	        Connection conn = null;
-	        PreparedStatement pstmtDelete = null;
-	      
-				
-				
-				
-			
-	        try {
-	            conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
 
-	            // 선택한 제품들을 삭제하기 위한 SQL 문
-	            String deleteSql = "DELETE FROM cart WHERE id = ?";			//cart table 에 접속
-	            pstmtDelete = conn.prepareStatement(deleteSql);
-
-	            // 선택한 제품들을 삭제
-	            
-	                pstmtDelete.setString(1, id);   
-	                pstmtDelete.executeUpdate();
-	            
-	                		
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        } finally {
-	            try {
-	                if (pstmtDelete != null) pstmtDelete.close();
-	                if (conn != null) conn.close();
-	            } catch (SQLException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	
-	  }
-	  
-	  //구매한 제품을 넣는 매써드
-	  public void purchaseProducts(String userId, ArrayList<String> productIds, ArrayList<Integer> quantities) {
-		    Connection conn = null;
-			    PreparedStatement pstmtInsert = null;
-
-		    try {
-		        conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
-
-		        													// 구매 내역을 추가하는 SQL 문
-		        String insertSql = "INSERT INTO purchase (user_id, pro_id, quantity) VALUES (?, ?, ?)";
-		        pstmtInsert = conn.prepareStatement(insertSql);
-
-		        													// 선택한 제품들을 내역에 추가
-		        for (int i = 0; i < productIds.size(); i++) {
-		            pstmtInsert.setString(1, userId);
-		            pstmtInsert.setString(2, productIds.get(i));
-		            pstmtInsert.setInt(3, quantities.get(i));
-		            pstmtInsert.executeUpdate();
-		        }
-
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    } finally {
-		        try {
-		            if (pstmtInsert != null) pstmtInsert.close();
-		            if (conn != null) conn.close();
-		        } catch (Exception e) {
-		            e.printStackTrace();
-		        }
-		    }
-	  
-	  
-	  }
-	  
-	  
-	  
-	  
-	  
 	  
 	}

@@ -4,7 +4,6 @@ public class Dto_Purchase {
 
 	
 	
-	
      private int pro_id;
 	int sales_price;
 	String color;
@@ -35,8 +34,14 @@ public class Dto_Purchase {
 		this.color = color;
 		this.sales_price = price;
 		this.quantity = quantity;
-		
 	}
+		 public Dto_Purchase(String name, int quantity, int sales_price) {
+		        this.name = name;
+		        this.quantity = quantity;
+		        this.sales_price = sales_price;
+		    }
+		
+	
 
 	public int getPro_id() {
 		return pro_id;
@@ -85,6 +90,6 @@ public class Dto_Purchase {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	
 }

@@ -15,6 +15,7 @@ import com.javalec.function.Dao_Product;
 import com.javalec.function.Dao_Purchase;
 import com.javalec.function.Dto_Product;
 import com.javalec.function.Dto_Purchase;
+import com.javalec.function.ShareVar;
 import com.mysql.cj.exceptions.RSAException;
 import com.mysql.cj.x.protobuf.MysqlxCrud.Delete;
 import com.mysql.cj.xdevapi.Statement;
@@ -105,7 +106,6 @@ public class Purchase extends JDialog {
 		if (innerTable == null) {
 			innerTable = new JTable(outer_Table);
 			innerTable.setModel(outer_Table);		
-		//int tablecount = innerTable.getSelectedRow();
 			innerTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			innerTable.addMouseListener(new MouseAdapter() {
 				
@@ -161,90 +161,75 @@ public class Purchase extends JDialog {
 	
 	//장바구니 삭제 기능
 	public void cartdelete() {
-//		int selectedRow = innerTable.getSelectedRow();					//장바구니 삭제
-//		if (selectedRow != -1) {
-//			outer_Table.removeRow(selectedRow);						//해당 열 삭제
-//}			
-//		int[] selectedRows = innerTable.getSelectedRows();
-//	    int rowCount = selectedRows.length;
-//	    if (rowCount > 0) {
-//	        ArrayList<String> productIds = new ArrayList<>();
-//	        for (int selectedRow : selectedRows) {
-//	            String productId = (String) outer_Table.getValueAt(selectedRow, 0);
-//	            productIds.add(productId);
-//	            
-//	        }
-			
-	    	int tablecount = innerTable.getSelectedRowCount();
-	    					
-	    	
-	    					
-	        Dao_Purchase daoPurchase = new Dao_Purchase();
-//  	        daoPurchase.deleteSelectedItems(); 
-	        														// 삭제 후 테이블 새로고침
-	        tableInit();
+		int selectedRow = innerTable.getSelectedRow();
+	    if (selectedRow != -1) {
+	        String productId = (String) outer_Table.getValueAt(selectedRow, 0);
+	        int currentQuantity = Integer.parseInt((String) outer_Table.getValueAt(selectedRow, 5));
+
+	        String inputQuantity = JOptionPane.showInputDialog(null, "제거할 수량을 입력하세요:", "수량 입력", JOptionPane.QUESTION_MESSAGE);
+	        if (inputQuantity != null && !inputQuantity.isEmpty()) {
+	            int quantityToRemove = Integer.parseInt(inputQuantity);
+
+	            if (quantityToRemove > 0 && quantityToRemove <= currentQuantity) {
+	                int newQuantity = currentQuantity - quantityToRemove;
+
+	                if (newQuantity == 0) {
+	                    // 새로운 수량이 0이면 제품을 카트에서 완전히 제거
+	                    Dao_Purchase daoPurchase = new Dao_Purchase();
+	                    daoPurchase.Dao_PurchaseDelete(productId, quantityToRemove);
+	                } else {
+	                    // updateQuantity 메서드를 사용하여 수량 업데이트
+	                    Dao_Purchase daoPurchase = new Dao_Purchase();
+	                    daoPurchase.updateQuantity(productId, newQuantity);
+
+	                    // 테이블  업데이트
+	                    outer_Table.setValueAt(String.valueOf(newQuantity), selectedRow, 5);
+	                }
+	            } else {
+	                JOptionPane.showMessageDialog(null, "잘못된 입력입니다. 현재 수량 이하의 수량을 입력하세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+	            }
+	        }
+	    } else {
+	        JOptionPane.showMessageDialog(null, "제거할 품목을 선택하세요.", "선택 오류", JOptionPane.ERROR_MESSAGE);
 	    }
-		
-
-	
-	    //     tablecount(i). 
-		
-	
-		 
-
-	
-	
-	
-	
+	}	    	
 	//구매창 팝업
 	public void buyAction() {
 
 		
+		Dao_Purchase dao = new Dao_Purchase();
 		
-		 int selectedRowCount = innerTable.getSelectedRowCount();
-		    if (selectedRowCount == 0) {
-		        JOptionPane.showMessageDialog(null, "구매할 제품을 선택하세요.");								//선택 메시지
-		        return;
-		    }
+	    dao.purchaseon(ShareVar.id); // 매소드 호출
+	    //Table 초기화
+	    tableInit();	
+	    searchAction();
+	    
+	    
+	 // 추가로 구매한 물건의 정보 가져오기
+	    ArrayList<Dto_Purchase> purchasedProducts = dao.getPurchaseInformation(ShareVar.id);
 
-		    int[] selectedRows = innerTable.getSelectedRows();
+	    // 메시지로 출력
+	    showMessageAfterPurchase(purchasedProducts);
+	}
 
-		    int totalPrice = 0;
-		    ArrayList<String> productIds = new ArrayList<>();
-		    ArrayList<Integer> quantities = new ArrayList<>();
+	// 메시지로 출력하는 메서드
+	private void showMessageAfterPurchase(ArrayList<Dto_Purchase> purchasedProducts) {
+	    StringBuilder message = new StringBuilder("구매가 완료되었습니다.\n\n구매한 제품 정보:\n");
+	    int totalPurchasePrice = 0;
 
-		    StringBuilder message = new StringBuilder("구매한 제품 정보:\n");
+	    for (Dto_Purchase product : purchasedProducts) {
+	        message.append("제품명: ").append(product.getName()).append("\n")
+	                .append("수량: ").append(product.getQuantity()).append("\n")
+	                .append("가격: ").append(product.getSales_price()).append("원\n\n");
 
-		    for (int selectedRow : selectedRows) {
-		        String proId = (String) outer_Table.getValueAt(selectedRow, 0);
-		        int quantity = Integer.parseInt((String) outer_Table.getValueAt(selectedRow, 1));
-		        int price = Integer.parseInt((String) outer_Table.getValueAt(selectedRow, 3));
-		        
-		        totalPrice += (quantity * price);
-		        	
-		        message.append("제품번호: ").append(proId).append(", 수량: ").append(quantity).append(", 가격: ").append(price).append("\n");
+	        totalPurchasePrice += product.getSales_price();
+	    }
 
-		        						 																		// 선택한 제품들의 정보를 리스트에 저장
-		        productIds.add(proId);
-		        quantities.add(quantity);
-		    }
+	    message.append("총 구매 가격: ").append(totalPurchasePrice).append("원");
 
-		    message.append("\n총 가격: ").append(totalPrice);
-
-		    																								// 구매 내역을 데이터베이스에 반영
-		    Dao_Purchase daoPurchase = new Dao_Purchase();
-		    daoPurchase.purchaseProducts(userId, productIds, quantities);
-
-
-		    JOptionPane.showMessageDialog(null, message.toString());
-
-
-		    tableInit();		//목록 다시 불러오기
-		
-		
-		    }
-
-		
+	    JOptionPane.showMessageDialog(null, message.toString(), "구매 완료", JOptionPane.INFORMATION_MESSAGE);
+	}
+	    
 	
 
 	//뒤로가기 버튼 활성화
@@ -260,7 +245,7 @@ public class Purchase extends JDialog {
 	//innerTable 기능
 	
 
-	private String userId = "your_user_id";					//사용자 아이디 초기값
+//	private String userId = "your_user_id";					//사용자 아이디 초기값
 	private JLabel lbBackImage;
 	
 	public void tableInit() {				//장바구니 Table
@@ -274,33 +259,33 @@ public class Purchase extends JDialog {
 		outer_Table.addColumn("가격");
 		outer_Table.addColumn("수량");
 		outer_Table.setColumnCount(6); 
-				//제품명
+				//No
 				int colNo =0;
 				TableColumn col = innerTable.getColumnModel().getColumn(colNo);
-				int width= 40;		
+				int width= 30;		
 				col.setPreferredWidth(width);
 				//제품명
-				 colNo =0;
+				 colNo =1;
 				   col = innerTable.getColumnModel().getColumn(colNo);
 		         width= 150;
 				col.setPreferredWidth(width);
 				//사이즈
-				 colNo =1;
+				 colNo =2;
 				  col = innerTable.getColumnModel().getColumn(colNo);
 			     width= 50;
 				col.setPreferredWidth(width);
 				//색상
-				 colNo =2;
+				 colNo =3;
 				  col = innerTable.getColumnModel().getColumn(colNo);
 				 width= 30;
 				col.setPreferredWidth(width);
 				//가격
-				 colNo =3;
+				 colNo =4;
 				  col = innerTable.getColumnModel().getColumn(colNo);
-				 width= 60;
+				 width= 70;
 				col.setPreferredWidth(width);
 				//수량
-				 colNo =4;
+				 colNo =5;
 				  col = innerTable.getColumnModel().getColumn(colNo);
 				 width= 30;
 				col.setPreferredWidth(width);
@@ -339,18 +324,8 @@ public class Purchase extends JDialog {
 							
 							outer_Table.addRow(qTxt);
 						}
-//			if (listCount > 0 ) {
-//				for (int l = 0; l < listCount; l++) {								//     장바구니 목록을 불러오는 문장인대 제대로 나올지 모르갰내요
-////					Dto_Purchase dto = dtoList.get(l);
-//				String[] list = {dtoList.get(l).getPro_id(),Integer.toString(dtoList.get(l).getSales_price()), dtoList.get(l).getColor(), Integer.toString(dtoList.get(l).getSize()), Integer.toString(dtoList.get(l).getQuantity())};
-//					outer_Table.addRow(list);
-//					innerTable.setRowHeight(l , 50);
-//					
-//				}
-						
-				     
-					
-//				}
+
+
 	}
 				
 		
