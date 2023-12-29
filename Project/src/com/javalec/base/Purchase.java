@@ -36,6 +36,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 
 public class Purchase extends JDialog {
@@ -198,7 +199,7 @@ public class Purchase extends JDialog {
 	    
 		
 	
-		
+		 
 
 	
 	
@@ -227,9 +228,9 @@ public class Purchase extends JDialog {
 		        String proId = (String) outer_Table.getValueAt(selectedRow, 0);
 		        int quantity = Integer.parseInt((String) outer_Table.getValueAt(selectedRow, 1));
 		        int price = Integer.parseInt((String) outer_Table.getValueAt(selectedRow, 3));
-
+		        
 		        totalPrice += (quantity * price);
-
+		        	
 		        message.append("제품번호: ").append(proId).append(", 수량: ").append(quantity).append(", 가격: ").append(price).append("\n");
 
 		        						 																		// 선택한 제품들의 정보를 리스트에 저장
@@ -352,8 +353,9 @@ public class Purchase extends JDialog {
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("New label");
-			lblNewLabel.setBounds(218, 144, 61, 16);
+			lblNewLabel = new JLabel("");
+			lblNewLabel.setIcon(new ImageIcon("/Users/tj/Downloads/제목을-입력해주세요_-001-2.png"));
+			lblNewLabel.setBounds(126, 122, 279, 62);
 		}
 		return lblNewLabel;
 	}

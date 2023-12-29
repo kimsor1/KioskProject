@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.mysql.cj.protocol.Resultset;
+
 public class Dao_Purchase {
 
 	
@@ -25,37 +27,69 @@ public class Dao_Purchase {
   public Dao_Purchase() {
 
 }
-	//장바구니 구매
-	public void Dao_Purchaseon(String userId, ArrayList<String> productIds, ArrayList<Integer> quantities) {				//구매했을 경우의 코드
-        Connection conn = null;
-        PreparedStatement pstmtDelete = null;
-        PreparedStatement pstmtInsert = null; 
+	//장바구니 목록  삭제
+	public void Dao_PurchaseDelete(String userId, ArrayList<String> productIds, ArrayList<Integer> quantities) {				//구매했을 경우의 코드
+		Connection conn = null;
+		PreparedStatement pstmtDelete = null;
+		PreparedStatement pstmtInsert = null; 
+		
+		//구매한 물건을 purchaseTable 에 추가하는 SQL 문 
+//		String query = "INSERT INTO purchase (\n"
+//				+ "  c_id,\n"
+//				+ "  pro_id,\n"
+//				+ "  quantity,\n"
+//				+ "  size,\n"
+//				+ "  color,\n"
+//				+ "  date\n"
+//				+ ")\n"
+//				+ "SELECT\n"
+//				+ "  DISTINCT c.id,\n"
+//				+ "  pro.Seq,\n"
+//				+ "  ca.quantity,\n"
+//				+ "  ca.size,\n"
+//				+ "  ca.color,\n"
+//				+ "  date_format(curdate(), '%y-%m-%d')\n"
+//				+ "FROM cart ca\n"
+//				+ "JOIN customer c ON ca.c_id = c.id\n"
+//				+ "JOIN product pro ON ca.pro_id = pro.Seq\n"
+//				+ "JOIN storage s ON pro.Seq = s.p_id;";
+				
+				
+				
+		// 선택한 제품들을 장바구니에서 삭제하기 위한 SQl 문
+		String deleteSql = "DELETE FROM cart WHERE user_id = ? AND pro_id = ?";
+				
         try {
+        	Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
 
-            												// 선택한 제품들을 삭제하기 위한 SQl 문
-            String deleteSql = "DELETE FROM purchase WHERE user_id = ? AND pro_id = ?";
             pstmtDelete = conn.prepareStatement(deleteSql);
 
-            												// 선택한 제품들을 삭제
+            
+            		
+            // 선택한 제품들을  장바구니에서 삭제
             for (int i = 0; i < productIds.size(); i++) {
                 pstmtDelete.setString(1, userId);
                 pstmtDelete.setString(2, productIds.get(i));															//이게 맞는지 모르갰내요.
                 pstmtDelete.executeUpdate();
             }
 
-            																						// 구매 내역을 추가하는 SQL 문
-            String insertSql = "INSERT INTO purchase (user_id, pro_id, quantity) VALUES (?, ?, ?)";
-            pstmtInsert = conn.prepareStatement(insertSql);
-
-            																// 선택한 제품들을 내역에 추가하는 SQL 문
-            for (int i = 0; i < productIds.size(); i++) {
-                pstmtInsert.setString(1, userId);
-                pstmtInsert.setString(2, productIds.get(i));
-                pstmtInsert.setInt(3, quantities.get(i));
-                pstmtInsert.executeUpdate();
-            }
-
+            
+            
+            
+            
+//            																						// 구매 내역을 추가하는 SQL 문
+//            String insertSql = "INSERT INTO purchase (user_id, pro_id, quantity) VALUES (?, ?, ?)";
+//            pstmtInsert = conn.prepareStatement(insertSql);
+//
+//            																// 선택한 제품들을 내역에 추가하는 SQL 문
+//            for (int i = 0; i < productIds.size(); i++) {
+//                pstmtInsert.setString(1, userId);
+//                pstmtInsert.setString(2, productIds.get(i));
+//                pstmtInsert.setInt(3, quantities.get(i));
+//                pstmtInsert.executeUpdate();
+//            }
+//
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -66,11 +100,71 @@ public class Dao_Purchase {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        
         }
-		
+      
 	}
 
 
+	// 장바구니 목록을 구매해서 purchaseTable 로 보내기
+	public void purchaseon(String c_id, String pro_id, int quantity, int size, String color, int date) {
+		
+		String query = "INSERT INTO purchase (\n"
+		+ "  c_id,\n"
+		+ "  pro_id,\n"
+		+ "  quantity,\n"
+		+ "  size,\n"
+		+ "  color,\n"
+		+ "  date\n"
+		+ ")\n"
+		+ "SELECT\n"
+		+ "  DISTINCT c.id,\n"
+		+ "  pro.Seq,\n"
+		+ "  ca.quantity,\n"
+		+ "  ca.size,\n"
+		+ "  ca.color,\n"
+		+ "  date_format(curdate(), '%y-%m-%d')\n"
+		+ "FROM cart ca\n"
+		+ "JOIN customer c ON ca.c_id = c.id\n"
+		+ "JOIN product pro ON ca.pro_id = pro.Seq\n"
+		+ "JOIN storage s ON pro.Seq = s.p_id;";
+		
+		PreparedStatement ps = null;			//검색할때 사용하는 문
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+			Statement st = con_mysql.createStatement();
+			
+			ResultSet rs = st.executeQuery(query);
+			while ( rs.next()) {
+			String id = rs.getString("c.id"); 
+//			int Seq = rs.getInt();
+			
+			
+			}
+            ps = con_mysql.prepareStatement(query);
+            
+            ps.setString(1, c_id);
+            ps.setString(2, pro_id);
+            ps.setInt(3, quantity);
+            ps.setInt(4, size);
+            ps.setString(5, color);
+            ps.setInt(6, date);
+            
+            ps.executeUpdate();
+            
+		
+			
+		   con_mysql.close();	
+		}catch (Exception e) {
+                e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
 
 	public Dao_Purchase( String pro_id, int sales_price, String color, int size, int quantity) {
 		super();		
@@ -106,7 +200,12 @@ public class Dao_Purchase {
 			                String color = rs.getString("color");												//아니라면 어떻게 해야하는건가요.			                
 			                int size = rs.getInt("size");  
 			                int quantity = rs.getInt("quantity");
-//			            	
+//			                int seq = rs.getInt("seq");
+//			                String pname = rs.getString("pname");
+//							int size = rs.getInt("size");
+//			                int color = rs.getString
+			                
+			                
 //			            	String c_id = rs.getString("c_id");
 //			            	String id = rs.getString(id);
 //			            	String pro_id = rs.getString(pro_id);
