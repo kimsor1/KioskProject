@@ -206,14 +206,13 @@ public class Dao_Purchase {
 			            	
 			            while (rs.next()) {
 			             
-			            	int id = rs.getInt(1);
 			                String name = rs.getString(2);											
 			                int size = rs.getInt(3);  
 			                String color = rs.getString(4);														                
 			                int price = rs.getInt(5);
 			                int quantity = rs.getInt(6);
 			                			            	
-			                Dto_Purchase dto_Purchase = new Dto_Purchase(id, name, size, color, price, quantity);
+			                Dto_Purchase dto_Purchase = new Dto_Purchase(name, size, color, price, quantity);
 			                dtoList.add(dto_Purchase);
 			            }
 

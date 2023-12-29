@@ -109,6 +109,10 @@ public class Purchase extends JDialog {
 			innerTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			innerTable.addMouseListener(new MouseAdapter() {
 				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					innerTable.setDefaultEditor(Object.class, null);
+				}
 			});
 		}
 		return innerTable;
@@ -267,7 +271,7 @@ public class Purchase extends JDialog {
 				//제품명
 				 colNo =1;
 				   col = innerTable.getColumnModel().getColumn(colNo);
-		         width= 150;
+		         width= 100;
 				col.setPreferredWidth(width);
 				//사이즈
 				 colNo =2;
@@ -316,11 +320,12 @@ public class Purchase extends JDialog {
 
 
 					    for (int i = 0; i < dtoList.size(); i++ ) {
-							String id = Integer.toString(dtoList.get(i).getPro_id());
+//							String id = Integer.toString(dtoList.get(i).getPro_id());
+					    	int count = i+1;
 							String size = Integer.toString(dtoList.get(i).getSize());
 							String price = Integer.toString(dtoList.get(i).getSales_price());
 							String quantity = Integer.toString(dtoList.get(i).getQuantity());
-							String[] qTxt = {id, dtoList.get(i).getName(), size, dtoList.get(i).getColor(), price, quantity};
+							String[] qTxt = {Integer.toString(count), dtoList.get(i).getName(), size, dtoList.get(i).getColor(), price, quantity};
 							
 							outer_Table.addRow(qTxt);
 						}

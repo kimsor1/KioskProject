@@ -27,8 +27,7 @@ public class Dto_Purchase {
 		this.quantity = quantity;
 	}
 	
-	public Dto_Purchase(int pro_id, String name, int size, String color, int price, int quantity) {
-		this.pro_id = pro_id;
+	public Dto_Purchase(String name, int size, String color, int price, int quantity) {
 		this.name = name;
 		this.size = size;
 		this.color = color;
