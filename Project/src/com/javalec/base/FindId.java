@@ -80,7 +80,7 @@ public class FindId extends JDialog {
 		if (lbBack == null) {
 			lbBack = new JLabel("");
 			lbBack.setBounds(0, 0, 512, 655);
-			lbBack.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/findIdGray.png")));
+			lbBack.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/idsmallFont.png")));
 		}
 		return lbBack;
 	}

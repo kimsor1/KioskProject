@@ -80,7 +80,7 @@ public class FindPw extends JDialog {
 		if (lbBack == null) {
 			lbBack = new JLabel("");
 			lbBack.setBounds(0, 0, 512, 683);
-			lbBack.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/findPwGray.png")));
+			lbBack.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/pwsmallFont.png")));
 		}
 		return lbBack;
 	}

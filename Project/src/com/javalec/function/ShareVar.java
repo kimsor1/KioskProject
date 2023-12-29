@@ -17,5 +17,5 @@ public class ShareVar {
 	// ID, Pw
 	public static String id = "";
 	public static String pw = "";
-
+	
 }
