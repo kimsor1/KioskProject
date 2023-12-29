@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.javalec.function.Dto_Purchase;
+import com.javalec.function.ShareVar;
 import com.mysql.cj.protocol.Resultset;
 
 public class Dao_Purchase {
@@ -169,9 +171,9 @@ public class Dao_Purchase {
 	// 장바구니 화면
 	          
 
-	public ArrayList<Dto_Purchase> cartList(String userId) {
+	public ArrayList<Dto_Purchase> cartList() {
 		ArrayList<Dto_Purchase> dtoList = new ArrayList<>(); 
-						String A = "select  quantity, size, color FROM cart" + "JOIN product ON name ON price = name , price";
+						String A = "select distinct(c.id), p.name, c.size, c.color,  p.price, c.quantity FROM cart c, product p, customer cu where c.pro_id = p.seq and c.c_id = '" +  ShareVar.id +"' order by c.id asc";
 								
 			       try {
 			            Class.forName("com.mysql.cj.jdbc.Driver");
@@ -181,13 +183,14 @@ public class Dao_Purchase {
 			            	
 			            while (rs.next()) {
 			             
-			                String name = rs.getString("name");											
-			                int size = rs.getInt("size");  
-			                String color = rs.getString("color");														                
-			                int quantity = rs.getInt("quantity");
-			                int price = rs.getInt("price");
+			            	int id = rs.getInt(1);
+			                String name = rs.getString(2);											
+			                int size = rs.getInt(3);  
+			                String color = rs.getString(4);														                
+			                int price = rs.getInt(5);
+			                int quantity = rs.getInt(6);
 			                			            	
-			                Dto_Purchase dto_Purchase = new Dto_Purchase(name, size, color, quantity, price);
+			                Dto_Purchase dto_Purchase = new Dto_Purchase(id, name, size, color, price, quantity);
 			                dtoList.add(dto_Purchase);
 			            }
 

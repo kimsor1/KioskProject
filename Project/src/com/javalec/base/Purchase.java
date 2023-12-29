@@ -179,7 +179,7 @@ public class Purchase extends JDialog {
 	    	
 	    					
 	        Dao_Purchase daoPurchase = new Dao_Purchase();
-  	        daoPurchase.deleteSelectedItems(); 
+//  	        daoPurchase.deleteSelectedItems(); 
 	        														// 삭제 후 테이블 새로고침
 	        tableInit();
 	    }
@@ -310,10 +310,10 @@ public class Purchase extends JDialog {
 //					outer_Table.removeRow(0);
 			
 			
-					 Dao_Purchase daoPurchase = new Dao_Purchase();
-					    ArrayList<Dto_Purchase> dtoList = daoPurchase.cartList(userId);					//유저 아이디를 받아서 그 유저장바구니만 출력
 				
 					    
+				Dao_Purchase dao = new Dao_Purchase();
+				ArrayList<Dto_Purchase> dtoList = dao.cartList(); //유저 아이디를 받아서 그 유저장바구니만 출력
 						   		
 					    if (dtoList.isEmpty()  && showMessageCount){
 					    	
@@ -323,21 +323,30 @@ public class Purchase extends JDialog {
 					    
 					    
 					    }
-					    int listCount = dtoList.size();
+					    
 
 
-			if (listCount > 0 ) {
-				for (int l = 0; l < listCount; l++) {								//     장바구니 목록을 불러오는 문장인대 제대로 나올지 모르갰내요
-//					Dto_Purchase dto = dtoList.get(l);
-				String[] list = {dtoList.get(l).getPro_id(),Integer.toString(dtoList.get(l).getSales_price()), dtoList.get(l).getColor(), Integer.toString(dtoList.get(l).getSize()), Integer.toString(dtoList.get(l).getQuantity())};
-					outer_Table.addRow(list);
-					innerTable.setRowHeight(l , 50);
-					
-				}
+					    for (int i = 0; i < dtoList.size(); i++ ) {
+							String id = Integer.toString(dtoList.get(i).getPro_id());
+							String size = Integer.toString(dtoList.get(i).getSize());
+							String price = Integer.toString(dtoList.get(i).getSales_price());
+							String quantity = Integer.toString(dtoList.get(i).getQuantity());
+							String[] qTxt = {id, dtoList.get(i).getName(), size, dtoList.get(i).getColor(), price, quantity};
+							
+							outer_Table.addRow(qTxt);
+						}
+//			if (listCount > 0 ) {
+//				for (int l = 0; l < listCount; l++) {								//     장바구니 목록을 불러오는 문장인대 제대로 나올지 모르갰내요
+////					Dto_Purchase dto = dtoList.get(l);
+//				String[] list = {dtoList.get(l).getPro_id(),Integer.toString(dtoList.get(l).getSales_price()), dtoList.get(l).getColor(), Integer.toString(dtoList.get(l).getSize()), Integer.toString(dtoList.get(l).getQuantity())};
+//					outer_Table.addRow(list);
+//					innerTable.setRowHeight(l , 50);
+//					
+//				}
 						
 				     
 					
-				}
+//				}
 				
 		
 	}
