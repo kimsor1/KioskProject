@@ -207,6 +207,15 @@ public class Product extends JDialog {
 		}
 		return btnNewButton;
 	}
+	private JLabel getLblNewLabel_2() {
+		if (lblNewLabel_2 == null) {
+			lblNewLabel_2 = new JLabel("");
+			lblNewLabel_2.setIcon(new ImageIcon(Product.class.getResource("/com/javalec/images/Product.png")));
+			lblNewLabel_2.setBounds(0, -10, 530, 670);
+		}
+		return lblNewLabel_2;
+	}
+	
 	// ---------- Method
 
 	private void tableInit() {
@@ -301,12 +310,4 @@ public class Product extends JDialog {
 		dao.tableClick(Integer.parseInt(seqno));
 	}
 
-	private JLabel getLblNewLabel_2() {
-		if (lblNewLabel_2 == null) {
-			lblNewLabel_2 = new JLabel("");
-			lblNewLabel_2.setIcon(new ImageIcon(Product.class.getResource("/com/javalec/images/Product.png")));
-			lblNewLabel_2.setBounds(0, -10, 530, 670);
-		}
-		return lblNewLabel_2;
-	}
 } // ------- END

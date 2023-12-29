@@ -4,9 +4,11 @@ import java.awt.EventQueue;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.javalec.function.Dao_Cart;
 import com.javalec.function.Dao_Product;
 import com.javalec.function.ShareVar;
 
@@ -41,7 +43,10 @@ public class ProductDetail extends JDialog {
 	private JLabel lblNewLabel_1_3_;
 	private JTextField tfPprice;
 	private JButton btnBasket;
+	private JLabel lblNewLabel_1_3_1;
+	private JTextField tfOpp;
 	private JLabel lblNewLabel_2;
+	private JLabel label;
 
 	/**
 	 * Launch the application.
@@ -89,7 +94,10 @@ public class ProductDetail extends JDialog {
 		getContentPane().add(getLblNewLabel_1_3_1_1());
 		getContentPane().add(getTfPprice());
 		getContentPane().add(getBtnBasket());
-		getContentPane().add(getLblNewLabel_2());
+		getContentPane().add(getLblNewLabel_1_3_1_2());
+		getContentPane().add(getTfOpp());
+		getContentPane().add(getLblNewLabel_2_1());
+		getContentPane().add(getLabel());
 
 	}
 
@@ -139,7 +147,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_1 = new JLabel("사이즈 :");
 			lblNewLabel_1_1.setForeground(SystemColor.menu);
 			lblNewLabel_1_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_1.setBounds(89, 400, 83, 28);
+			lblNewLabel_1_1.setBounds(89, 410, 83, 28);
 		}
 		return lblNewLabel_1_1;
 	}
@@ -149,7 +157,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_2 = new JLabel("색상 : ");
 			lblNewLabel_1_2.setForeground(SystemColor.menu);
 			lblNewLabel_1_2.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_2.setBounds(89, 440, 83, 28);
+			lblNewLabel_1_2.setBounds(289, 410, 83, 28);
 		}
 		return lblNewLabel_1_2;
 	}
@@ -159,7 +167,7 @@ public class ProductDetail extends JDialog {
 			tfPstock = new JTextField();
 			tfPstock.setEditable(false);
 			tfPstock.setColumns(10);
-			tfPstock.setBounds(184, 480, 135, 35);
+			tfPstock.setBounds(150, 470, 100, 35);
 		}
 		return tfPstock;
 	}
@@ -169,7 +177,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_3 = new JLabel("재고 :");
 			lblNewLabel_1_3.setForeground(SystemColor.menu);
 			lblNewLabel_1_3.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_3.setBounds(89, 480, 83, 28);
+			lblNewLabel_1_3.setBounds(89, 470, 83, 28);
 		}
 		return lblNewLabel_1_3;
 	}
@@ -183,7 +191,7 @@ public class ProductDetail extends JDialog {
 				}
 			});
 			cbPsize.setModel(new DefaultComboBoxModel(new String[] { "230", "240", "250", "260", "270" }));
-			cbPsize.setBounds(184, 400, 100, 30);
+			cbPsize.setBounds(170, 410, 100, 30);
 		}
 		return cbPsize;
 	}
@@ -197,7 +205,7 @@ public class ProductDetail extends JDialog {
 				}
 			});
 			cbPcolor.setModel(new DefaultComboBoxModel(new String[] { "white", "black" }));
-			cbPcolor.setBounds(184, 440, 100, 27);
+			cbPcolor.setBounds(350, 410, 100, 27);
 		}
 		return cbPcolor;
 	}
@@ -217,7 +225,7 @@ public class ProductDetail extends JDialog {
 			tfPprice = new JTextField();
 			tfPprice.setEditable(false);
 			tfPprice.setColumns(10);
-			tfPprice.setBounds(184, 520, 135, 35);
+			tfPprice.setBounds(150, 520, 200, 35);
 		}
 		return tfPprice;
 	}
@@ -225,11 +233,53 @@ public class ProductDetail extends JDialog {
 	private JButton getBtnBasket() {
 		if (btnBasket == null) {
 			btnBasket = new JButton("장바구니 담기");
+			btnBasket.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					stockCheck();
+				}
+			});
 			btnBasket.setForeground(new Color(0, 0, 0));
 			btnBasket.setBackground(SystemColor.window);
 			btnBasket.setBounds(120, 589, 133, 40);
 		}
 		return btnBasket;
+	}
+
+	private JLabel getLblNewLabel_1_3_1_2() {
+		if (lblNewLabel_1_3_1 == null) {
+			lblNewLabel_1_3_1 = new JLabel("구매수량 :");
+			lblNewLabel_1_3_1.setForeground(SystemColor.menu);
+			lblNewLabel_1_3_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+			lblNewLabel_1_3_1.setBounds(260, 470, 83, 28);
+		}
+		return lblNewLabel_1_3_1;
+	}
+
+	private JTextField getTfOpp() {
+		if (tfOpp == null) {
+			tfOpp = new JTextField();
+			tfOpp.setColumns(10);
+			tfOpp.setBounds(350, 470, 100, 35);
+		}
+		return tfOpp;
+	}
+
+	private JLabel getLblNewLabel_2_1() {
+		if (lblNewLabel_2 == null) {
+			lblNewLabel_2 = new JLabel("New label");
+			lblNewLabel_2.setIcon(new ImageIcon(ProductDetail.class.getResource("/com/javalec/images/Product.png")));
+			lblNewLabel_2.setBackground(SystemColor.window);
+			lblNewLabel_2.setBounds(0, -10, 530, 670);
+		}
+		return lblNewLabel_2;
+	}
+
+	private JLabel getLabel() {
+		if (label == null) {
+			label = new JLabel("New label");
+			label.setBounds(289, 527, 61, 16);
+		}
+		return label;
 	}
 	// -------- Function
 
@@ -237,7 +287,7 @@ public class ProductDetail extends JDialog {
 		tfPname.setText(ShareVar.productName);
 		tfPstock.setText(Integer.toString(ShareVar.productStock));
 		tfPprice.setText(Integer.toString(ShareVar.productPrice));
-		
+
 		String filePath = Integer.toString(ShareVar.filename);
 
 		// 파일이 존재하는지 확인
@@ -257,12 +307,26 @@ public class ProductDetail extends JDialog {
 
 		inputData();
 	}
-	private JLabel getLblNewLabel_2() {
-		if (lblNewLabel_2 == null) {
-			lblNewLabel_2 = new JLabel("New label");
-			lblNewLabel_2.setIcon(new ImageIcon(ProductDetail.class.getResource("/com/javalec/images/Product.png")));
-			lblNewLabel_2.setBounds(0, -10, 530, 670);
+
+	private void stockCheck() {
+		if (Integer.parseInt(tfOpp.getText()) > Integer.parseInt(tfPstock.getText())) {
+
+			JOptionPane.showMessageDialog(null, "구매하시려는 수량이 재고보다 많습니다.");
+
 		}
-		return lblNewLabel_2;
+
+		if (Integer.parseInt(tfOpp.getText()) <= Integer.parseInt(tfPstock.getText())) {
+			
+			String stirngsize = cbPsize.getSelectedItem().toString();
+			int intsize = Integer.parseInt(stirngsize);
+
+			String color = cbPcolor.getSelectedItem().toString();
+
+			int opp = Integer.parseInt(tfOpp.getText());
+
+			Dao_Cart cart = new Dao_Cart(ShareVar.id, ShareVar.productSeq, intsize, color, opp);
+			cart.addCart();
+
+		}
 	}
 }// End
