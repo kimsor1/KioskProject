@@ -35,6 +35,7 @@ import javax.swing.ListSelectionModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Color;
+import javax.swing.JLabel;
 
 
 public class Purchase extends JDialog {
@@ -88,6 +89,7 @@ public class Purchase extends JDialog {
 		getContentPane().add(getBtnback());
 		getContentPane().add(getBtnbuy());
 		getContentPane().add(getBtndelete());
+		getContentPane().add(getLblNewLabel());
 
 	}
 
@@ -95,9 +97,11 @@ public class Purchase extends JDialog {
 		if (textField == null) {
 			textField = new JTextField();
 			textField.setEditable(false);
+			textField.setForeground(new Color(255, 255, 255));
+			textField.setBackground(Color.BLACK);
 			textField.setHorizontalAlignment(SwingConstants.CENTER);
 			textField.setText("장바구니");
-			textField.setBounds(113, 76, 266, 49);
+			textField.setBounds(126, 74, 266, 49);
 			textField.setColumns(10);
 		}
 		return textField;
@@ -179,11 +183,12 @@ public class Purchase extends JDialog {
 	        for (int selectedRow : selectedRows) {
 	            String productId = (String) outer_Table.getValueAt(selectedRow, 0);
 	            productIds.add(productId);
+	            
 	        }
 
 	        Dao_Purchase daoPurchase = new Dao_Purchase();
-	        daoPurchase.deleteSelectedItems(userId, productIds);
-
+//	    수정   daoPurchase.deleteSelectedItems(userId, productIds);     
+	        daoPurchase.deleteSelectedItems(userId, productIds); 
 	        																		// 삭제 후 테이블 새로고침
 	        tableInit();
 	    }
@@ -227,7 +232,7 @@ public class Purchase extends JDialog {
 
 		        message.append("제품번호: ").append(proId).append(", 수량: ").append(quantity).append(", 가격: ").append(price).append("\n");
 
-		        																								// 선택한 제품들의 정보를 리스트에 저장
+		        						 																		// 선택한 제품들의 정보를 리스트에 저장
 		        productIds.add(proId);
 		        quantities.add(quantity);
 		    }
@@ -264,42 +269,50 @@ public class Purchase extends JDialog {
 	
 
 	private String userId = "your_user_id";					//사용자 아이디 초기값
+	private JLabel lblNewLabel;
 	public void tableInit() {				//장바구니 Table
 		
 	
 		
-
-		outer_Table.addColumn("제품번호");
-		outer_Table.addColumn("수량");
+		outer_Table.addColumn("No.");
+		outer_Table.addColumn("제품명");
 		outer_Table.addColumn("사이즈");
-		outer_Table.addColumn("가격");
 		outer_Table.addColumn("색상");
-		outer_Table.setColumnCount(5); 
-				//제품번호		 	
+		outer_Table.addColumn("가격");
+		outer_Table.addColumn("수량");
+		outer_Table.setColumnCount(6); 
+				//No.	 	
 			    int colNo =0;
 			     TableColumn col = innerTable.getColumnModel().getColumn(colNo);
-			    int width= 100;
+			    int width= 20;
 				 col.setPreferredWidth(width);
-				//수량
+				//제품명
 				 colNo =1;
 				  col = innerTable.getColumnModel().getColumn(colNo);
-			     width= 30;
+			     width= 100;
 				col.setPreferredWidth(width);
 				//사이즈
 				 colNo =2;
 				  col = innerTable.getColumnModel().getColumn(colNo);
 			     width= 50;
 				col.setPreferredWidth(width);
-				//가격
+				//색상
 				 colNo =3;
+				  col = innerTable.getColumnModel().getColumn(colNo);
+				 width= 30;
+				col.setPreferredWidth(width);
+				//가격
+				 colNo =4;
 				  col = innerTable.getColumnModel().getColumn(colNo);
 				 width= 60;
 				col.setPreferredWidth(width);
-				//색상
+				//수량
 				 colNo =4;
 				  col = innerTable.getColumnModel().getColumn(colNo);
 				 width= 30;
 				col.setPreferredWidth(width);
+				
+				
 				
 //				int i = outer_Table.getRowCount();
 //				for (int j = 0; j < i; j++) {
@@ -337,15 +350,11 @@ public class Purchase extends JDialog {
 				
 		
 	}
-	
-	
-				
-			
-
-
-				
-	
-
-	
-	
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("New label");
+			lblNewLabel.setBounds(218, 144, 61, 16);
+		}
+		return lblNewLabel;
+	}
 } //End

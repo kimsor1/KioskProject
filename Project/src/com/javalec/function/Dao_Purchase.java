@@ -84,12 +84,12 @@ public class Dao_Purchase {
 
 
 	//	처음의 장바구니 화면
-
+	          
 
 	public ArrayList<Dto_Purchase> cartList(String userId) {
 		ArrayList<Dto_Purchase> dtoList = new ArrayList<>(); 
-										
-				String A = "select pro_id, quantity, size, sales_price, color from purchase WHERE user_id = ?";
+						String A = "select c_id, id, pro_id, quantity from cart WHERE user_id = ?";
+//				String A = "select pro_id, quantity, size, sales_price, color from purchase WHERE user_id = ?";
 					
 			       try {
 			            Class.forName("com.mysql.cj.jdbc.Driver");
@@ -104,8 +104,18 @@ public class Dao_Purchase {
 			                String pro_id = rs.getString("pro_id");
 			                int sales_price = rs.getInt("sales_price");											//아이디를 입력한 유저의 장바구니만 출력하고 싶은데 이렇게 하는게 맞나요?
 			                String color = rs.getString("color");												//아니라면 어떻게 해야하는건가요.			                
-			                int size = rs.getInt("size");
+			                int size = rs.getInt("size");  
 			                int quantity = rs.getInt("quantity");
+//			            	
+//			            	String c_id = rs.getString("c_id");
+//			            	String id = rs.getString(id);
+//			            	String pro_id = rs.getString(pro_id);
+//			            	int quantity = rs.getInt(quantity);
+			            	
+			            	
+			            	
+			            	
+			            	
 
 			                Dto_Purchase dto_Purchase = new Dto_Purchase(pro_id, sales_price, color, size, quantity);
 			                dtoList.add(dto_Purchase);
@@ -129,13 +139,14 @@ public class Dao_Purchase {
 	            conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
 
 	            // 선택한 제품들을 삭제하기 위한 SQL 문
-	            String deleteSql = "DELETE FROM purchase WHERE user_id = ? AND pro_id = ?";
+	            String deleteSql = "DELETE FROM cart WHERE c_id = ? AND id = ? AND pro_id = ?";			//cart table 에 접속
 	            pstmtDelete = conn.prepareStatement(deleteSql);
 
 	            // 선택한 제품들을 삭제
 	            for (String productId : productIds) {
 	                pstmtDelete.setString(1, userId);
 	                pstmtDelete.setString(2, productId);
+//	                pstmtDelete.setString(3, pro_id);	                
 	                pstmtDelete.executeUpdate();
 	            }
 
