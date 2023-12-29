@@ -48,7 +48,7 @@ public class MyPage extends JDialog {
 	public final String url_mysql = ShareVar.dbName;
 	public final String id_mysql = ShareVar.dbUser;
 	public final String pw_mysql = ShareVar.dbPass;
-	// public final String id = ShareVar.id;
+	public final String inputID = ShareVar.id;
 	
 	// Table
 		private final DefaultTableModel outer_Table = new DefaultTableModel();
@@ -242,7 +242,7 @@ public class MyPage extends JDialog {
 		
  //------------------------------------------------------	
 	//테스트 위한 사용자 데이터 불러오기.
- 			
+ 	/*		
 	private void searchAction() {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
@@ -281,20 +281,17 @@ public class MyPage extends JDialog {
 	    }
 	}
 	
-	
-	//------검색해서 불러오기---------------
-	
-	/*
+	*/
 	
 	
-	
-	
-	
+	//------입력된 정보 불러오기---------------
+		
+		
 	private void searchAction() {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
-	    String inputID = id;
+	    String userID = inputID; 
 
 	    try {
 	        Class.forName("com.mysql.cj.jdbc.Driver");
@@ -302,7 +299,7 @@ public class MyPage extends JDialog {
 
 	        String sql = "SELECT * FROM shoeskiosk.customer WHERE id=?";
 	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, inputID); // 사용자로부터 입력받은 ID를 설정
+	        pstmt.setString(1, userID); // 사용자로부터 입력받은 ID를 설정
 
 	        rs = pstmt.executeQuery();
 
@@ -333,7 +330,7 @@ public class MyPage extends JDialog {
 	    }
 	}
 
-	*/
+	
 	
 	
 	
