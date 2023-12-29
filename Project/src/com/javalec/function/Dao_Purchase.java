@@ -218,11 +218,11 @@ public class Dao_Purchase {
 	            pstmtDelete = conn.prepareStatement(deleteSql);
 
 	            // 선택한 제품들을 삭제
-	            	
-	                pstmtDelete.setString(1, id);
+	            
+	                pstmtDelete.setString(1, id);   
 	                pstmtDelete.executeUpdate();
 	            
-
+	                		
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        } finally {

@@ -16,6 +16,7 @@ import com.javalec.function.Dao_Purchase;
 import com.javalec.function.Dto_Product;
 import com.javalec.function.Dto_Purchase;
 import com.mysql.cj.exceptions.RSAException;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Delete;
 import com.mysql.cj.xdevapi.Statement;
 
 import javax.swing.JScrollPane;
@@ -102,7 +103,8 @@ public class Purchase extends JDialog {
 	private JTable getInnerTable() {
 		if (innerTable == null) {
 			innerTable = new JTable(outer_Table);
-			innerTable.setModel(outer_Table);			
+			innerTable.setModel(outer_Table);		
+		//int tablecount = innerTable.getSelectedRow();
 			innerTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			innerTable.addMouseListener(new MouseAdapter() {
 				
@@ -162,26 +164,29 @@ public class Purchase extends JDialog {
 //		if (selectedRow != -1) {
 //			outer_Table.removeRow(selectedRow);						//해당 열 삭제
 //}			
-		int[] selectedRows = innerTable.getSelectedRows();
-	    int rowCount = selectedRows.length;
-	    if (rowCount > 0) {
-	        ArrayList<String> productIds = new ArrayList<>();
-	        for (int selectedRow : selectedRows) {
-	            String productId = (String) outer_Table.getValueAt(selectedRow, 0);
-	            productIds.add(productId);
-	            
-	        }
-
+//		int[] selectedRows = innerTable.getSelectedRows();
+//	    int rowCount = selectedRows.length;
+//	    if (rowCount > 0) {
+//	        ArrayList<String> productIds = new ArrayList<>();
+//	        for (int selectedRow : selectedRows) {
+//	            String productId = (String) outer_Table.getValueAt(selectedRow, 0);
+//	            productIds.add(productId);
+//	            
+//	        }
+			
+	    	int tablecount = innerTable.getSelectedRowCount();
+	    					
+	    	
+	    					
 	        Dao_Purchase daoPurchase = new Dao_Purchase();
-//	    수정   daoPurchase.deleteSelectedItems(userId, productIds);     
-	        daoPurchase.deleteSelectedItems( ); 
-	        																		// 삭제 후 테이블 새로고침
+  	        daoPurchase.deleteSelectedItems(); 
+	        														// 삭제 후 테이블 새로고침
 	        tableInit();
 	    }
-		}
+		
 
 	
-	    
+	    //     tablecount(i). 
 		
 	
 		 
@@ -266,7 +271,7 @@ public class Purchase extends JDialog {
 		outer_Table.addColumn("색상");
 		outer_Table.addColumn("가격");
 		outer_Table.addColumn("수량");
-		outer_Table.setColumnCount(5); 
+		outer_Table.setColumnCount(6); 
 				//제품명
 				int colNo =0;
 				TableColumn col = innerTable.getColumnModel().getColumn(colNo);
