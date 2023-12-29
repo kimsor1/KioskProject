@@ -265,7 +265,7 @@ public class Purchase extends JDialog {
 		
 	
 		
-		outer_Table.addColumn("No.");
+		outer_Table.addColumn("No");
 		outer_Table.addColumn("제품명");
 		outer_Table.addColumn("사이즈");
 		outer_Table.addColumn("색상");
@@ -275,12 +275,12 @@ public class Purchase extends JDialog {
 				//제품명
 				int colNo =0;
 				TableColumn col = innerTable.getColumnModel().getColumn(colNo);
-				int width= 100;		
+				int width= 40;		
 				col.setPreferredWidth(width);
 				//제품명
 				 colNo =0;
 				   col = innerTable.getColumnModel().getColumn(colNo);
-		         width= 100;
+		         width= 150;
 				col.setPreferredWidth(width);
 				//사이즈
 				 colNo =1;
@@ -305,9 +305,9 @@ public class Purchase extends JDialog {
 				
 				
 				
-//				int i = outer_Table.getRowCount();
-//				for (int j = 0; j < i; j++) {
-//					outer_Table.removeRow(0);
+				int i = outer_Table.getRowCount();
+				for (int j = 0; j < i; j++) {
+					outer_Table.removeRow(0);
 			
 			
 				
