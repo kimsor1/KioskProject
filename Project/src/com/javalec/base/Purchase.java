@@ -78,6 +78,7 @@ public class Purchase extends JDialog {
 			@Override
 			public void windowActivated(WindowEvent e) {
 			 tableInit();
+			 searchAction();
 				
 			}
 		});
@@ -261,6 +262,7 @@ public class Purchase extends JDialog {
 
 	private String userId = "your_user_id";					//사용자 아이디 초기값
 	private JLabel lblNewLabel;
+	
 	public void tableInit() {				//장바구니 Table
 		
 	
@@ -312,6 +314,8 @@ public class Purchase extends JDialog {
 			
 				
 				}
+	}
+	private void searchAction() {
 				Dao_Purchase dao = new Dao_Purchase();
 				ArrayList<Dto_Purchase> dtoList = dao.cartList(); //유저 아이디를 받아서 그 유저장바구니만 출력
 						   		
@@ -326,7 +330,7 @@ public class Purchase extends JDialog {
 					    
 
 
-					    for (int c = 0; c < dtoList.size(); i++ ) {
+					    for (int i = 0; i < dtoList.size(); i++ ) {
 							String id = Integer.toString(dtoList.get(i).getPro_id());
 							String size = Integer.toString(dtoList.get(i).getSize());
 							String price = Integer.toString(dtoList.get(i).getSales_price());
@@ -347,9 +351,9 @@ public class Purchase extends JDialog {
 				     
 					
 //				}
+	}
 				
 		
-	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("");
