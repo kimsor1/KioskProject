@@ -168,7 +168,7 @@ public class MyPage extends JDialog {
 		lbBack.setVerticalAlignment(SwingConstants.TOP);
 		lbBack.setHorizontalAlignment(SwingConstants.CENTER);
 		lbBack.setFont(new Font("Lucida Grande", Font.PLAIN, 5));
-		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/findIdBack.png")));
+		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/MyPage.png")));
 		lbBack.setBounds(0, 0, 512, 655);
 		getContentPane().add(lbBack);
 
