@@ -336,6 +336,9 @@ public class ProductDetail extends JDialog {
 				Dao_Cart cart = new Dao_Cart(ShareVar.id, ShareVar.productSeq, intsize, color, opp);
 				cart.addCart();
 
+				cart.searchStock();
+			} else {
+
 			}
 		}
 	}

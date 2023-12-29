@@ -12,10 +12,12 @@ public class ShareVar {
 	public static String productName = "";
 	public static int productPrice = 0;
 	public static int productStock = 0;
-	
-	
+
 	// ID, Pw
 	public static String id = "";
 	public static String pw = "";
-	
+
+	// ----------- 장바구니에 들어있는 상품 갯수 ----------------- //
+	public static int CartQuantity = 0;
+
 }
