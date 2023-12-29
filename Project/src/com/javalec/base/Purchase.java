@@ -42,7 +42,6 @@ import javax.swing.ImageIcon;
 public class Purchase extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
 	private JScrollPane scrollPane;
 	private JTable innerTable;
 	private JButton btnback;
@@ -73,7 +72,7 @@ public class Purchase extends JDialog {
 	 * Create the dialog.
 	 */	
 	public Purchase() {
-		getContentPane().setBackground(new Color(0, 0, 0));
+		getContentPane().setBackground(new Color(255, 255, 255));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
@@ -85,27 +84,12 @@ public class Purchase extends JDialog {
 		setTitle("장바구니 화면");
 		setBounds(100, 100, 512, 683);
 		getContentPane().setLayout(null);
-		getContentPane().add(getTextField());
 		getContentPane().add(getScrollPane());
 		getContentPane().add(getBtnback());
 		getContentPane().add(getBtnbuy());
 		getContentPane().add(getBtndelete());
 		getContentPane().add(getLblNewLabel());
 
-	}
-
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setEditable(false);
-			textField.setForeground(new Color(255, 255, 255));
-			textField.setBackground(Color.BLACK);
-			textField.setHorizontalAlignment(SwingConstants.CENTER);
-			textField.setText("장바구니");
-			textField.setBounds(126, 74, 266, 49);
-			textField.setColumns(10);
-		}
-		return textField;
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
@@ -118,6 +102,7 @@ public class Purchase extends JDialog {
 	private JTable getInnerTable() {
 		if (innerTable == null) {
 			innerTable = new JTable(outer_Table);
+			innerTable.setModel(outer_Table);			
 			innerTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			innerTable.addMouseListener(new MouseAdapter() {
 				
@@ -189,7 +174,7 @@ public class Purchase extends JDialog {
 
 	        Dao_Purchase daoPurchase = new Dao_Purchase();
 //	    수정   daoPurchase.deleteSelectedItems(userId, productIds);     
-	        daoPurchase.deleteSelectedItems(userId, productIds); 
+	        daoPurchase.deleteSelectedItems( ); 
 	        																		// 삭제 후 테이블 새로고침
 	        tableInit();
 	    }
@@ -281,29 +266,29 @@ public class Purchase extends JDialog {
 		outer_Table.addColumn("색상");
 		outer_Table.addColumn("가격");
 		outer_Table.addColumn("수량");
-		outer_Table.setColumnCount(6); 
-				//No.	 	
-			    int colNo =0;
-			     TableColumn col = innerTable.getColumnModel().getColumn(colNo);
-			    int width= 20;
-				 col.setPreferredWidth(width);
+		outer_Table.setColumnCount(5); 
 				//제품명
-				 colNo =1;
-				  col = innerTable.getColumnModel().getColumn(colNo);
-			     width= 100;
+				int colNo =0;
+				TableColumn col = innerTable.getColumnModel().getColumn(colNo);
+				int width= 100;		
+				col.setPreferredWidth(width);
+				//제품명
+				 colNo =0;
+				   col = innerTable.getColumnModel().getColumn(colNo);
+		         width= 100;
 				col.setPreferredWidth(width);
 				//사이즈
-				 colNo =2;
+				 colNo =1;
 				  col = innerTable.getColumnModel().getColumn(colNo);
 			     width= 50;
 				col.setPreferredWidth(width);
 				//색상
-				 colNo =3;
+				 colNo =2;
 				  col = innerTable.getColumnModel().getColumn(colNo);
 				 width= 30;
 				col.setPreferredWidth(width);
 				//가격
-				 colNo =4;
+				 colNo =3;
 				  col = innerTable.getColumnModel().getColumn(colNo);
 				 width= 60;
 				col.setPreferredWidth(width);
@@ -354,8 +339,8 @@ public class Purchase extends JDialog {
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("");
-			lblNewLabel.setIcon(new ImageIcon("/Users/tj/Downloads/제목을-입력해주세요_-001-2.png"));
-			lblNewLabel.setBounds(126, 122, 279, 62);
+			lblNewLabel.setIcon(new ImageIcon("/Users/tj/Downloads/Group 36.png"));
+			lblNewLabel.setBounds(0, 0, 512, 683);
 		}
 		return lblNewLabel;
 	}

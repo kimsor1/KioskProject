@@ -48,6 +48,7 @@ public class MyPage extends JDialog {
 	public final String url_mysql = ShareVar.dbName;
 	public final String id_mysql = ShareVar.dbUser;
 	public final String pw_mysql = ShareVar.dbPass;
+	// public final String id = ShareVar.id;
 	
 	// Table
 		private final DefaultTableModel outer_Table = new DefaultTableModel();
@@ -161,8 +162,18 @@ public class MyPage extends JDialog {
 				returntoProduct(); // input********************
 			}
 		});
-		btnOk.setBounds(187, 563, 118, 41);
+		btnOk.setBounds(87, 564, 118, 41);
 		getContentPane().add(btnOk);
+		
+		JButton btnExit = new JButton("회원탈퇴");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exitAction(); //input***********
+			}
+		});
+		btnExit.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		btnExit.setBounds(314, 564, 118, 41);
+		getContentPane().add(btnExit);
 		
 		JLabel lbBack = new JLabel("");
 		lbBack.setVerticalAlignment(SwingConstants.TOP);
@@ -213,7 +224,7 @@ public class MyPage extends JDialog {
 	
 	// Table 컬럼을 정의하고 data 내용을 초기화 한다.
 	
-	
+
 	private void tableInit() {
 	   outer_Table.addColumn("ID");
 	   outer_Table.addColumn("이름");
@@ -226,14 +237,12 @@ public class MyPage extends JDialog {
 	   for (int j = 0; j < i; j++) {
 		   outer_Table.removeRow(0);
 	   }
-	}
+	}	
 	
 		
  //------------------------------------------------------	
-	
 	//테스트 위한 사용자 데이터 불러오기.
-	
-			
+ 			
 	private void searchAction() {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
@@ -245,7 +254,7 @@ public class MyPage extends JDialog {
 
 	        String sql = "SELECT * FROM shoeskiosk.customer WHERE id=?";
 	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, "aaa"); // 원하는 아이디를 설정
+	        pstmt.setString(1, "ggg"); // 원하는 아이디를 설정
 
 	        rs = pstmt.executeQuery();
 
@@ -271,7 +280,60 @@ public class MyPage extends JDialog {
 	        }
 	    }
 	}
+	
+	
 	//------검색해서 불러오기---------------
+	
+	/*
+	
+	
+	
+	
+	
+	private void searchAction() {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String inputID = id;
+
+	    try {
+	        Class.forName("com.mysql.cj.jdbc.Driver");
+	        conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
+
+	        String sql = "SELECT * FROM shoeskiosk.customer WHERE id=?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, inputID); // 사용자로부터 입력받은 ID를 설정
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            // 데이터베이스에서 가져온 정보를 UI에 설정
+	            tfID.setText(rs.getString("id"));
+	            tfName.setText(rs.getString("name"));
+	            tfPhone.setText(rs.getString("phone"));
+	            tfAddress.setText(rs.getString("address"));
+	            tfPassword.setText(rs.getString("password"));
+	        } else {
+	            // 해당 ID에 대한 데이터가 없을 경우 처리
+	            // 예: 메시지 출력 또는 필요한 작업 수행
+	            System.out.println("해당 ID에 대한 데이터가 없습니다.");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
+
+	*/
 	
 	
 	
@@ -422,6 +484,51 @@ public class MyPage extends JDialog {
 					
    }// end of passwordUpdate()
 		
+ //------------회원탈퇴-----------------------------
+	
+	private void exitAction() {
+		PreparedStatement ps = null;
+		Connection conn = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		    conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
+		    
+		   String query1 = "delete from customer ";
+		   String query2 = " where id= ?";
+		  		   
+		   ps = conn.prepareStatement(query1 + query2);
+		   ps.setString(1, tfID.getText());
+		   
+		   		   
+		   int updatedRows = ps.executeUpdate();
+
+	        if (updatedRows > 0) {
+	            JOptionPane.showMessageDialog(null, "탈퇴 하였습니다.");
+	        } else {
+	            JOptionPane.showMessageDialog(null, "탈퇴에 실패했습니다.");
+	        }
+		   		   
+		   ps.executeUpdate();
+		   conn.close();
+		   
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		Main window = new Main();
+		window.main(null);
+		
+		this.setVisible(false);
+			
+			
+	}	
+  
+	// end of exitActiion()
+		
+		
+//-------------------------------------	
+	
+	
 	//  확인 click 시 메일 환면으로 이동.
 	/*
 	private void returntoMain() {
@@ -439,5 +546,4 @@ public class MyPage extends JDialog {
 			p.setVisible(true);
 			this.setVisible(false);
 		}
-		
  }	//-----end------------
