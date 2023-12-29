@@ -226,7 +226,7 @@ public class Dao_Product {
 	}
 
 	// 선택한 스펙에 따라 데이터를 불러오는 메소드
-	public Dto_Product searchStock(int size, String color) {
+	public void searchStock(int size, String color) {
 
 		Dto_Product dto = null;
 
@@ -265,7 +265,7 @@ public class Dao_Product {
 			e.printStackTrace(); // 어디서 오류가 났는지 출력
 		}
 
-		return dto;
+
 	}
 
 }

@@ -165,6 +165,13 @@ public class Product extends JDialog {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					tableClick();
+					innerTable.setDefaultEditor(Object.class, null);
+
+					if (e.getClickCount() == 2) {
+						ProductDetail detail = new ProductDetail();
+						detail.setVisible(true);
+						dispose();
+					}
 				}
 			});
 			innerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -215,6 +222,7 @@ public class Product extends JDialog {
 		}
 		return btnMyPage;
 	}
+
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("");
@@ -223,7 +231,7 @@ public class Product extends JDialog {
 		}
 		return lblNewLabel_2;
 	}
-	
+
 	// ---------- Method
 
 	private void tableInit() {
