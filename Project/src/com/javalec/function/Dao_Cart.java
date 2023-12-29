@@ -39,27 +39,25 @@ public class Dao_Cart {
 	public void searchStock() {
 
 		Dto_Product dto = null;
+		
+		String color = "white";
+		int size = 230;
+		ShareVar.id = "aaa";
 
 		String A = "select sum(c.quantity) as quantity ";
 		String B = "from cart as c ";
-		String C = "where c.color = '" + color + "' and c.size = " + size + " and c.pro_id = '" + ShareVar.id + "' ";
+		String C = "where c.color = '" + color + "' and c.size = " + size + " and c.pro_id = '" + ShareVar.productSeq + "' and c.c_id = '"+ShareVar.id+"' ";
 		String D = "group by c.c_id, c.pro_id, c.size, c.color";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
 			Statement stmt_mysql = conn_mysql.createStatement();
 			
-			System.out.println("1");
-			
 			ResultSet rs = stmt_mysql.executeQuery(A+B+C+D);
 			
-			System.out.println("2");
 			while (rs.next()) {
 				ShareVar.CartQuantity = rs.getInt(1);
-				System.out.println("3");
 			}
-			
-			JOptionPane.showMessageDialog(null, ShareVar.CartQuantity+"입니다");
 			
 			conn_mysql.close();
 

@@ -310,19 +310,24 @@ public class ProductDetail extends JDialog {
 
 	private void stockCheck() {
 
+		// 구매수량 칸이 비어있을 때
 		if (tfOpp.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "장바구니에 담을 수량을 입력해주세요.");
-		} else {
+		} 
+		// 구매수량 칸이 비어있지 않을 때
+		else {
+			
+			// 구매수량의 갯수가 보다 작거나 같을 때
 			if (Integer.parseInt(tfOpp.getText()) <= 0) {
 				JOptionPane.showMessageDialog(null, "장바구니에 담을 수량을 입력해주세요.");
 				tfOpp.setText("");
 			}
-
+			// 구매수량의 갯수가 재고보다 많을 때
 			else if (Integer.parseInt(tfOpp.getText()) > Integer.parseInt(tfPstock.getText())) {
 				JOptionPane.showMessageDialog(null, "구매하시려는 수량이 재고보다 많습니다.");
 				tfOpp.setText("");
 			}
-
+			// 구매수량의 갯수가 재고보다 적고 0보다 클 때
 			else if (Integer.parseInt(tfOpp.getText()) <= Integer.parseInt(tfPstock.getText())
 					&& Integer.parseInt(tfOpp.getText()) > 0) {
 
@@ -334,11 +339,15 @@ public class ProductDetail extends JDialog {
 				int opp = Integer.parseInt(tfOpp.getText());
 
 				Dao_Cart cart = new Dao_Cart(ShareVar.id, ShareVar.productSeq, intsize, color, opp);
-				cart.addCart();
-
 				cart.searchStock();
-			} else {
-
+				
+				// 장바구니에 담겨있는 갯수와 구매수량 비교
+				if (ShareVar.CartQuantity + opp <= ShareVar.productStock) {
+					cart.addCart();
+				} else {
+					JOptionPane.showMessageDialog(null, "장바구니에 담은 수량이 상품의 재고 보다 많습니다.");
+					tfOpp.setText("");
+				}
 			}
 		}
 	}
