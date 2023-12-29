@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.javalec.function.Dao_Login;
 import com.javalec.function.Dto_Login;
+import com.javalec.function.ShareVar;
 
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -159,6 +160,9 @@ public class Login extends JDialog {
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (login()) {
+						Dto_Login dto = new Dto_Login();
+						ShareVar.id =  tfId.getText();
+						ShareVar.pw = strPass();
 						moveProduct();
 					}
 						
@@ -264,9 +268,9 @@ public class Login extends JDialog {
 				@Override
 				public void focusLost(FocusEvent e) {
 					// 비밀번호가 입력 됬다면 tf 가리기 입력되지 않았다면 pw필드 가리기
-					char[] pass = pw.getPassword();
-					String sPass = new String(pass);
-					if (sPass.length() > 0) {
+//					char[] pass = pw.getPassword();
+//					String sPass = new String(pass);
+					if (strPass().length() > 0) {
 						tfPw.setVisible(false);
 						pw.setVisible(true);
 					}
@@ -326,6 +330,14 @@ public class Login extends JDialog {
 		
 		p.setVisible(true);
 		this.setVisible(false);
+	}
+	
+	// 캐릭터 비밀번호를 스트링으로 변환
+	private String strPass() {
+		char[] pass = pw.getPassword();
+		String sPass = new String(pass);
+		
+		return sPass;
 	}
 	
 	// id, pw가 입력이 되지 않았다면 입력하라고 나오는 알림

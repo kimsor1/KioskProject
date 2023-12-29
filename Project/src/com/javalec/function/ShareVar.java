@@ -12,5 +12,10 @@ public class ShareVar {
 	public static String productName = "";
 	public static int productPrice = 0;
 	public static int productStock = 0;
+	
+	
+	// ID, Pw
+	public static String id;
+	public static String pw;
 
 }
