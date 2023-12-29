@@ -128,6 +128,12 @@ public class Product extends JDialog {
 	private JButton getBtnbasket() {
 		if (btnbasket == null) {
 			btnbasket = new JButton("장바구니");
+			btnbasket.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Purchase pc = new Purchase();
+					pc.setVisible(true);
+				}
+			});
 			btnbasket.setBounds(110, 606, 117, 35);
 		}
 		return btnbasket;
@@ -203,7 +209,7 @@ public class Product extends JDialog {
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("New label");
-			lblNewLabel_1.setIcon(new ImageIcon("/Users/sori/Downloads/제목을-입력해주세요_-001-2.png"));
+			lblNewLabel_1.setIcon(new ImageIcon(Product.class.getResource("/com/javalec/images/Logo.png")));
 			lblNewLabel_1.setBounds(124, 30, 268, 73);
 		}
 		return lblNewLabel_1;

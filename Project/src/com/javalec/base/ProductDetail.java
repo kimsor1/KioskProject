@@ -221,7 +221,7 @@ public class ProductDetail extends JDialog {
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("");
-			lblNewLabel.setIcon(new ImageIcon("/Users/sori/Downloads/제목을-입력해주세요_-001-2.png"));
+			lblNewLabel.setIcon(new ImageIcon(ProductDetail.class.getResource("/com/javalec/images/Logo.png")));
 			lblNewLabel.setBounds(128, 6, 250, 83);
 		}
 		return lblNewLabel;
