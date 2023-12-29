@@ -45,7 +45,7 @@ public class Product extends JDialog {
 	private final DefaultTableModel outerTable = new DefaultTableModel();
 	private JComboBox cbSort;
 	private JLabel lblNewLabel;
-	private JButton btnNewButton;
+	private JButton btnMyPage;
 	private JLabel lblNewLabel_2;
 
 	/**
@@ -89,7 +89,7 @@ public class Product extends JDialog {
 		getContentPane().add(getBtndetail());
 		getContentPane().add(getCbSort());
 		getContentPane().add(getLblNewLabel());
-		getContentPane().add(getBtnNewButton());
+		getContentPane().add(getBtnMyPage());
 		getContentPane().add(getLblNewLabel_2());
 
 	}
@@ -128,8 +128,9 @@ public class Product extends JDialog {
 
 	private JButton getBtnbasket() {
 		if (btnbasket == null) {
-			btnbasket = new JButton("장바구니");
+			btnbasket = new JButton("");
 			btnbasket.setFont(new Font("Lucida Grande", Font.PLAIN, 8));
+			btnbasket.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/shopping-cart.png")));
 			btnbasket.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Purchase pc = new Purchase();
@@ -200,12 +201,13 @@ public class Product extends JDialog {
 		return lblNewLabel;
 	}
 
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("My");
-			btnNewButton.setBounds(28, 20, 40, 40);
+	private JButton getBtnMyPage() {
+		if (btnMyPage == null) {
+			btnMyPage = new JButton("");
+			btnMyPage.setBounds(28, 20, 40, 40);
+			btnMyPage.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/user.png")));
 		}
-		return btnNewButton;
+		return btnMyPage;
 	}
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
