@@ -90,7 +90,7 @@ public class Purchase extends JDialog {
 		getContentPane().add(getBtnback());
 		getContentPane().add(getBtnbuy());
 		getContentPane().add(getBtndelete());
-		getContentPane().add(getLblNewLabel());
+		getContentPane().add(getLbBackImage());
 
 	}
 	private JScrollPane getScrollPane() {
@@ -261,7 +261,7 @@ public class Purchase extends JDialog {
 	
 
 	private String userId = "your_user_id";					//사용자 아이디 초기값
-	private JLabel lblNewLabel;
+	private JLabel lbBackImage;
 	
 	public void tableInit() {				//장바구니 Table
 		
@@ -354,12 +354,12 @@ public class Purchase extends JDialog {
 	}
 				
 		
-	private JLabel getLblNewLabel() {
-		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("");
-			lblNewLabel.setIcon(new ImageIcon("/Users/tj/Downloads/Group 36.png"));
-			lblNewLabel.setBounds(0, 0, 512, 683);
+	private JLabel getLbBackImage() {
+		if (lbBackImage == null) {
+			lbBackImage = new JLabel("");
+			lbBackImage.setBounds(0, 0, 512, 683);
+			lbBackImage.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/purchaseBackImage.png")));
 		}
-		return lblNewLabel;
+		return lbBackImage;
 	}
 } //End
