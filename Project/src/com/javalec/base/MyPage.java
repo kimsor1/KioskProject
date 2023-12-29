@@ -48,8 +48,8 @@ public class MyPage extends JDialog {
 	public final String pw_mysql = ShareVar.dbPass;
 	
 	// Table
-		private final DefaultTableModel outer_Table = new DefaultTableModel();
-		private JPasswordField tfPassword;
+	private final DefaultTableModel outer_Table = new DefaultTableModel();
+	private JPasswordField tfPassword;
 		
 	/**
 	 * Launch the application.
@@ -75,7 +75,7 @@ public class MyPage extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			@Override  // input***************
 			public void windowActivated(WindowEvent e) {
-				 tableInit();
+//				 tableInit();
 				 searchAction();
 			}
 		});
@@ -158,7 +158,7 @@ public class MyPage extends JDialog {
 		lbBack.setHorizontalAlignment(SwingConstants.CENTER);
 		lbBack.setFont(new Font("Lucida Grande", Font.PLAIN, 5));
 		lbBack.setVerticalAlignment(SwingConstants.TOP);
-		lbBack.setIcon(new ImageIcon("/Users/tj/Downloads/e871853b769093c1f990c84aeeb1bd5a.jpg"));
+//		lbBack.setIcon(new ImageIcon("/Users/tj/Downloads/e871853b769093c1f990c84aeeb1bd5a.jpg"));
 		lbBack.setBounds(0, 0, 512, 655);
 		getContentPane().add(lbBack);
 
@@ -201,19 +201,19 @@ public class MyPage extends JDialog {
 	
 	// Table 컬럼을 정의하고 data 내용을 초기화 한다.
 	
-	private void tableInit() {
-	   outer_Table.addColumn("ID");
-	   outer_Table.addColumn("이름");
-	   outer_Table.addColumn("전화번호");
-	   outer_Table.addColumn("주소");
-	   outer_Table.addColumn("비밀번호");
-	   outer_Table.setColumnCount(5);
-			
-	   int i = outer_Table.getRowCount();
-	   for (int j = 0; j < i; j++) {
-		   outer_Table.removeRow(0);
-	   }
-	}
+//	private void tableInit() {
+//	   outer_Table.addColumn("ID");
+//	   outer_Table.addColumn("이름");
+//	   outer_Table.addColumn("전화번호");
+//	   outer_Table.addColumn("주소");
+//	   outer_Table.addColumn("비밀번호");
+//	   outer_Table.setColumnCount(5);
+//			
+//	   int i = outer_Table.getRowCount();
+//	   for (int j = 0; j < i; j++) {
+//		   outer_Table.removeRow(0);
+//	   }
+//	}
 	
 	//테스트 위한 사용자 데이터 불러오기.
 	
@@ -238,7 +238,7 @@ public class MyPage extends JDialog {
 	            tfName.setText(rs.getString("name"));
 	            tfPhone.setText(rs.getString("phone"));
 	            tfAddress.setText(rs.getString("address"));
-	            tfPassword.setText(rs.getString("password"));
+	            tfPassword.setText(rs.getString("pw"));
 	        } 
 
 	    } catch (Exception e) {
