@@ -24,6 +24,8 @@ import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
+
+import com.javalec.base.Product;
 import com.javalec.function.*;
 import com.mysql.cj.xdevapi.Statement;
 import javax.swing.JPasswordField;
@@ -48,8 +50,8 @@ public class MyPage extends JDialog {
 	public final String pw_mysql = ShareVar.dbPass;
 	
 	// Table
-	private final DefaultTableModel outer_Table = new DefaultTableModel();
-	private JPasswordField tfPassword;
+		private final DefaultTableModel outer_Table = new DefaultTableModel();
+		private JTextField tfPassword;
 		
 	/**
 	 * Launch the application.
@@ -75,7 +77,7 @@ public class MyPage extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			@Override  // input***************
 			public void windowActivated(WindowEvent e) {
-//				 tableInit();
+				 tableInit();
 				 searchAction();
 			}
 		});
@@ -89,76 +91,84 @@ public class MyPage extends JDialog {
 		getContentPane().add(getTfName());
 		
 		JLabel lblPhone = new JLabel("전화번호 :");
+		lblPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPhone.setForeground(new Color(254, 255, 255));
-		lblPhone.setBounds(34, 187, 61, 16);
+		lblPhone.setBounds(36, 338, 69, 16);
 		getContentPane().add(lblPhone);
 		
 		tfPhone = new JTextField();
 		tfPhone.setColumns(10);
-		tfPhone.setBounds(115, 182, 130, 26);
+		tfPhone.setBounds(117, 327, 158, 41);
 		getContentPane().add(tfPhone);
 		
 		JButton btnPhone = new JButton("수정");
+		btnPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		btnPhone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				   phoneUpdate(); // input*************
 			}
 		});
-		btnPhone.setBounds(274, 182, 61, 29);
+		btnPhone.setBounds(332, 327, 69, 41);
 		getContentPane().add(btnPhone);
 		
 		JLabel lblAddress = new JLabel("주 소 :");
+		lblAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblAddress.setForeground(new Color(254, 255, 255));
-		lblAddress.setBounds(34, 255, 61, 16);
+		lblAddress.setBounds(36, 400, 61, 16);
 		getContentPane().add(lblAddress);
 		
 		tfAddress = new JTextField();
 		tfAddress.setColumns(10);
-		tfAddress.setBounds(115, 250, 250, 26);
+		tfAddress.setBounds(118, 389, 262, 41);
 		getContentPane().add(tfAddress);
 		
 		JButton btnAddress = new JButton("수정");
+		btnAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		btnAddress.setForeground(new Color(0, 0, 0));
 		btnAddress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addressUpdate(); // input******************
 			}
 		});
-		btnAddress.setBounds(370, 250, 61, 29);
+		btnAddress.setBounds(408, 389, 69, 41);
 		getContentPane().add(btnAddress);
 		
 		JLabel lblPassword = new JLabel("비밀번호 :");
+		lblPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPassword.setForeground(new Color(254, 255, 255));
-		lblPassword.setBounds(34, 324, 61, 16);
+		lblPassword.setBounds(36, 469, 77, 16);
 		getContentPane().add(lblPassword);
 		
-		tfPassword = new JPasswordField();
-		tfPassword.setBounds(115, 319, 124, 26);
-		getContentPane().add(tfPassword);
-		
 		JButton btnPassword = new JButton("수정");
+		btnPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		btnPassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				passwordUpdate(); // input**************
 			}
 		});
-		btnPassword.setBounds(274, 319, 61, 29);
+		
+		tfPassword = new JTextField();
+		tfPassword.setColumns(10);
+		tfPassword.setBounds(117, 458, 150, 41);
+		getContentPane().add(tfPassword);
+		btnPassword.setBounds(332, 458, 69, 41);
 		getContentPane().add(btnPassword);
 		
-		JButton btnOk = new JButton("Main");
+		JButton btnOk = new JButton("돌아가기");
+		btnOk.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				returntoMain(); // input********************
+				returntoProduct(); // input********************
 			}
 		});
-		btnOk.setBounds(184, 531, 96, 29);
+		btnOk.setBounds(187, 563, 118, 41);
 		getContentPane().add(btnOk);
 		
 		JLabel lbBack = new JLabel("");
+		lbBack.setVerticalAlignment(SwingConstants.TOP);
 		lbBack.setHorizontalAlignment(SwingConstants.CENTER);
 		lbBack.setFont(new Font("Lucida Grande", Font.PLAIN, 5));
-		lbBack.setVerticalAlignment(SwingConstants.TOP);
-//		lbBack.setIcon(new ImageIcon("/Users/tj/Downloads/e871853b769093c1f990c84aeeb1bd5a.jpg"));
+		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/findIdBack.png")));
 		lbBack.setBounds(0, 0, 512, 655);
 		getContentPane().add(lbBack);
 
@@ -167,15 +177,16 @@ public class MyPage extends JDialog {
 	private JLabel getLblID() {
 		if (lblID == null) {
 			lblID = new JLabel("아이디 :");
+			lblID.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 			lblID.setForeground(new Color(254, 255, 255));
-			lblID.setBounds(36, 82, 61, 16);
+			lblID.setBounds(36, 207, 61, 16);
 		}
 		return lblID;
 	}
 	private JTextField getTfID() {
 		if (tfID == null) {
 			tfID = new JTextField();
-			tfID.setBounds(117, 77, 130, 26);
+			tfID.setBounds(117, 196, 150, 41);
 			tfID.setColumns(10);
 		}
 		return tfID;
@@ -183,8 +194,9 @@ public class MyPage extends JDialog {
 	private JLabel getLblName() {
 		if (lblName == null) {
 			lblName = new JLabel("이름 :");
+			lblName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 			lblName.setForeground(new Color(254, 255, 255));
-			lblName.setBounds(36, 135, 61, 16);
+			lblName.setBounds(36, 271, 61, 16);
 		}
 		return lblName;
 	}
@@ -192,7 +204,7 @@ public class MyPage extends JDialog {
 		if (tfName == null) {
 			tfName = new JTextField();
 			tfName.setColumns(10);
-			tfName.setBounds(117, 130, 130, 26);
+			tfName.setBounds(117, 260, 150, 41);
 		}
 		return tfName;
 	}
@@ -201,22 +213,27 @@ public class MyPage extends JDialog {
 	
 	// Table 컬럼을 정의하고 data 내용을 초기화 한다.
 	
-//	private void tableInit() {
-//	   outer_Table.addColumn("ID");
-//	   outer_Table.addColumn("이름");
-//	   outer_Table.addColumn("전화번호");
-//	   outer_Table.addColumn("주소");
-//	   outer_Table.addColumn("비밀번호");
-//	   outer_Table.setColumnCount(5);
-//			
-//	   int i = outer_Table.getRowCount();
-//	   for (int j = 0; j < i; j++) {
-//		   outer_Table.removeRow(0);
-//	   }
-//	}
+	
+	private void tableInit() {
+	   outer_Table.addColumn("ID");
+	   outer_Table.addColumn("이름");
+	   outer_Table.addColumn("전화번호");
+	   outer_Table.addColumn("주소");
+	   outer_Table.addColumn("비밀번호");
+	   outer_Table.setColumnCount(5);
+			
+	   int i = outer_Table.getRowCount();
+	   for (int j = 0; j < i; j++) {
+		   outer_Table.removeRow(0);
+	   }
+	}
+	
+		
+ //------------------------------------------------------	
 	
 	//테스트 위한 사용자 데이터 불러오기.
 	
+			
 	private void searchAction() {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
@@ -238,7 +255,7 @@ public class MyPage extends JDialog {
 	            tfName.setText(rs.getString("name"));
 	            tfPhone.setText(rs.getString("phone"));
 	            tfAddress.setText(rs.getString("address"));
-	            tfPassword.setText(rs.getString("pw"));
+	            tfPassword.setText(rs.getString("password"));
 	        } 
 
 	    } catch (Exception e) {
@@ -254,6 +271,11 @@ public class MyPage extends JDialog {
 	        }
 	    }
 	}
+	//------검색해서 불러오기---------------
+	
+	
+	
+	
 	// -------전화번호 수정하기 -----------------------------
 		
 	private void phoneUpdate() {
@@ -361,10 +383,10 @@ public class MyPage extends JDialog {
 		    
 		    // 비밀번호 유효성 검사.
 		    
-		String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=]).{8,}$";
-		
+	     String passwordPattern ="^[가-힣a-zA-Z0-9\\s]+$";
+	  		
 		if (!tfPassword.getText().matches(passwordPattern)) {
-		    JOptionPane.showMessageDialog(null, "비밀번호는 최소 8자 이상, 대소문자, 숫자, 특수문자(@#$%^&+=)를 포함해야 합니다.");
+		    JOptionPane.showMessageDialog(null, "비밀번호를 다시 입력하세요.");
 		    tfPassword.requestFocus();
 		     return;
 		    }
@@ -401,13 +423,21 @@ public class MyPage extends JDialog {
    }// end of passwordUpdate()
 		
 	//  확인 click 시 메일 환면으로 이동.
-	
+	/*
 	private void returntoMain() {
 		Main window = new Main();
 		window.main(null);
 		
 		this.setVisible(false);
+		
 		}
-	}
+	*/
 	
-//-----end------------
+	// 확인 click 시 물건 목록으로 이동
+		private void returntoProduct() {
+			Product p = new Product();
+			p.setVisible(true);
+			this.setVisible(false);
+		}
+		
+ }	//-----end------------
