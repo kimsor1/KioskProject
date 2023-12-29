@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+import java.awt.Color;
 
 public class ProductDetail extends JDialog {
 
@@ -38,7 +40,8 @@ public class ProductDetail extends JDialog {
 	private JComboBox cbPcolor;
 	private JLabel lblNewLabel_1_3_;
 	private JTextField tfPprice;
-	private JLabel lblNewLabel;
+	private JButton btnBasket;
+	private JLabel lblNewLabel_2;
 
 	/**
 	 * Launch the application.
@@ -85,7 +88,8 @@ public class ProductDetail extends JDialog {
 		getContentPane().add(getCbPcolor());
 		getContentPane().add(getLblNewLabel_1_3_1_1());
 		getContentPane().add(getTfPprice());
-		getContentPane().add(getLblNewLabel());
+		getContentPane().add(getBtnBasket());
+		getContentPane().add(getLblNewLabel_2());
 
 	}
 
@@ -125,7 +129,7 @@ public class ProductDetail extends JDialog {
 					dispose();
 				}
 			});
-			btnBack.setBounds(186, 589, 133, 40);
+			btnBack.setBounds(280, 589, 133, 40);
 		}
 		return btnBack;
 	}
@@ -218,15 +222,15 @@ public class ProductDetail extends JDialog {
 		return tfPprice;
 	}
 
-	private JLabel getLblNewLabel() {
-		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("");
-			lblNewLabel.setIcon(new ImageIcon(ProductDetail.class.getResource("/com/javalec/images/Logo.png")));
-			lblNewLabel.setBounds(128, 6, 250, 83);
+	private JButton getBtnBasket() {
+		if (btnBasket == null) {
+			btnBasket = new JButton("장바구니 담기");
+			btnBasket.setForeground(new Color(0, 0, 0));
+			btnBasket.setBackground(SystemColor.window);
+			btnBasket.setBounds(120, 589, 133, 40);
 		}
-		return lblNewLabel;
+		return btnBasket;
 	}
-
 	// -------- Function
 
 	private void inputData() {
@@ -252,5 +256,13 @@ public class ProductDetail extends JDialog {
 		dao.searchStock(intsize, color);
 
 		inputData();
+	}
+	private JLabel getLblNewLabel_2() {
+		if (lblNewLabel_2 == null) {
+			lblNewLabel_2 = new JLabel("New label");
+			lblNewLabel_2.setIcon(new ImageIcon(ProductDetail.class.getResource("/com/javalec/images/Product.png")));
+			lblNewLabel_2.setBounds(0, -10, 530, 670);
+		}
+		return lblNewLabel_2;
 	}
 }// End

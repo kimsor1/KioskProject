@@ -29,6 +29,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Toolkit;
 
 public class Product extends JDialog {
 
@@ -45,7 +46,7 @@ public class Product extends JDialog {
 	private JComboBox cbSort;
 	private JLabel lblNewLabel;
 	private JButton btnNewButton;
-	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
 
 	/**
 	 * Launch the application.
@@ -78,7 +79,7 @@ public class Product extends JDialog {
 		setForeground(SystemColor.window);
 		setFont(new Font("Lucida Grande", Font.BOLD, 27));
 		setTitle("상품 목록");
-		getContentPane().setBackground(SystemColor.infoText);
+		getContentPane().setBackground(new Color(250, 248, 253));
 		setBounds(100, 100, 512, 683);
 		getContentPane().setLayout(null);
 		getContentPane().add(getTfSearch());
@@ -89,14 +90,14 @@ public class Product extends JDialog {
 		getContentPane().add(getCbSort());
 		getContentPane().add(getLblNewLabel());
 		getContentPane().add(getBtnNewButton());
-		getContentPane().add(getLblNewLabel_1());
+		getContentPane().add(getLblNewLabel_2());
 
 	}
 
 	private JTextField getTfSearch() {
 		if (tfSearch == null) {
 			tfSearch = new JTextField();
-			tfSearch.setBounds(105, 133, 258, 40);
+			tfSearch.setBounds(120, 134, 258, 40);
 			tfSearch.setColumns(10);
 		}
 		return tfSearch;
@@ -111,7 +112,7 @@ public class Product extends JDialog {
 					search();
 				}
 			});
-			btnSearch.setBounds(365, 134, 117, 40);
+			btnSearch.setBounds(380, 135, 90, 40);
 		}
 		return btnSearch;
 	}
@@ -119,7 +120,7 @@ public class Product extends JDialog {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(28, 226, 454, 368);
+			scrollPane.setBounds(40, 226, 430, 368);
 			scrollPane.setViewportView(getInnerTable());
 		}
 		return scrollPane;
@@ -128,13 +129,14 @@ public class Product extends JDialog {
 	private JButton getBtnbasket() {
 		if (btnbasket == null) {
 			btnbasket = new JButton("장바구니");
+			btnbasket.setFont(new Font("Lucida Grande", Font.PLAIN, 8));
 			btnbasket.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Purchase pc = new Purchase();
 					pc.setVisible(true);
 				}
 			});
-			btnbasket.setBounds(110, 606, 117, 35);
+			btnbasket.setBounds(442, 20, 40, 40);
 		}
 		return btnbasket;
 	}
@@ -150,7 +152,7 @@ public class Product extends JDialog {
 					tableClick();
 				}
 			});
-			btndetail.setBounds(275, 606, 117, 35);
+			btndetail.setBounds(200, 606, 117, 35);
 		}
 		return btndetail;
 	}
@@ -183,7 +185,7 @@ public class Product extends JDialog {
 				}
 			});
 			cbSort.setModel(new DefaultComboBoxModel(new String[] { "기본순", "낮은가격순", "높은가격순" }));
-			cbSort.setBounds(375, 187, 107, 27);
+			cbSort.setBounds(363, 187, 107, 27);
 		}
 		return cbSort;
 	}
@@ -191,9 +193,9 @@ public class Product extends JDialog {
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("제품명 : ");
-			lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+			lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 			lblNewLabel.setForeground(new Color(255, 255, 255));
-			lblNewLabel.setBounds(28, 130, 76, 40);
+			lblNewLabel.setBounds(43, 131, 76, 40);
 		}
 		return lblNewLabel;
 	}
@@ -201,18 +203,9 @@ public class Product extends JDialog {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("My");
-			btnNewButton.setBounds(442, 18, 40, 40);
+			btnNewButton.setBounds(28, 20, 40, 40);
 		}
 		return btnNewButton;
-	}
-
-	private JLabel getLblNewLabel_1() {
-		if (lblNewLabel_1 == null) {
-			lblNewLabel_1 = new JLabel("New label");
-			lblNewLabel_1.setIcon(new ImageIcon(Product.class.getResource("/com/javalec/images/Logo.png")));
-			lblNewLabel_1.setBounds(124, 30, 268, 73);
-		}
-		return lblNewLabel_1;
 	}
 	// ---------- Method
 
@@ -308,4 +301,12 @@ public class Product extends JDialog {
 		dao.tableClick(Integer.parseInt(seqno));
 	}
 
+	private JLabel getLblNewLabel_2() {
+		if (lblNewLabel_2 == null) {
+			lblNewLabel_2 = new JLabel("");
+			lblNewLabel_2.setIcon(new ImageIcon(Product.class.getResource("/com/javalec/images/Product.png")));
+			lblNewLabel_2.setBounds(0, -10, 530, 670);
+		}
+		return lblNewLabel_2;
+	}
 } // ------- END
