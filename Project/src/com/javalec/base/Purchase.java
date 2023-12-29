@@ -311,7 +311,7 @@ public class Purchase extends JDialog {
 			
 			
 				
-					    
+				}
 				Dao_Purchase dao = new Dao_Purchase();
 				ArrayList<Dto_Purchase> dtoList = dao.cartList(); //유저 아이디를 받아서 그 유저장바구니만 출력
 						   		
@@ -326,7 +326,7 @@ public class Purchase extends JDialog {
 					    
 
 
-					    for (int i = 0; i < dtoList.size(); i++ ) {
+					    for (int c = 0; c < dtoList.size(); i++ ) {
 							String id = Integer.toString(dtoList.get(i).getPro_id());
 							String size = Integer.toString(dtoList.get(i).getSize());
 							String price = Integer.toString(dtoList.get(i).getSales_price());
