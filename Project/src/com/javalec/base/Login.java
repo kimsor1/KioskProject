@@ -29,6 +29,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login extends JDialog {
 
@@ -156,7 +158,10 @@ public class Login extends JDialog {
 			btnNewButton = new JButton("로그인");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					login();
+					if (login()) {
+						moveProduct();
+					}
+						
 				}
 			});
 			btnNewButton.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
@@ -245,6 +250,16 @@ public class Login extends JDialog {
 	private JPasswordField getPw() {
 		if (pw == null) {
 			pw = new JPasswordField();
+			pw.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() == e.VK_ENTER) {
+						if (login()) {
+							moveProduct();
+						}
+					}
+				}
+			});
 			pw.addFocusListener(new FocusAdapter() {
 				@Override
 				public void focusLost(FocusEvent e) {
@@ -297,6 +312,7 @@ public class Login extends JDialog {
 		
 	}
 	
+	// 비밀번호 찾기 클릭
 	private void clickFindPw() {
 		FindPw fPw = new FindPw();
 		
@@ -304,8 +320,17 @@ public class Login extends JDialog {
 		this.setVisible(false);
 	}
 	
+	// 로그인 성공 시 물건 목록으로 이동
+	private void moveProduct() {
+		Product p = new Product();
+		
+		p.setVisible(true);
+		this.setVisible(false);
+	}
+	
 	// id, pw가 입력이 되지 않았다면 입력하라고 나오는 알림
-	private void login() {
+	private boolean login() {
+		boolean boolFlag = true;
 		String hintId = "아이디 입력";
 		String hintPw = "비밀번호 입력";
 		// char의 pw를 string으로 변환
@@ -314,32 +339,32 @@ public class Login extends JDialog {
 		
 		Dao_Login dao = new Dao_Login(tfId.getText().trim(), sPass.trim());
 		
-		
-//		if (tfId.getText().trim().equals(hintId) && tfPw.getText().trim().equals(hintPw)) {
-//			JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
-//			tfId.requestFocus();
-//		}
 		if (tfId.getText().trim().equals(hintId) && sPass.equals("")) {
 			JOptionPane.showMessageDialog(null, "아이디와 비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfId.requestFocus();
+			boolFlag = false;
 		}
 		else if (tfId.getText().trim().equals(hintId)) {
 			JOptionPane.showMessageDialog(null, "아이디를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			tfId.requestFocus();
+			boolFlag = false;
 		}
 		else if (sPass.trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "비밀번호를 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 			pw.requestFocus();
+			boolFlag = false;
 		}
 		else {
 			if (dao.loginAction() == true) {
 				JOptionPane.showMessageDialog(null, "로그인 성공 하였습니다", "알림", JOptionPane.ERROR_MESSAGE);
+				boolFlag = true;
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "아이디 혹은 비밀번호를 다시 입력하세요", "알림", JOptionPane.ERROR_MESSAGE);
 				pw.requestFocus();
+				boolFlag = false;
 			}
 		}
-		
+		return boolFlag;
 	}
 }
