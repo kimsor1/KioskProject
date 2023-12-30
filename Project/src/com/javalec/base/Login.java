@@ -258,6 +258,8 @@ public class Login extends JDialog {
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == e.VK_ENTER) {
 						if (login()) {
+							ShareVar.id =  tfId.getText();
+							ShareVar.pw = strPass();
 							moveProduct();
 						}
 					}
