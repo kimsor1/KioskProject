@@ -200,10 +200,12 @@ public class Purchase extends JDialog {
 	//구매창 팝업
 	public void buyAction() {
 
+		int i = innerTable.getSelectedRow();
+		String cartId = (String) innerTable.getValueAt(i, 0);
 		
 		Dao_Purchase dao = new Dao_Purchase();
 		
-	    dao.purchaseon(ShareVar.id); // 매소드 호출
+	    dao.purchaseon(cartId); // 매소드 호출
 	    //Table 초기화
 	    tableInit();	
 	    searchAction();

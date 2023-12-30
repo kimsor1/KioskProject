@@ -160,7 +160,6 @@ public class Login extends JDialog {
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (login()) {
-						Dto_Login dto = new Dto_Login();
 						ShareVar.id =  tfId.getText();
 						ShareVar.pw = strPass();
 						moveProduct();
