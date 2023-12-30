@@ -18,6 +18,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.SystemColor;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Product extends JDialog {
 
@@ -47,6 +50,7 @@ public class Product extends JDialog {
 	private JLabel lblNewLabel;
 	private JButton btnMyPage;
 	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -90,6 +94,7 @@ public class Product extends JDialog {
 		getContentPane().add(getCbSort());
 		getContentPane().add(getLblNewLabel());
 		getContentPane().add(getBtnMyPage());
+		getContentPane().add(getLblNewLabel_1());
 		getContentPane().add(getLblNewLabel_2());
 
 	}
@@ -97,6 +102,15 @@ public class Product extends JDialog {
 	private JTextField getTfSearch() {
 		if (tfSearch == null) {
 			tfSearch = new JTextField();
+			tfSearch.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+						// Enter 키를 누르면 이 부분이 실행됨
+						search();
+					}
+				}
+			});
 			tfSearch.setBounds(120, 134, 258, 40);
 			tfSearch.setColumns(10);
 		}
@@ -120,7 +134,7 @@ public class Product extends JDialog {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(40, 226, 430, 368);
+			scrollPane.setBounds(40, 226, 430, 350);
 			scrollPane.setViewportView(getInnerTable());
 		}
 		return scrollPane;
@@ -133,6 +147,7 @@ public class Product extends JDialog {
 			btnbasket.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/shopping-cart.png")));
 			btnbasket.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					dispose();
 					Purchase pc = new Purchase();
 					pc.setVisible(true);
 				}
@@ -147,13 +162,15 @@ public class Product extends JDialog {
 			btndetail = new JButton("상세보기");
 			btndetail.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					dispose();
+
 					ProductDetail productDetail = new ProductDetail();
 					productDetail.setVisible(true);
 
 					tableClick();
 				}
 			});
-			btndetail.setBounds(200, 606, 117, 35);
+			btndetail.setBounds(195, 580, 117, 35);
 		}
 		return btndetail;
 	}
@@ -213,6 +230,7 @@ public class Product extends JDialog {
 			btnMyPage = new JButton("");
 			btnMyPage.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					dispose();
 					MyPage mp = new MyPage();
 					mp.setVisible(true);
 				}
@@ -230,6 +248,23 @@ public class Product extends JDialog {
 			lblNewLabel_2.setBounds(0, -10, 530, 670);
 		}
 		return lblNewLabel_2;
+	}
+
+	private JLabel getLblNewLabel_1() {
+		if (lblNewLabel_1 == null) {
+			lblNewLabel_1 = new JLabel("로그아웃");
+			lblNewLabel_1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					dispose();
+					Main main = new Main();
+					main.setVisible(true);
+				}
+			});
+			lblNewLabel_1.setForeground(Color.WHITE);
+			lblNewLabel_1.setBounds(233, 621, 61, 16);
+		}
+		return lblNewLabel_1;
 	}
 
 	// ---------- Method

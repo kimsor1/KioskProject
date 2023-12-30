@@ -135,6 +135,8 @@ public class ProductDetail extends JDialog {
 			btnBack.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					dispose();
+					Product pd = new Product();
+					pd.setVisible(true);
 				}
 			});
 			btnBack.setBounds(280, 589, 133, 40);

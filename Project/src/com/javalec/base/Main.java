@@ -78,6 +78,13 @@ public class Main {
 		login.setVisible(true);
 		
 	}
+
+	public void setVisible(boolean b) {
+		// TODO Auto-generated method stub
+		if(b == true) {
+			frame.setVisible(true);
+		}
+	}
 	
 	
 }
