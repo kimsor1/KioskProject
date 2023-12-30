@@ -197,15 +197,21 @@ public class Purchase extends JDialog {
 	        JOptionPane.showMessageDialog(null, "제거할 품목을 선택하세요.", "선택 오류", JOptionPane.ERROR_MESSAGE);
 	    }
 	}	    	
+	
+	
 	//구매창 팝업
 	public void buyAction() {
 
 		int i = innerTable.getSelectedRow();
-		String cartId = (String) innerTable.getValueAt(i, 0);
+		String proName = (String) innerTable.getValueAt(i, 1);
+		String size = (String) innerTable.getValueAt(i, 2);
+		String color = (String) innerTable.getValueAt(i, 3);
+		String quantity = (String) innerTable.getValueAt(i, 5);
 		
-		Dao_Purchase dao = new Dao_Purchase();
+		Dao_Purchase dao = new Dao_Purchase(Integer.parseInt(quantity), Integer.parseInt(size), color.trim());
+		dao.purchaseon(proName.trim());
 		
-	    dao.purchaseon(cartId); // 매소드 호출
+//	    dao.purchaseon(i); // 매소드 호출
 	    //Table 초기화
 	    tableInit();	
 	    searchAction();

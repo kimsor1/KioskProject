@@ -16,7 +16,7 @@ public class Dao_Purchase {
 
 	
 	
-	String pro_id;
+	int pro_id;
 	int sales_price;
 	String color;
 	int size;
@@ -28,7 +28,16 @@ public class Dao_Purchase {
 	
 	
 	
-	public Dao_Purchase( String pro_id, int sales_price, String color, int size, int quantity) {
+	
+	public Dao_Purchase(int quantity, int size, String color) {
+		this.color = color;
+		this.size = size;
+		this.quantity = quantity;
+	}
+
+
+
+	public Dao_Purchase( int pro_id, int sales_price, String color, int size, int quantity) {
 		super();		
 		this.pro_id = pro_id;
 		this.sales_price = sales_price;
@@ -107,64 +116,63 @@ public class Dao_Purchase {
         }
     }
 	
-	
+	public int lookingforProId() {
+		int i = 0;
+		try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+            Statement stmt_mysql = conn_mysql.createStatement();
+            
+            String query = "select pro_id from cart where c_id = '" + ShareVar.id + "' and quantity = " + quantity + " and size = " + size + " and color = '" + color + "'";
+            ResultSet rs = stmt_mysql.executeQuery(query);								
+            if (rs.next()) {
+                i = rs.getInt(1);
+                
+            }
+            conn_mysql.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return i;
+	}
 
 
 	// 장바구니 목록을 구매해서 purchaseTable 로 보내기
-	public void purchaseon(String cartId) {
+	public void purchaseon(String proName) {
 
 		PreparedStatement pstmtPurchase = null;
 //		PreparedStatement pstmtDelete = null;
-
+		
 		// 검색 후 검색한 결과를 insert 하기 위한 분리 쿼
-		String searchQuery = "SELECT DISTINCT c.id, pro.Seq, ca.quantity, ca.size, ca.color, date_format(curdate(), '%y-%m-%d')"
-				+ "FROM cart ca " + "JOIN customer c ON ca.c_id = c.id " + "JOIN product pro ON ca.pro_id = pro.Seq "
-				+ "JOIN storage s ON pro.Seq = s.p_id " + "where ca.id = " + cartId;
+//		String searchQuery = "SELECT DISTINCT c.id, pro.Seq, ca.quantity, ca.size, ca.color, date_format(curdate(), '%y-%m-%d')"
+//				+ "FROM cart ca " + "JOIN customer c ON ca.c_id = c.id " + "JOIN product pro ON ca.pro_id = pro.Seq "
+//				+ "JOIN storage s ON pro.Seq = s.p_id " + "where ca.id = " + cartId;
+//
+//		String insertQuery = "INSERT INTO purchase (c_id, pro_id, quantity, size, color, date) values (?, ?, ?, ?, ?, date_format(curdate(), '%y-%m-%d')";
 
-		String insertQuery = "INSERT INTO purchase (c_id, pro_id, quantity, size, color, date) values (?, ?, ?, ?, ?, date_format(curdate(), '%y-%m-%d')";
+			    String purchaseQuery = "INSERT INTO purchase (c_id, pro_id, quantity, size, color, date)" +
+			            "SELECT DISTINCT c.id, pro.Seq, ca.quantity, ca.size, ca.color, date_format(curdate(), '%y-%m-%d')" +
+			            "FROM cart ca " +
+			            "JOIN customer c ON ca.c_id = c.id " +
+			            "JOIN product pro ON ca.pro_id = pro.Seq " +
+			            "JOIN storage s ON pro.Seq = s.p_id " +
+			            "where ca.c_id = '" + ShareVar.id + "' and pro.name = '" + proName + "' and ca.size = " + size + " and ca.color = '" + color + "' and ca.quantity = '" + quantity + "'";
 
-//			    String purchaseQuery = "INSERT INTO purchase (c_id, pro_id, quantity, size, color, date)" +
-//			            "SELECT DISTINCT c.id, pro.Seq, ca.quantity, ca.size, ca.color, date_format(curdate(), '%y-%m-%d')" +
-//			            "FROM cart ca " +
-//			            "JOIN customer c ON ca.c_id = c.id " +
-//			            "JOIN product pro ON ca.pro_id = pro.Seq " +
-//			            "JOIN storage s ON pro.Seq = s.p_id " +
-//			            "where ca.id = " + cartId;
-
-		String clearCartQuery = "DELETE FROM cart WHERE id = " + cartId;
-
-		int c_id = 0;
-		int pro_id = 0;
-		int quantity = 0;
-		int size = 0;
-		String color = "";
+		String clearCartQuery = "DELETE FROM cart where ca.c_id = '" + ShareVar.id + "' and pro.name = '" + proName + "' and ca.size = " + size + " and ca.color = '" + color + "' and ca.quantity = '" + quantity + "'";
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
-			Statement st = con.createStatement();
 
-			ResultSet rs = st.executeQuery(searchQuery);
-
-			if (rs.next()) {
-				c_id = rs.getInt(1);
-				pro_id = rs.getInt(2);
-				quantity = rs.getInt(3);
-				size = rs.getInt(4);
-				color = rs.getString(5);
-			}
-
-			pstmtPurchase = con.prepareStatement(insertQuery);
-			pstmtPurchase = con.prepareStatement(clearCartQuery);
-
-			pstmtPurchase.setInt(1, c_id);
-			pstmtPurchase.setInt(2, pro_id);
+			pstmtPurchase = con.prepareStatement(purchaseQuery);
+			// @@@@@@@@@@@@@@@@@@@@@
+			pstmtPurchase.setString(1, ShareVar.id); 
+			pstmtPurchase.setInt(2, lookingforProId());
 			pstmtPurchase.setInt(3, quantity);
 			pstmtPurchase.setInt(4, size);
 			pstmtPurchase.setString(5, color);
-
+			// @@@@@@@@@@@@@@@@@@@@@
 			pstmtPurchase.executeUpdate();
-//			pstmtDelete.executeUpdate();
 
 			con.close();
 		}
