@@ -104,7 +104,7 @@ public class ProductDetail extends JDialog {
 	private JLabel getLblImage() {
 		if (lblImage == null) {
 			lblImage = new JLabel("");
-			lblImage.setBounds(128, 82, 250, 250);
+			lblImage.setBounds(122, 105, 250, 250);
 		}
 		return lblImage;
 	}
@@ -114,7 +114,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1 = new JLabel("제품명 : ");
 			lblNewLabel_1.setForeground(SystemColor.menu);
 			lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1.setBounds(89, 350, 83, 28);
+			lblNewLabel_1.setBounds(70, 360, 83, 28);
 		}
 		return lblNewLabel_1;
 	}
@@ -123,7 +123,7 @@ public class ProductDetail extends JDialog {
 		if (tfPname == null) {
 			tfPname = new JTextField();
 			tfPname.setEditable(false);
-			tfPname.setBounds(184, 350, 266, 35);
+			tfPname.setBounds(160, 360, 266, 35);
 			tfPname.setColumns(10);
 		}
 		return tfPname;
@@ -139,7 +139,7 @@ public class ProductDetail extends JDialog {
 					pd.setVisible(true);
 				}
 			});
-			btnBack.setBounds(280, 589, 133, 40);
+			btnBack.setBounds(280, 570, 133, 40);
 		}
 		return btnBack;
 	}
@@ -149,7 +149,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_1 = new JLabel("사이즈 :");
 			lblNewLabel_1_1.setForeground(SystemColor.menu);
 			lblNewLabel_1_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_1.setBounds(89, 410, 83, 28);
+			lblNewLabel_1_1.setBounds(70, 410, 83, 28);
 		}
 		return lblNewLabel_1_1;
 	}
@@ -169,7 +169,7 @@ public class ProductDetail extends JDialog {
 			tfPstock = new JTextField();
 			tfPstock.setEditable(false);
 			tfPstock.setColumns(10);
-			tfPstock.setBounds(150, 470, 100, 35);
+			tfPstock.setBounds(140, 470, 100, 35);
 		}
 		return tfPstock;
 	}
@@ -179,7 +179,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_3 = new JLabel("재고 :");
 			lblNewLabel_1_3.setForeground(SystemColor.menu);
 			lblNewLabel_1_3.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_3.setBounds(89, 470, 83, 28);
+			lblNewLabel_1_3.setBounds(70, 470, 83, 28);
 		}
 		return lblNewLabel_1_3;
 	}
@@ -193,7 +193,7 @@ public class ProductDetail extends JDialog {
 				}
 			});
 			cbPsize.setModel(new DefaultComboBoxModel(new String[] { "230", "240", "250", "260", "270" }));
-			cbPsize.setBounds(170, 410, 100, 30);
+			cbPsize.setBounds(160, 410, 100, 30);
 		}
 		return cbPsize;
 	}
@@ -217,7 +217,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_3_ = new JLabel("가격 :");
 			lblNewLabel_1_3_.setForeground(SystemColor.menu);
 			lblNewLabel_1_3_.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_3_.setBounds(89, 520, 83, 28);
+			lblNewLabel_1_3_.setBounds(70, 520, 83, 28);
 		}
 		return lblNewLabel_1_3_;
 	}
@@ -227,7 +227,7 @@ public class ProductDetail extends JDialog {
 			tfPprice = new JTextField();
 			tfPprice.setEditable(false);
 			tfPprice.setColumns(10);
-			tfPprice.setBounds(150, 520, 200, 35);
+			tfPprice.setBounds(160, 520, 200, 35);
 		}
 		return tfPprice;
 	}
@@ -242,7 +242,7 @@ public class ProductDetail extends JDialog {
 			});
 			btnBasket.setForeground(new Color(0, 0, 0));
 			btnBasket.setBackground(SystemColor.window);
-			btnBasket.setBounds(120, 589, 133, 40);
+			btnBasket.setBounds(120, 570, 133, 40);
 		}
 		return btnBasket;
 	}
@@ -252,7 +252,7 @@ public class ProductDetail extends JDialog {
 			lblNewLabel_1_3_1 = new JLabel("구매수량 :");
 			lblNewLabel_1_3_1.setForeground(SystemColor.menu);
 			lblNewLabel_1_3_1.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-			lblNewLabel_1_3_1.setBounds(260, 470, 83, 28);
+			lblNewLabel_1_3_1.setBounds(270, 470, 83, 28);
 		}
 		return lblNewLabel_1_3_1;
 	}
@@ -269,9 +269,9 @@ public class ProductDetail extends JDialog {
 	private JLabel getLblNewLabel_2_1() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("New label");
-			lblNewLabel_2.setIcon(new ImageIcon(ProductDetail.class.getResource("/com/javalec/images/Product.png")));
+			lblNewLabel_2.setIcon(new ImageIcon(ProductDetail.class.getResource("/com/javalec/images/Product_new.png")));
 			lblNewLabel_2.setBackground(SystemColor.window);
-			lblNewLabel_2.setBounds(0, -10, 530, 670);
+			lblNewLabel_2.setBounds(0, -28, 512, 683);
 		}
 		return lblNewLabel_2;
 	}

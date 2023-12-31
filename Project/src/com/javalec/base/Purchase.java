@@ -92,13 +92,14 @@ public class Purchase extends JDialog {
 		getContentPane().add(getBtnback());
 		getContentPane().add(getBtnbuy());
 		getContentPane().add(getBtndelete());
+		getContentPane().add(getLblNewLabel());
 		getContentPane().add(getLbBackImage());
 
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(66, 198, 389, 211);
+			scrollPane.setBounds(66, 198, 389, 250);
 			scrollPane.setViewportView(getInnerTable());
 		}
 		return scrollPane;
@@ -127,7 +128,7 @@ public class Purchase extends JDialog {
 									backAction();
 				}
 			});
-			btnback.setBounds(66, 505, 117, 29);
+			btnback.setBounds(120, 550, 117, 35);
 		}
 		return btnback;
 	}
@@ -140,7 +141,7 @@ public class Purchase extends JDialog {
 								buyAction();
 				}
 			});
-			btnbuy.setBounds(338, 505, 117, 29);
+			btnbuy.setBounds(280, 550, 117, 35);
 		}
 		return btnbuy;
 	}
@@ -153,7 +154,7 @@ public class Purchase extends JDialog {
 								cartdelete();
 				}
 			});
-			btndelete.setBounds(66, 421, 95, 29);
+			btndelete.setBounds(66, 450, 95, 29);
 		}
 		return btndelete;
 	}
@@ -286,6 +287,7 @@ public class Purchase extends JDialog {
 
 //	private String userId = "your_user_id";					//사용자 아이디 초기값
 	private JLabel lbBackImage;
+	private JLabel lblNewLabel;
 	
 	public void tableInit() {				//장바구니 Table
 		
@@ -372,9 +374,18 @@ public class Purchase extends JDialog {
 	private JLabel getLbBackImage() {
 		if (lbBackImage == null) {
 			lbBackImage = new JLabel("");
-			lbBackImage.setBounds(0, 0, 512, 683);
-			lbBackImage.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/purchaseBackImage.png")));
+			lbBackImage.setBounds(0, -28, 512, 683);
+			lbBackImage.setIcon(new ImageIcon(Purchase.class.getResource("/com/javalec/images/Product_new.png")));
 		}
 		return lbBackImage;
+	}
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("장바구니");
+			lblNewLabel.setForeground(Color.WHITE);
+			lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+			lblNewLabel.setBounds(230, 170, 61, 16);
+		}
+		return lblNewLabel;
 	}
 } //End

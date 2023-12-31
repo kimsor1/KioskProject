@@ -94,12 +94,12 @@ public class MyPage extends JDialog {
 		JLabel lblPhone = new JLabel("전화번호 :");
 		lblPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPhone.setForeground(new Color(254, 255, 255));
-		lblPhone.setBounds(70, 338, 69, 16);
+		lblPhone.setBounds(70, 360, 69, 16);
 		getContentPane().add(lblPhone);
 		
 		tfPhone = new JTextField();
 		tfPhone.setColumns(10);
-		tfPhone.setBounds(150, 327, 158, 41);
+		tfPhone.setBounds(150, 350, 158, 41);
 		getContentPane().add(tfPhone);
 		
 		JButton btnPhone = new JButton("수정");
@@ -109,18 +109,18 @@ public class MyPage extends JDialog {
 				   phoneUpdate(); // input*************
 			}
 		});
-		btnPhone.setBounds(332, 327, 69, 41);
+		btnPhone.setBounds(332, 350, 69, 41);
 		getContentPane().add(btnPhone);
 		
 		JLabel lblAddress = new JLabel("주 소 :");
 		lblAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblAddress.setForeground(new Color(254, 255, 255));
-		lblAddress.setBounds(70, 400, 61, 16);
+		lblAddress.setBounds(70, 430, 61, 16);
 		getContentPane().add(lblAddress);
 		
 		tfAddress = new JTextField();
 		tfAddress.setColumns(10);
-		tfAddress.setBounds(130, 389, 262, 41);
+		tfAddress.setBounds(130, 420, 262, 41);
 		getContentPane().add(tfAddress);
 		
 		JButton btnAddress = new JButton("수정");
@@ -131,13 +131,13 @@ public class MyPage extends JDialog {
 				addressUpdate(); // input******************
 			}
 		});
-		btnAddress.setBounds(408, 389, 69, 41);
+		btnAddress.setBounds(408, 420, 69, 41);
 		getContentPane().add(btnAddress);
 		
 		JLabel lblPassword = new JLabel("비밀번호 :");
 		lblPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPassword.setForeground(new Color(254, 255, 255));
-		lblPassword.setBounds(70, 469, 77, 16);
+		lblPassword.setBounds(70, 500, 77, 16);
 		getContentPane().add(lblPassword);
 		
 		JButton btnPassword = new JButton("수정");
@@ -150,9 +150,9 @@ public class MyPage extends JDialog {
 		
 		tfPassword = new JTextField();
 		tfPassword.setColumns(10);
-		tfPassword.setBounds(150, 458, 150, 41);
+		tfPassword.setBounds(150, 490, 150, 41);
 		getContentPane().add(tfPassword);
-		btnPassword.setBounds(332, 458, 69, 41);
+		btnPassword.setBounds(332, 490, 69, 41);
 		getContentPane().add(btnPassword);
 		
 		JButton btnOk = new JButton("돌아가기");
@@ -179,8 +179,8 @@ public class MyPage extends JDialog {
 		lbBack.setVerticalAlignment(SwingConstants.TOP);
 		lbBack.setHorizontalAlignment(SwingConstants.CENTER);
 		lbBack.setFont(new Font("Lucida Grande", Font.PLAIN, 5));
-		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/MyPage.png")));
-		lbBack.setBounds(-16, -13, 528, 683);
+		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/Group 38 (2).png")));
+		lbBack.setBounds(0, -28, 512, 683);
 		getContentPane().add(lbBack);
 
 	}
@@ -190,14 +190,15 @@ public class MyPage extends JDialog {
 			lblID = new JLabel("아이디 :");
 			lblID.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 			lblID.setForeground(new Color(254, 255, 255));
-			lblID.setBounds(70, 207, 61, 16);
+			lblID.setBounds(70, 230, 61, 16);
 		}
 		return lblID;
 	}
 	private JTextField getTfID() {
 		if (tfID == null) {
 			tfID = new JTextField();
-			tfID.setBounds(150, 196, 150, 41);
+			tfID.setEditable(false);
+			tfID.setBounds(150, 220, 150, 41);
 			tfID.setColumns(10);
 		}
 		return tfID;
@@ -207,15 +208,16 @@ public class MyPage extends JDialog {
 			lblName = new JLabel("이름 :");
 			lblName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 			lblName.setForeground(new Color(254, 255, 255));
-			lblName.setBounds(70, 271, 61, 16);
+			lblName.setBounds(70, 290, 61, 16);
 		}
 		return lblName;
 	}
 	private JTextField getTfName() {
 		if (tfName == null) {
 			tfName = new JTextField();
+			tfName.setEditable(false);
 			tfName.setColumns(10);
-			tfName.setBounds(150, 260, 150, 41);
+			tfName.setBounds(150, 280, 150, 41);
 		}
 		return tfName;
 	}
@@ -297,9 +299,9 @@ public class MyPage extends JDialog {
 	        Class.forName("com.mysql.cj.jdbc.Driver");
 	        conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
 
-	        String sql = "SELECT * FROM shoeskiosk.customer WHERE id=?";
+	        String sql = "SELECT * FROM shoeskiosk.customer WHERE id='?'";
 	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, userID); // 사용자로부터 입력받은 ID를 설정
+	        pstmt.setString(1, ShareVar.id); // 사용자로부터 입력받은 ID를 설정
 
 	        rs = pstmt.executeQuery();
 
@@ -491,11 +493,10 @@ public class MyPage extends JDialog {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		    conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
 		    
-		   String query1 = "delete from customer ";
-		   String query2 = " where id= ?";
+		   String query1 = "delete from customer where id = '?'";
 		  		   
-		   ps = conn.prepareStatement(query1 + query2);
-		   ps.setString(1, tfID.getText());
+		   ps = conn.prepareStatement(query1);
+		   ps.setString(1, ShareVar.id);
 		   
 		   		   
 		   int updatedRows = ps.executeUpdate();
