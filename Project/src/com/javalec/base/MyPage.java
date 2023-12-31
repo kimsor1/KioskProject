@@ -32,7 +32,8 @@ import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Color;
-
+import java.awt.Component;
+import java.awt.SystemColor;
 
 public class MyPage extends JDialog {
 
@@ -43,17 +44,18 @@ public class MyPage extends JDialog {
 	private JTextField tfName;
 	private JTextField tfPhone;
 	private JTextField tfAddress;
-	
-	//******************************
+
+	// ******************************
 	public final String url_mysql = ShareVar.dbName;
 	public final String id_mysql = ShareVar.dbUser;
 	public final String pw_mysql = ShareVar.dbPass;
 	public final String inputID = ShareVar.id;
-	
+
 	// Table
-		private final DefaultTableModel outer_Table = new DefaultTableModel();
-		private JTextField tfPassword;
-		
+	private final DefaultTableModel outer_Table = new DefaultTableModel();
+	private JTextField tfPassword;
+	private JButton btnPw;
+
 	/**
 	 * Launch the application.
 	 */
@@ -76,10 +78,9 @@ public class MyPage extends JDialog {
 	 */
 	public MyPage() {
 		addWindowListener(new WindowAdapter() {
-			@Override  // input***************
+			@Override // input***************
 			public void windowActivated(WindowEvent e) {
-				 tableInit();
-				 searchAction();
+				inputInfo();
 			}
 		});
 		setFont(new Font("Lucida Grande", Font.BOLD, 27));
@@ -90,71 +91,72 @@ public class MyPage extends JDialog {
 		getContentPane().add(getTfID());
 		getContentPane().add(getLblName());
 		getContentPane().add(getTfName());
-		
+
 		JLabel lblPhone = new JLabel("전화번호 :");
 		lblPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPhone.setForeground(new Color(254, 255, 255));
 		lblPhone.setBounds(70, 360, 69, 16);
 		getContentPane().add(lblPhone);
-		
+
 		tfPhone = new JTextField();
 		tfPhone.setColumns(10);
 		tfPhone.setBounds(150, 350, 158, 41);
 		getContentPane().add(tfPhone);
-		
+
 		JButton btnPhone = new JButton("수정");
 		btnPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		btnPhone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				   phoneUpdate(); // input*************
+				updatePhone();
 			}
 		});
 		btnPhone.setBounds(332, 350, 69, 41);
 		getContentPane().add(btnPhone);
-		
+
 		JLabel lblAddress = new JLabel("주 소 :");
 		lblAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblAddress.setForeground(new Color(254, 255, 255));
 		lblAddress.setBounds(70, 430, 61, 16);
 		getContentPane().add(lblAddress);
-		
+
 		tfAddress = new JTextField();
 		tfAddress.setColumns(10);
 		tfAddress.setBounds(130, 420, 262, 41);
 		getContentPane().add(tfAddress);
-		
+
 		JButton btnAddress = new JButton("수정");
 		btnAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		btnAddress.setForeground(new Color(0, 0, 0));
 		btnAddress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addressUpdate(); // input******************
+				updateAddress();
 			}
 		});
 		btnAddress.setBounds(408, 420, 69, 41);
 		getContentPane().add(btnAddress);
-		
+
 		JLabel lblPassword = new JLabel("비밀번호 :");
 		lblPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPassword.setForeground(new Color(254, 255, 255));
 		lblPassword.setBounds(70, 500, 77, 16);
 		getContentPane().add(lblPassword);
-		
-		JButton btnPassword = new JButton("수정");
-		btnPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		btnPassword.addActionListener(new ActionListener() {
+
+		JButton btnShow = new JButton("보기");
+		btnShow.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		btnShow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				passwordUpdate(); // input**************
+				showPw();
 			}
 		});
-		
+
 		tfPassword = new JTextField();
+		tfPassword.setEditable(false);
 		tfPassword.setColumns(10);
 		tfPassword.setBounds(150, 490, 150, 41);
 		getContentPane().add(tfPassword);
-		btnPassword.setBounds(332, 490, 69, 41);
-		getContentPane().add(btnPassword);
-		
+		btnShow.setBounds(332, 490, 69, 41);
+		getContentPane().add(btnShow);
+
 		JButton btnOk = new JButton("돌아가기");
 		btnOk.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		btnOk.addActionListener(new ActionListener() {
@@ -164,22 +166,24 @@ public class MyPage extends JDialog {
 		});
 		btnOk.setBounds(130, 564, 117, 35);
 		getContentPane().add(btnOk);
-		
+
 		JButton btnExit = new JButton("회원탈퇴");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				exitAction(); //input***********
+				deleteInfo();
 			}
 		});
 		btnExit.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		btnExit.setBounds(280, 564, 117, 35);
 		getContentPane().add(btnExit);
+		getContentPane().add(getBtnPw());
 		
 		JLabel lbBack = new JLabel("");
+		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/Group 38 (2).png")));
 		lbBack.setVerticalAlignment(SwingConstants.TOP);
 		lbBack.setHorizontalAlignment(SwingConstants.CENTER);
 		lbBack.setFont(new Font("Lucida Grande", Font.PLAIN, 5));
-		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/Group 38 (2).png")));
+		lbBack.setBackground(SystemColor.window);
 		lbBack.setBounds(0, -28, 512, 683);
 		getContentPane().add(lbBack);
 
@@ -194,6 +198,7 @@ public class MyPage extends JDialog {
 		}
 		return lblID;
 	}
+
 	private JTextField getTfID() {
 		if (tfID == null) {
 			tfID = new JTextField();
@@ -203,6 +208,7 @@ public class MyPage extends JDialog {
 		}
 		return tfID;
 	}
+
 	private JLabel getLblName() {
 		if (lblName == null) {
 			lblName = new JLabel("이름 :");
@@ -212,6 +218,21 @@ public class MyPage extends JDialog {
 		}
 		return lblName;
 	}
+
+	private JButton getBtnPw() {
+		if (btnPw == null) {
+			btnPw = new JButton("수정");
+			btnPw.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					updatePassword();
+				}
+			});
+			btnPw.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+			btnPw.setBounds(408, 490, 69, 41);
+		}
+		return btnPw;
+	}
+
 	private JTextField getTfName() {
 		if (tfName == null) {
 			tfName = new JTextField();
@@ -222,327 +243,88 @@ public class MyPage extends JDialog {
 		return tfName;
 	}
 
-	//---------Functions--------------
-	
-	// Table 컬럼을 정의하고 data 내용을 초기화 한다.
-	
+	// ---------Functions--------------
 
-	private void tableInit() {
-	   outer_Table.addColumn("ID");
-	   outer_Table.addColumn("이름");
-	   outer_Table.addColumn("전화번호");
-	   outer_Table.addColumn("주소");
-	   outer_Table.addColumn("비밀번호");
-	   outer_Table.setColumnCount(5);
-			
-	   int i = outer_Table.getRowCount();
-	   for (int j = 0; j < i; j++) {
-		   outer_Table.removeRow(0);
-	   }
-	}	
-	
+	private void inputInfo() {
+		Dao_MyPage dao = new Dao_MyPage();
+		Dto_MyPage dto = dao.MyPage();
+
+		tfID.setText(dto.getId());
+		tfName.setText(dto.getName());
+		tfPhone.setText(dto.getPhone());
+		tfAddress.setText(dto.getAddress());
 		
- //------------------------------------------------------	
-	//테스트 위한 사용자 데이터 불러오기.
- 	/*		
-	private void searchAction() {
-	    Connection conn = null;
-	    PreparedStatement pstmt = null;
-	    ResultSet rs = null;
+		String pw = dto.getPw(); // dto에서 비밀번호 가져오기
+		StringBuilder maskedPassword = new StringBuilder();
 
-	    try {
-	        Class.forName("com.mysql.cj.jdbc.Driver");
-	        conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
+		for (int i = 0; i < pw.length(); i++) {
+		    maskedPassword.append("*");
+		}
 
-	        String sql = "SELECT * FROM shoeskiosk.customer WHERE id=?";
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, "ggg"); // 원하는 아이디를 설정
-
-	        rs = pstmt.executeQuery();
-
-	        if (rs.next()) {
-	            // 데이터베이스에서 가져온 정보를 UI에 설정
-	            tfID.setText(rs.getString("id"));
-	            tfName.setText(rs.getString("name"));
-	            tfPhone.setText(rs.getString("phone"));
-	            tfAddress.setText(rs.getString("address"));
-	            tfPassword.setText(rs.getString("password"));
-	        } 
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        
-	    } finally {
-	        try {
-	            if (rs != null) rs.close();
-	            if (pstmt != null) pstmt.close();
-	            if (conn != null) conn.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
-	}
-	
-	*/
-	
-	
-	//------입력된 정보 불러오기---------------
-		
-		
-	private void searchAction() {
-	    Connection conn = null;
-	    PreparedStatement pstmt = null;
-	    ResultSet rs = null;
-	    String userID = inputID; 
-
-	    try {
-	        Class.forName("com.mysql.cj.jdbc.Driver");
-	        conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
-
-	        String sql = "SELECT * FROM shoeskiosk.customer WHERE id='?'";
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, ShareVar.id); // 사용자로부터 입력받은 ID를 설정
-
-	        rs = pstmt.executeQuery();
-
-	        if (rs.next()) {
-	            // 데이터베이스에서 가져온 정보를 UI에 설정
-	            tfID.setText(rs.getString("id"));
-	            tfName.setText(rs.getString("name"));
-	            tfPhone.setText(rs.getString("phone"));
-	            tfAddress.setText(rs.getString("address"));
-	            tfPassword.setText(rs.getString("pw"));
-	        } else {
-	            // 해당 ID에 대한 데이터가 없을 경우 처리
-	            // 예: 메시지 출력 또는 필요한 작업 수행
-	            System.out.println("해당 ID에 대한 데이터가 없습니다.");
-	        }
-	       conn.close();
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        
-//	    } finally {
-//	        try {
-//	            if (rs != null) rs.close();
-//	            if (pstmt != null) pstmt.close();
-//	            if (conn != null) conn.close();
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	        }
-	    }
+		tfPassword.setText(maskedPassword.toString());
 	}
 
-	
-	
-	
-	
-	
-	// -------전화번호 수정하기 -----------------------------
-		
-	private void phoneUpdate() {
-		PreparedStatement ps = null;
-		Connection conn = null;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		    conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
-		   
-		    // 정확하지 않은 전화번호 입력시 에러 표현
-			Pattern pattern = Pattern.compile("^\\d{3}-\\d{3,4}-\\d{4}$");
-			Matcher matcher = pattern.matcher(tfPhone.getText());
+	private void deleteInfo() {
+		Dao_MyPage dao = new Dao_MyPage();
+		dao.delete();
 
-			if (!tfPhone.getText().equals("전화번호 입력")) {
-				if (!matcher.matches()) {
-					JOptionPane.showMessageDialog(null, "010-0000-0000 타입 형식의 번호를 입력하세요.");
-					tfPhone.requestFocus();
-					return; // 유효성 검사 실패시 메소드 종료.
-			}
-		}		    
-		   String query = "update customer set phone=? where id=?";
-						
-			ps = conn.prepareStatement(query);
-			ps.setString(1, tfPhone.getText().trim());
-			ps.setString(2, tfID.getText().trim());
-			
-			int updatedRows = ps.executeUpdate();
+		JOptionPane.showMessageDialog(null, "탈퇴 하였습니다.");
 
-	        if (updatedRows > 0) {
-	            JOptionPane.showMessageDialog(null, "전화번호가 성공적으로 수정되었습니다.");
-	        } else {
-	            JOptionPane.showMessageDialog(null, "전화번호 수정에 실패했습니다.");
-	        }
-						
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-	        try {
-	            if (ps != null) ps.close();
-	            if (conn != null) conn.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
-	
-	}// end of updateAction()
-	
-	//----- 주소 수정하기------------------- 
-	private void addressUpdate() {
-		PreparedStatement ps = null;
-		Connection conn = null;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		    conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
-		    
-		    // 주소 유효성 검사
-		    
-			String addressPattern ="^[가-힣a-zA-Z0-9\\s]+$";
-		if (!tfAddress.getText().equals("주소 입력")) {
-			// 정확하지 않은 주소 입력시 에러 표현// 
-			
-			if (!tfAddress.getText().matches(addressPattern)) {
-					JOptionPane.showMessageDialog(null, "주소는 한글, 영문, 숫자, 공백만 입력하세요.");
-					tfAddress.requestFocus();
-					return; // 유효성 검사 실패시 메소드 종료.
-			   } 
-		}  	
-		String query = "update customer set address=? where id=?";
-		
-		ps = conn.prepareStatement(query);
-		ps.setString(1, tfAddress.getText().trim());
-		ps.setString(2, tfID.getText().trim());
-		
-		int updatedRows = ps.executeUpdate();
+		dispose();
 
-        if (updatedRows > 0) {
-            JOptionPane.showMessageDialog(null, "주소가 성공적으로 수정되었습니다.");
-        } else {
-            JOptionPane.showMessageDialog(null, "주소 수정에 실패했습니다.");
-        }
-  					
+		Main main = new Main();
+		main.setVisible(true);
+	}
+
+	private void updatePhone() {
+		Dao_MyPage dao = new Dao_MyPage();
+		Dto_MyPage dto = dao.MyPage();
+		dao.updatePhone(tfPhone.getText());
+
+		JOptionPane.showMessageDialog(null, dto.getName() + "의 전화번호가 수정되었습니다.");
+
+		tfPhone.setText(tfPhone.getText());
+	}
+
+	private void updateAddress() {
+		Dao_MyPage dao = new Dao_MyPage();
+		Dto_MyPage dto = dao.MyPage();
+		dao.updateAddress(tfAddress.getText());
+
+		JOptionPane.showMessageDialog(null, dto.getName() + "님의 주소가 수정되었습니다.");
+
+		tfAddress.setText(tfAddress.getText());
+	}
+	
+	private void showPw() {
+		Dao_MyPage dao = new Dao_MyPage();
+		Dto_MyPage dto = dao.MyPage();
 		
-	}catch(Exception e) {
-		e.printStackTrace();
-	} finally {
-        try {
-            if (ps != null) ps.close();
-            if (conn != null) conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        	}
+		tfPassword.setEditable(true);
+		tfPassword.setText(dto.getPw());
+	}
+
+	private void updatePassword() {
+		Dao_MyPage dao = new Dao_MyPage();
+		Dto_MyPage dto = dao.MyPage();
+		dao.updatePw(tfPassword.getText());
+
+		JOptionPane.showMessageDialog(null, "비밀번호가 수정되었습니다.");
+		
+		String pw = dto.getPw(); // dto에서 비밀번호 가져오기
+		StringBuilder maskedPassword = new StringBuilder();
+
+		for (int i = 0; i < pw.length(); i++) {
+		    maskedPassword.append("*");
 		}
 
-	}// end of addressUpdate()
-  //----------비밀 번호 수정하기--------------
-	
-	private void passwordUpdate() {
-		PreparedStatement ps = null;
-		Connection conn = null;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-	     conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
-		    
-		    // 비밀번호 유효성 검사.
-		    
-	     String passwordPattern ="^[가-힣a-zA-Z0-9\\s]+$";
-	  		
-		if (!tfPassword.getText().matches(passwordPattern)) {
-		    JOptionPane.showMessageDialog(null, "비밀번호를 다시 입력하세요.");
-		    tfPassword.requestFocus();
-		     return;
-		    }
-		
-		String query = "update customer set pw = ? where id = ?";
-						
-		ps = conn.prepareStatement(query);
-		ps.setString(1, tfPassword.getText().trim());
-		ps.setString(2, tfID.getText().trim());
-		
-		int updatedRows = ps.executeUpdate();
+		tfPassword.setText(maskedPassword.toString());
+	}
 
-        if (updatedRows > 0) {
-            JOptionPane.showMessageDialog(null, "비밀번호가 성공적으로 수정되었습니다.");
-        } else {
-            JOptionPane.showMessageDialog(null, "비밀번호 수정에 실패했습니다.");
-        }
-  					
-	  } catch (ClassNotFoundException e) {
-         e.printStackTrace();
-        // Handle ClassNotFoundException (e.g., log the error or show a user-friendly message)
-     } catch (SQLException e) {
-        e.printStackTrace();
-        // Handle SQLException (e.g., log the error or show a user-friendly message)
-     } finally {
-        try {
-          if (ps != null) ps.close();
-           if (conn != null) conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-					
-   }// end of passwordUpdate()
-		
- //------------회원탈퇴-----------------------------
-	
-	private void exitAction() {
-		PreparedStatement ps = null;
-		Connection conn = null;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		    conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
-		    
-		   String query1 = "delete from customer where id = '?'";
-		  		   
-		   ps = conn.prepareStatement(query1);
-		   ps.setString(1, ShareVar.id);
-		   
-		   		   
-		   int updatedRows = ps.executeUpdate();
-
-	        if (updatedRows > 0) {
-	            JOptionPane.showMessageDialog(null, "탈퇴 하였습니다.");
-	        } else {
-	            JOptionPane.showMessageDialog(null, "탈퇴에 실패했습니다.");
-	        }
-		   		   
-		   ps.executeUpdate();
-		   conn.close();
-		   
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		Main window = new Main();
-		window.main(null);
-		
-		this.setVisible(false);
-			
-			
-	}	
-  
-	// end of exitActiion()
-		
-		
-//-------------------------------------	
-	
-	
-	//  확인 click 시 메일 환면으로 이동.
-	/*
-	private void returntoMain() {
-		Main window = new Main();
-		window.main(null);
-		
-		this.setVisible(false);
-		
-		}
-	*/
-	
 	// 확인 click 시 물건 목록으로 이동
-		private void returntoProduct() {
-			Product p = new Product();
-			p.setVisible(true);
-			this.setVisible(false);
-		}
- }	//-----end------------
+	private void returntoProduct() {
+		Product p = new Product();
+		p.setVisible(true);
+		this.setVisible(false);
+	}
+} // -----end------------

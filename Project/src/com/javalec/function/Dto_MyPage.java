@@ -13,7 +13,6 @@ public class Dto_MyPage {
 	}
 
 	public Dto_MyPage(String id, String name, String phone, String address, String pw) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
