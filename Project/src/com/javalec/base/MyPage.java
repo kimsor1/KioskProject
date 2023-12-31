@@ -224,7 +224,12 @@ public class MyPage extends JDialog {
 			btnPw = new JButton("수정");
 			btnPw.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					updatePassword();
+					if (tfPassword.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "입력한 것이 없습니다. 다시 입력해주세요.");
+						tfPassword.setEditable(false);
+					} else {
+						updatePassword();
+					}
 				}
 			});
 			btnPw.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
@@ -267,6 +272,7 @@ public class MyPage extends JDialog {
 	private void deleteInfo() {
 		Dao_MyPage dao = new Dao_MyPage();
 		dao.delete();
+		dao.deletePurchase();
 
 		JOptionPane.showMessageDialog(null, "탈퇴 하였습니다.");
 
@@ -282,7 +288,7 @@ public class MyPage extends JDialog {
 
 		if (tfPhone.getText().matches("^\\d{3}-\\d{4}-\\d{4}$")) {
 			dao.updatePhone(tfPhone.getText());
-			
+
 			JOptionPane.showMessageDialog(null, dto.getName() + "의 전화번호가 수정되었습니다.");
 
 			tfPhone.setText(tfPhone.getText());
@@ -297,11 +303,16 @@ public class MyPage extends JDialog {
 	private void updateAddress() {
 		Dao_MyPage dao = new Dao_MyPage();
 		Dto_MyPage dto = dao.MyPage();
-		dao.updateAddress(tfAddress.getText());
 
-		JOptionPane.showMessageDialog(null, dto.getName() + "님의 주소가 수정되었습니다.");
+		if (tfAddress.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "입력한 것이 없습니다. 다시 입력해주세요.");
+		} else {
+			dao.updateAddress(tfAddress.getText());
 
-		tfAddress.setText(tfAddress.getText());
+			JOptionPane.showMessageDialog(null, dto.getName() + "님의 주소가 수정되었습니다.");
+
+			tfAddress.setText(tfAddress.getText());
+		}
 	}
 
 	private void showPw() {
@@ -327,6 +338,8 @@ public class MyPage extends JDialog {
 		}
 
 		tfPassword.setText(maskedPassword.toString());
+		tfPassword.setEditable(false);
+
 	}
 
 	// 확인 click 시 물건 목록으로 이동

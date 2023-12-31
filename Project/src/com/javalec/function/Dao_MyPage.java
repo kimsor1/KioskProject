@@ -84,6 +84,30 @@ public class Dao_MyPage {
 
 	}
 	
+	public void deletePurchase() {
+		PreparedStatement ps = null;
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
+			Statement stmt_mysql = conn_mysql.createStatement();
+
+			String A = "delete from purchase where c_id = ?";
+
+			ps = conn_mysql.prepareStatement(A);
+			
+			ps.setString(1, ShareVar.id);
+			ps.executeUpdate();
+
+			conn_mysql.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 	public void updatePhone(String phone) {
 		PreparedStatement ps = null;
 
