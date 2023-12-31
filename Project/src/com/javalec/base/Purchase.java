@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -200,6 +201,11 @@ public class Purchase extends JDialog {
 					// 수량 변경 후 테이블에 포커싱을 하고 싶은데 안됨 @@@@@@@@@@@@@@@@@@@
 					innerTable.requestFocus(); // 수량 변경 후 테이블에 포커싱을 하고 싶은데 안됨 @@@@@@@@@@@@@@@@@@@
 					// 수량 변경 후 테이블에 포커싱을 하고 싶은데 안됨 @@@@@@@@@@@@@@@@@@@
+					
+					SwingUtilities.invokeLater(() -> {
+				        innerTable.requestFocus();
+				        innerTable.changeSelection(selectedRow, 0, true, false); // Optionally select the updated row
+				    });
 
 				}
 			} else {
