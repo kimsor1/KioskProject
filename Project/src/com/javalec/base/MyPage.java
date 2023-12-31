@@ -94,16 +94,16 @@ public class MyPage extends JDialog {
 		JLabel lblPhone = new JLabel("전화번호 :");
 		lblPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPhone.setForeground(new Color(254, 255, 255));
-		lblPhone.setBounds(36, 338, 69, 16);
+		lblPhone.setBounds(70, 338, 69, 16);
 		getContentPane().add(lblPhone);
 		
 		tfPhone = new JTextField();
 		tfPhone.setColumns(10);
-		tfPhone.setBounds(117, 327, 158, 41);
+		tfPhone.setBounds(150, 327, 158, 41);
 		getContentPane().add(tfPhone);
 		
 		JButton btnPhone = new JButton("수정");
-		btnPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		btnPhone.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		btnPhone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				   phoneUpdate(); // input*************
@@ -115,16 +115,16 @@ public class MyPage extends JDialog {
 		JLabel lblAddress = new JLabel("주 소 :");
 		lblAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblAddress.setForeground(new Color(254, 255, 255));
-		lblAddress.setBounds(36, 400, 61, 16);
+		lblAddress.setBounds(70, 400, 61, 16);
 		getContentPane().add(lblAddress);
 		
 		tfAddress = new JTextField();
 		tfAddress.setColumns(10);
-		tfAddress.setBounds(118, 389, 262, 41);
+		tfAddress.setBounds(130, 389, 262, 41);
 		getContentPane().add(tfAddress);
 		
 		JButton btnAddress = new JButton("수정");
-		btnAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		btnAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		btnAddress.setForeground(new Color(0, 0, 0));
 		btnAddress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -137,11 +137,11 @@ public class MyPage extends JDialog {
 		JLabel lblPassword = new JLabel("비밀번호 :");
 		lblPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPassword.setForeground(new Color(254, 255, 255));
-		lblPassword.setBounds(36, 469, 77, 16);
+		lblPassword.setBounds(70, 469, 77, 16);
 		getContentPane().add(lblPassword);
 		
 		JButton btnPassword = new JButton("수정");
-		btnPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		btnPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		btnPassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				passwordUpdate(); // input**************
@@ -150,19 +150,19 @@ public class MyPage extends JDialog {
 		
 		tfPassword = new JTextField();
 		tfPassword.setColumns(10);
-		tfPassword.setBounds(117, 458, 150, 41);
+		tfPassword.setBounds(150, 458, 150, 41);
 		getContentPane().add(tfPassword);
 		btnPassword.setBounds(332, 458, 69, 41);
 		getContentPane().add(btnPassword);
 		
 		JButton btnOk = new JButton("돌아가기");
-		btnOk.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		btnOk.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				returntoProduct(); // input********************
 			}
 		});
-		btnOk.setBounds(87, 564, 118, 41);
+		btnOk.setBounds(130, 564, 117, 35);
 		getContentPane().add(btnOk);
 		
 		JButton btnExit = new JButton("회원탈퇴");
@@ -171,8 +171,8 @@ public class MyPage extends JDialog {
 				exitAction(); //input***********
 			}
 		});
-		btnExit.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		btnExit.setBounds(314, 564, 118, 41);
+		btnExit.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+		btnExit.setBounds(280, 564, 117, 35);
 		getContentPane().add(btnExit);
 		
 		JLabel lbBack = new JLabel("");
@@ -180,7 +180,7 @@ public class MyPage extends JDialog {
 		lbBack.setHorizontalAlignment(SwingConstants.CENTER);
 		lbBack.setFont(new Font("Lucida Grande", Font.PLAIN, 5));
 		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/MyPage.png")));
-		lbBack.setBounds(0, 0, 512, 655);
+		lbBack.setBounds(-16, -13, 528, 683);
 		getContentPane().add(lbBack);
 
 	}
@@ -190,14 +190,14 @@ public class MyPage extends JDialog {
 			lblID = new JLabel("아이디 :");
 			lblID.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 			lblID.setForeground(new Color(254, 255, 255));
-			lblID.setBounds(36, 207, 61, 16);
+			lblID.setBounds(70, 207, 61, 16);
 		}
 		return lblID;
 	}
 	private JTextField getTfID() {
 		if (tfID == null) {
 			tfID = new JTextField();
-			tfID.setBounds(117, 196, 150, 41);
+			tfID.setBounds(150, 196, 150, 41);
 			tfID.setColumns(10);
 		}
 		return tfID;
@@ -207,7 +207,7 @@ public class MyPage extends JDialog {
 			lblName = new JLabel("이름 :");
 			lblName.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 			lblName.setForeground(new Color(254, 255, 255));
-			lblName.setBounds(36, 271, 61, 16);
+			lblName.setBounds(70, 271, 61, 16);
 		}
 		return lblName;
 	}
@@ -215,7 +215,7 @@ public class MyPage extends JDialog {
 		if (tfName == null) {
 			tfName = new JTextField();
 			tfName.setColumns(10);
-			tfName.setBounds(117, 260, 150, 41);
+			tfName.setBounds(150, 260, 150, 41);
 		}
 		return tfName;
 	}

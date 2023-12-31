@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import com.javalec.function.*;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -134,7 +135,7 @@ public class Product extends JDialog {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(40, 226, 430, 350);
+			scrollPane.setBounds(40, 226, 430, 320);
 			scrollPane.setViewportView(getInnerTable());
 		}
 		return scrollPane;
@@ -170,7 +171,7 @@ public class Product extends JDialog {
 					tableClick();
 				}
 			});
-			btndetail.setBounds(195, 580, 117, 35);
+			btndetail.setBounds(195, 570, 117, 35);
 		}
 		return btndetail;
 	}
@@ -244,8 +245,9 @@ public class Product extends JDialog {
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("");
-			lblNewLabel_2.setIcon(new ImageIcon(Product.class.getResource("/com/javalec/images/Product.png")));
-			lblNewLabel_2.setBounds(0, -10, 530, 670);
+			lblNewLabel_2.setBackground(SystemColor.window);
+			lblNewLabel_2.setIcon(new ImageIcon(Product.class.getResource("/com/javalec/images/Group 38.png")));
+			lblNewLabel_2.setBounds(0, -28, 512, 683);
 		}
 		return lblNewLabel_2;
 	}
@@ -256,13 +258,14 @@ public class Product extends JDialog {
 			lblNewLabel_1.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					JOptionPane.showMessageDialog(null, "로그아웃 되었습니다.");
 					dispose();
 					Main main = new Main();
 					main.setVisible(true);
 				}
 			});
 			lblNewLabel_1.setForeground(Color.WHITE);
-			lblNewLabel_1.setBounds(233, 621, 61, 16);
+			lblNewLabel_1.setBounds(233, 635, 61, 16);
 		}
 		return lblNewLabel_1;
 	}
