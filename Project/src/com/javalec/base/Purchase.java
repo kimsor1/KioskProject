@@ -165,79 +165,102 @@ public class Purchase extends JDialog {
 	
 	//장바구니 삭제 기능
 	public void cartdelete() {
+		
 		int selectedRow = innerTable.getSelectedRow();
-	    if (selectedRow != -1) {
-	        String productId = (String) outer_Table.getValueAt(selectedRow, 0);
-	        int currentQuantity = Integer.parseInt((String) outer_Table.getValueAt(selectedRow, 5));
+		int currentQuantity = Integer.parseInt((String) outer_Table.getValueAt(selectedRow, 5));
+		int size = Integer.parseInt((String) outer_Table.getValueAt(selectedRow, 2));
+		String color = (String) outer_Table.getValueAt(selectedRow, 3);
+		
+		// updateQuantity 메서드와 deleteAction 사용을 위한
+		// cartId를 가져와 update, update하기 위해 파라미터를 입력 받는다.
+		Dao_Purchase daoPurchase = new Dao_Purchase(currentQuantity, size, color);
+		
+		if (selectedRow != -1) {
+//	        String productId = (String) outer_Table.getValueAt(selectedRow, 0);
 
-	        String inputQuantity = JOptionPane.showInputDialog(null, "제거할 수량을 입력하세요:", "수량 입력", JOptionPane.QUESTION_MESSAGE);
-	        if (inputQuantity != null && !inputQuantity.isEmpty()) {
-	            int quantityToRemove = Integer.parseInt(inputQuantity);
+			String inputQuantity = JOptionPane.showInputDialog(null, "제거할 수량을 입력하세요 : ", "수량 입력",
+					JOptionPane.QUESTION_MESSAGE);
+//	        if (inputQuantity != null && !inputQuantity.isEmpty()) {
+			int reduceQuantity = Integer.parseInt(inputQuantity);
+			if (reduceQuantity <= currentQuantity && reduceQuantity > 0) {
+//        	if (inputQuantity.length() > 0) {
+//	            if (reduceQuantity > 0 && reduceQuantity <= currentQuantity) {
+				int newQuantity = currentQuantity - reduceQuantity;
+				
+				// 참일 경우 삭
+				if (newQuantity == 0) {
+					// 새로운 수량이 0이면 제품을 카트에서 완전히 제거
+					daoPurchase.deleteAction();
+					JOptionPane.showMessageDialog(null, "물품을 장바구니에서 삭제 하였습니다", "완료", JOptionPane.ERROR_MESSAGE);
+				}
+				// 그렇지 않다면 업데이트
+				else {
+					daoPurchase.updateQuantity(newQuantity);
+					JOptionPane.showMessageDialog(null, "수량 변경이 완료 되었습니다", "완료", JOptionPane.ERROR_MESSAGE);
+					// 수량 변경 후 테이블에 포커싱을 하고 싶은데 안됨 @@@@@@@@@@@@@@@@@@@
+					innerTable.requestFocus(); // 수량 변경 후 테이블에 포커싱을 하고 싶은데 안됨 @@@@@@@@@@@@@@@@@@@
+					// 수량 변경 후 테이블에 포커싱을 하고 싶은데 안됨 @@@@@@@@@@@@@@@@@@@
 
-	            if (quantityToRemove > 0 && quantityToRemove <= currentQuantity) {
-	                int newQuantity = currentQuantity - quantityToRemove;
-
-	                if (newQuantity == 0) {
-	                    // 새로운 수량이 0이면 제품을 카트에서 완전히 제거
-	                    Dao_Purchase daoPurchase = new Dao_Purchase();
-	                    daoPurchase.Dao_PurchaseDelete(productId, quantityToRemove);
-	                } else {
-	                    // updateQuantity 메서드를 사용하여 수량 업데이트
-	                    Dao_Purchase daoPurchase = new Dao_Purchase();
-	                    daoPurchase.updateQuantity(productId, newQuantity);
-
-	                    // 테이블  업데이트
-	                    outer_Table.setValueAt(String.valueOf(newQuantity), selectedRow, 5);
-	                }
-	            } else {
-	                JOptionPane.showMessageDialog(null, "잘못된 입력입니다. 현재 수량 이하의 수량을 입력하세요.", "입력 오류", JOptionPane.ERROR_MESSAGE);
-	            }
-	        }
-	    } else {
-	        JOptionPane.showMessageDialog(null, "제거할 품목을 선택하세요.", "선택 오류", JOptionPane.ERROR_MESSAGE);
-	    }
-	}	    	
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "정확한 수량을 입력하세요", "입력 오류", JOptionPane.ERROR_MESSAGE);
+			}
+		}else {
+			JOptionPane.showMessageDialog(null, "제거할 품목을 선택하세요.", "선택 오류", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		
+		tableInit();
+		searchAction();
+	}
 	
 	
 	//구매창 팝업
 	public void buyAction() {
-
-		int i = innerTable.getSelectedRow();
-		String proName = (String) innerTable.getValueAt(i, 1);
-		String size = (String) innerTable.getValueAt(i, 2);
-		String color = (String) innerTable.getValueAt(i, 3);
-		String quantity = (String) innerTable.getValueAt(i, 5);
+		int i = 0;
 		
-		Dao_Purchase dao = new Dao_Purchase(Integer.parseInt(quantity), Integer.parseInt(size), color.trim());
-		dao.purchaseon(proName.trim());
+		if (innerTable.getSelectedRow() >= 0) {
+			i = innerTable.getSelectedRow();
+			String proName = (String) innerTable.getValueAt(i, 1);
+			String size = (String) innerTable.getValueAt(i, 2);
+			String color = (String) innerTable.getValueAt(i, 3);
+			String quantity = (String) innerTable.getValueAt(i, 5);
 		
-//	    dao.purchaseon(i); // 매소드 호출
-	    //Table 초기화
-	    tableInit();	
-	    searchAction();
-	    
-	    
-	 // 추가로 구매한 물건의 정보 가져오기
-	    ArrayList<Dto_Purchase> purchasedProducts = dao.getPurchaseInformation(ShareVar.id);
-
-	    // 메시지로 출력
-	    showMessageAfterPurchase(purchasedProducts);
+		
+			Dao_Purchase dao = new Dao_Purchase(Integer.parseInt(quantity), Integer.parseInt(size), color.trim());
+			dao.purchaseon(proName.trim());
+			
+		 // 추가로 구매한 물건의 정보 가져오기
+		    ArrayList<Dto_Purchase> purchasedProducts = dao.getPurchaseInformation(ShareVar.id);
+	
+		    // 메시지로 출력
+		    showMessageAfterPurchase(purchasedProducts);
+		    
+		    dao.deleteAction();
+		  //Table 초기화
+		    tableInit();	
+		    searchAction();
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "구매를 원하는 제품을 선택하세요");
+		}
 	}
 
 	// 메시지로 출력하는 메서드
 	private void showMessageAfterPurchase(ArrayList<Dto_Purchase> purchasedProducts) {
-	    StringBuilder message = new StringBuilder("구매가 완료되었습니다.\n\n구매한 제품 정보:\n");
-	    int totalPurchasePrice = 0;
+	    StringBuilder message = new StringBuilder("구매가 완료되었습니다.\n\n구매한 제품 정보\n");
+	    String totalPurchasePrice = "";
 
+	    
 	    for (Dto_Purchase product : purchasedProducts) {
-	        message.append("제품명: ").append(product.getName()).append("\n")
-	                .append("수량: ").append(product.getQuantity()).append("\n")
-	                .append("가격: ").append(product.getSales_price()).append("원\n\n");
-
-	        totalPurchasePrice += product.getSales_price();
+	        message.append("제품명 : ").append(product.getName()).append("\n")
+	                .append("수량 : ").append(product.getQuantity()).append("\n")
+	                .append("가격 : ").append(String.format("%,d", product.getSales_price())).append("원\n\n");
+	        
+	        totalPurchasePrice = String.format("%,d", (product.getQuantity() * product.getSales_price()));
 	    }
 
-	    message.append("총 구매 가격: ").append(totalPurchasePrice).append("원");
+	    message.append("총 구매 가격 : ").append(totalPurchasePrice).append("원");
 
 	    JOptionPane.showMessageDialog(null, message.toString(), "구매 완료", JOptionPane.INFORMATION_MESSAGE);
 	}
