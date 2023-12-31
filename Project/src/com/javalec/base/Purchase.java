@@ -198,13 +198,11 @@ public class Purchase extends JDialog {
 				else {
 					daoPurchase.updateQuantity(newQuantity);
 					JOptionPane.showMessageDialog(null, "수량 변경이 완료 되었습니다", "완료", JOptionPane.ERROR_MESSAGE);
-					// 수량 변경 후 테이블에 포커싱을 하고 싶은데 안됨 @@@@@@@@@@@@@@@@@@@
-					innerTable.requestFocus(); // 수량 변경 후 테이블에 포커싱을 하고 싶은데 안됨 @@@@@@@@@@@@@@@@@@@
-					// 수량 변경 후 테이블에 포커싱을 하고 싶은데 안됨 @@@@@@@@@@@@@@@@@@@
 					
+					// 업데이트 후 클릭 포커싱 유지
 					SwingUtilities.invokeLater(() -> {
 				        innerTable.requestFocus();
-				        innerTable.changeSelection(selectedRow, 0, true, false); // Optionally select the updated row
+				        innerTable.changeSelection(selectedRow, 0, false, false); // Optionally select the updated row
 				    });
 
 				}
