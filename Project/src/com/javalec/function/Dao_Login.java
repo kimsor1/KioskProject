@@ -13,6 +13,13 @@ import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
 public class Dao_Login {
 	
+	/*
+	 * Description : Shoeskiosk DAO of Login
+	 * Author : Woody Jo
+	 * Version : 1.0.0
+	 * Date : 2023.12.31
+	 */
+	
 	// Field
 	private final String url_mysql = ShareVar.dbName;
 	private final String id_mysql = ShareVar.dbUser;

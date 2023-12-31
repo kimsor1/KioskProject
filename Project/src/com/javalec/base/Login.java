@@ -34,6 +34,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Login extends JDialog {
+	
+	/*
+	 * Description : Shoeskiosk Login class
+	 * Author : Woody Jo
+	 * Version : 1.0.0
+	 * Date : 2023.12.31
+	 */
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
