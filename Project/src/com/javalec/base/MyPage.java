@@ -177,7 +177,7 @@ public class MyPage extends JDialog {
 		btnExit.setBounds(280, 564, 117, 35);
 		getContentPane().add(btnExit);
 		getContentPane().add(getBtnPw());
-		
+
 		JLabel lbBack = new JLabel("");
 		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/Group 38 (2).png")));
 		lbBack.setVerticalAlignment(SwingConstants.TOP);
@@ -253,12 +253,12 @@ public class MyPage extends JDialog {
 		tfName.setText(dto.getName());
 		tfPhone.setText(dto.getPhone());
 		tfAddress.setText(dto.getAddress());
-		
+
 		String pw = dto.getPw(); // dto에서 비밀번호 가져오기
 		StringBuilder maskedPassword = new StringBuilder();
 
 		for (int i = 0; i < pw.length(); i++) {
-		    maskedPassword.append("*");
+			maskedPassword.append("*");
 		}
 
 		tfPassword.setText(maskedPassword.toString());
@@ -279,11 +279,19 @@ public class MyPage extends JDialog {
 	private void updatePhone() {
 		Dao_MyPage dao = new Dao_MyPage();
 		Dto_MyPage dto = dao.MyPage();
-		dao.updatePhone(tfPhone.getText());
 
-		JOptionPane.showMessageDialog(null, dto.getName() + "의 전화번호가 수정되었습니다.");
+		if (tfPhone.getText().matches("^\\d{3}-\\d{4}-\\d{4}$")) {
+			dao.updatePhone(tfPhone.getText());
+			
+			JOptionPane.showMessageDialog(null, dto.getName() + "의 전화번호가 수정되었습니다.");
 
-		tfPhone.setText(tfPhone.getText());
+			tfPhone.setText(tfPhone.getText());
+		} else {
+			JOptionPane.showMessageDialog(null, "'-'를 포함한 전화번호 11자리로 입력해주세요.");
+
+			tfPhone.setText(tfPhone.getText());
+		}
+
 	}
 
 	private void updateAddress() {
@@ -295,11 +303,11 @@ public class MyPage extends JDialog {
 
 		tfAddress.setText(tfAddress.getText());
 	}
-	
+
 	private void showPw() {
 		Dao_MyPage dao = new Dao_MyPage();
 		Dto_MyPage dto = dao.MyPage();
-		
+
 		tfPassword.setEditable(true);
 		tfPassword.setText(dto.getPw());
 	}
@@ -310,12 +318,12 @@ public class MyPage extends JDialog {
 		dao.updatePw(tfPassword.getText());
 
 		JOptionPane.showMessageDialog(null, "비밀번호가 수정되었습니다.");
-		
+
 		String pw = dto.getPw(); // dto에서 비밀번호 가져오기
 		StringBuilder maskedPassword = new StringBuilder();
 
 		for (int i = 0; i < pw.length(); i++) {
-		    maskedPassword.append("*");
+			maskedPassword.append("*");
 		}
 
 		tfPassword.setText(maskedPassword.toString());
