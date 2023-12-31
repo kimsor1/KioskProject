@@ -29,6 +29,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class FindPw extends JDialog {
+	
+	/*
+	 * Description : Shoeskiosk Find PW class
+	 * Author : Woody Jo
+	 * Version : 1.0.0
+	 * Date : 2023.12.31
+	 */
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();

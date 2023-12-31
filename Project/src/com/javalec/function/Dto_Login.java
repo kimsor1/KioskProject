@@ -2,6 +2,13 @@ package com.javalec.function;
 
 public class Dto_Login {
 	
+	/*
+	 * Description : Shoeskiosk DTO of Login
+	 * Author : Woody Jo
+	 * Version : 1.0.0
+	 * Date : 2023.12.31
+	 */
+	
 	// Field
 	
 	private String id; 

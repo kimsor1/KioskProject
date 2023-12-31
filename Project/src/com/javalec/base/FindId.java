@@ -30,6 +30,13 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class FindId extends JDialog {
+	
+	/*
+	 * Description : Shoeskiosk Find ID class
+	 * Author : Woody Jo
+	 * Version : 1.0.0
+	 * Date : 2023.12.31
+	 */
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();

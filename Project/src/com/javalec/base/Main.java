@@ -13,6 +13,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Main {
+	
+	/*
+	 * Description : Shoeskiosk Main class
+	 * Author : Woody Jo
+	 * Version : 1.0.0
+	 * Date : 2023.12.31
+	 */
 
 	private JFrame frame;
 	private JLabel lbBackgroundImage;

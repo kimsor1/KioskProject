@@ -309,24 +309,25 @@ public class MyPage extends JDialog {
 	            tfName.setText(rs.getString("name"));
 	            tfPhone.setText(rs.getString("phone"));
 	            tfAddress.setText(rs.getString("address"));
-	            tfPassword.setText(rs.getString("password"));
+	            tfPassword.setText(rs.getString("pw"));
 	        } else {
 	            // 해당 ID에 대한 데이터가 없을 경우 처리
 	            // 예: 메시지 출력 또는 필요한 작업 수행
 	            System.out.println("해당 ID에 대한 데이터가 없습니다.");
 	        }
+	       conn.close();
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        
-	    } finally {
-	        try {
-	            if (rs != null) rs.close();
-	            if (pstmt != null) pstmt.close();
-	            if (conn != null) conn.close();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
+//	    } finally {
+//	        try {
+//	            if (rs != null) rs.close();
+//	            if (pstmt != null) pstmt.close();
+//	            if (conn != null) conn.close();
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	        }
 	    }
 	}
 

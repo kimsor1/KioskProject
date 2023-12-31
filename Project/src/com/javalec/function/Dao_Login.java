@@ -13,6 +13,13 @@ import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
 
 public class Dao_Login {
 	
+	/*
+	 * Description : Shoeskiosk DAO of Login
+	 * Author : Woody Jo
+	 * Version : 1.0.0
+	 * Date : 2023.12.31
+	 */
+	
 	// Field
 	private final String url_mysql = ShareVar.dbName;
 	private final String id_mysql = ShareVar.dbUser;
@@ -23,6 +30,8 @@ public class Dao_Login {
 	private String phone;
 	private String address;
 	private String pw;
+	private int activeDate;
+	private int deactiveDate;
 	
 	
 	// Constructor
@@ -171,7 +180,7 @@ public class Dao_Login {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url_mysql, id_mysql, pw_mysql);
 			
-			String query = "insert into customer (id, name, phone, address, pw) values (?, ?, ?, ?, ?)";
+			String query = "insert into customer (id, name, phone, address, pw, activedate) values (?, ?, ?, ?, ?, date_format(curdate(), '%y-%m-%d'))";
 			
 			ps = conn.prepareStatement(query);
 			
