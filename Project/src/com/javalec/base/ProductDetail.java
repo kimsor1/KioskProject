@@ -341,7 +341,7 @@ public class ProductDetail extends JDialog {
 				int opp = Integer.parseInt(tfOpp.getText());
 
 				Dao_Cart cart = new Dao_Cart(ShareVar.id, ShareVar.productSeq, intsize, color, opp);
-				cart.searchStock();
+				cart.searchStock(intsize,color);
 				
 				// 장바구니에 담겨있는 갯수와 구매수량 비교
 				if (ShareVar.CartQuantity + opp <= ShareVar.productStock) {

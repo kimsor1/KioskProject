@@ -36,13 +36,9 @@ public class Dao_Cart {
 		this.quantity = opp;
 	}
 
-	public void searchStock() {
+	public void searchStock(int size, String color) {
 
 		Dto_Product dto = null;
-		
-		String color = "white";
-		int size = 230;
-		ShareVar.id = "aaa";
 
 		String A = "select sum(c.quantity) as quantity ";
 		String B = "from cart as c ";

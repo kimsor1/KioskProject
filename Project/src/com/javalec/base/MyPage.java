@@ -271,8 +271,9 @@ public class MyPage extends JDialog {
 
 	private void deleteInfo() {
 		Dao_MyPage dao = new Dao_MyPage();
-		dao.delete();
 		dao.deletePurchase();
+		dao.deleteCart();
+		dao.delete();
 
 		JOptionPane.showMessageDialog(null, "탈퇴 하였습니다.");
 
