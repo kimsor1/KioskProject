@@ -33,6 +33,7 @@ public class Dao_Purchase {
 		this.color = color;
 		this.size = size;
 		this.quantity = quantity;
+//		this.pro_id = pro_id;
 	}
 
 
@@ -77,26 +78,6 @@ public class Dao_Purchase {
 //        }
 //      
 //	}
-	// 장바구니를 삭제하고 수량을 업데이트 하는  매서드
-	public void updateQuantity(int newQuantity) {
-        Connection conn = null;
-        PreparedStatement pstmtUpdate = null;
-
-        try {
-            conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
-
-            // 수량을 업데이트하기 위한 SQL 문
-            String updateSql = "UPDATE cart SET quantity = ? WHERE id = " + lookingforCartId();
-            pstmtUpdate = conn.prepareStatement(updateSql);
-
-            // 수량을 업데이트
-            pstmtUpdate.setInt(1, newQuantity);
-            pstmtUpdate.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 	
 	// 카트에 있는 product id 찾기
 	public int lookingforProId() {
@@ -119,6 +100,27 @@ public class Dao_Purchase {
 		return i;
 	}
 	
+	// 카트에 있는 product id 찾기
+		public int lookingforDeleteProId() {
+			int i = 0;
+			try {
+	            Class.forName("com.mysql.cj.jdbc.Driver");
+	            Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+	            Statement stmt_mysql = conn_mysql.createStatement();
+	            
+	            String query = "select pro_id from cart where c_id = '" + ShareVar.id + "' and size = " + size + " and color = '" + color + "'";
+	            ResultSet rs = stmt_mysql.executeQuery(query);								
+	            if (rs.next()) {
+	                i = rs.getInt(1);
+	                
+	            }
+	            conn_mysql.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+			return i;
+		}
+	
 	// 카트 id 찾기
 	public int lookingforCartId() {
 		int i = 0;
@@ -127,9 +129,33 @@ public class Dao_Purchase {
             Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
             Statement stmt_mysql = conn_mysql.createStatement();
             
-            String query = "select id from cart where c_id = '" + ShareVar.id + "' and pro_id = " + lookingforProId() + " and quantity = " + quantity + " and size = " + size + " and color = '" + color + "'";
+            String query = "select id from cart where c_id = '" + ShareVar.id + "' and pro_id = " + lookingforDeleteProId() + " and quantity = " + quantity + " and size = " + size + " and color = '" + color + "'";
             ResultSet rs = stmt_mysql.executeQuery(query);								
             if (rs.next()) {
+            	
+                i = rs.getInt(1);
+                
+            }
+            conn_mysql.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return i;
+	}
+	
+	
+	// 장바구니 업데이트를 위한 아이디 찾기
+	public int lookingforUpdateCartId() {
+		int i = 0;
+		try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn_mysql = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+            Statement stmt_mysql = conn_mysql.createStatement();
+            
+            String query = "select id from cart where c_id = '" + ShareVar.id + "' and pro_id = " + lookingforDeleteProId() + " and size = " + size + " and color = '" + color + "'";
+            ResultSet rs = stmt_mysql.executeQuery(query);								
+            if (rs.next()) {
+            	
                 i = rs.getInt(1);
                 
             }
@@ -184,10 +210,50 @@ public class Dao_Purchase {
 
 	}
 	
+	// 장바구니를 삭제하고 수량을 업데이트 하는  매서드
+		public void updateQuantity(int newQuantity, int currentQuantity) {
+	        Connection conn = null;
+	        PreparedStatement pstmtUpdate = null;
+
+	        try {
+	            conn = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
+	            Statement st = conn.createStatement();
+	            
+	            
+//	            if (newQuantity < currentQuantity) {
+//		            String findQuantity = "select quantity from cart where pro_id = " + lookingforDeleteProId();
+//		            ResultSet rs = st.executeQuery(findQuantity);
+//		            
+//		            if (rs.getInt(1) > newQuantity) {
+//		            	String a = "delete from cart where pro_id = " + lookingforDeleteProId();
+//		            	
+//		            	pstmtUpdate.executeUpdate();
+//		            }
+//		            else if (rs.getInt)
+//		            	
+//		            
+//	            }
+	            
+	            
+	            // 수량을 업데이트하기 위한 SQL 문
+	            String updateSql = "UPDATE cart SET quantity = ? "
+	            		+ "where c_id = '" + ShareVar.id + "' and pro_id = " + lookingforDeleteProId() + " and size = " + size + " and color = '"+ color +"'";
+	            pstmtUpdate = conn.prepareStatement(updateSql);
+
+	            // 수량을 업데이트
+	            pstmtUpdate.setInt(1, newQuantity);
+	            pstmtUpdate.executeUpdate();
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+		
 	// 구매 확정 후 테이블의 열 삭제
 	public void deleteAction() {
 		PreparedStatement ps = null;
-		String query = "DELETE FROM cart where id = " + lookingforCartId();
+		String query = "delete from cart "
+				+ "where c_id = '" + ShareVar.id + "' and pro_id = " + lookingforDeleteProId() + " and size = " + size + " and color = '"+ color +"'";
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection(url_mysql, id_mysql, pass_mysql);
@@ -257,7 +323,11 @@ public class Dao_Purchase {
 
 	public ArrayList<Dto_Purchase> cartList() {
 		ArrayList<Dto_Purchase> dtoList = new ArrayList<>(); 
-						String A = "select distinct(c.id), p.name, c.size, c.color,  p.price, c.quantity FROM cart c, product p, customer cu where c.pro_id = p.seq and c.c_id = '" +  ShareVar.id +"' order by c.id asc";
+						String A = "SELECT p.name, c.size, c.color, p.price, SUM(c.quantity) "
+								+ "FROM cart c "
+								+ "JOIN product p ON c.pro_id = p.seq "
+								+ "where c.c_id = '" + ShareVar.id + "' "
+								+ "GROUP BY p.name, c.size, c.color, p.price";
 								
 			       try {
 			            Class.forName("com.mysql.cj.jdbc.Driver");
@@ -267,11 +337,11 @@ public class Dao_Purchase {
 			            	
 			            while (rs.next()) {
 			             
-			                String name = rs.getString(2);											
-			                int size = rs.getInt(3);  
-			                String color = rs.getString(4);														                
-			                int price = rs.getInt(5);
-			                int quantity = rs.getInt(6);
+			                String name = rs.getString(1);											
+			                int size = rs.getInt(2);  
+			                String color = rs.getString(3);
+			                int price = rs.getInt(4);
+			                int quantity = rs.getInt(5);
 			                			            	
 			                Dto_Purchase dto_Purchase = new Dto_Purchase(name, size, color, price, quantity);
 			                dtoList.add(dto_Purchase);

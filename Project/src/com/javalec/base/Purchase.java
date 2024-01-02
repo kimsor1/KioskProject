@@ -177,6 +177,7 @@ public class Purchase extends JDialog {
 		// cartId를 가져와 update, update하기 위해 파라미터를 입력 받는다.
 		Dao_Purchase daoPurchase = new Dao_Purchase(currentQuantity, size, color);
 		
+		
 		if (selectedRow != -1) {
 //	        String productId = (String) outer_Table.getValueAt(selectedRow, 0);
 
@@ -188,7 +189,6 @@ public class Purchase extends JDialog {
 //        	if (inputQuantity.length() > 0) {
 //	            if (reduceQuantity > 0 && reduceQuantity <= currentQuantity) {
 				int newQuantity = currentQuantity - reduceQuantity;
-				
 				// 참일 경우 삭
 				if (newQuantity == 0) {
 					// 새로운 수량이 0이면 제품을 카트에서 완전히 제거
@@ -197,7 +197,7 @@ public class Purchase extends JDialog {
 				}
 				// 그렇지 않다면 업데이트
 				else {
-					daoPurchase.updateQuantity(newQuantity);
+					daoPurchase.updateQuantity(newQuantity, currentQuantity);
 					JOptionPane.showMessageDialog(null, "수량 변경이 완료 되었습니다", "완료", JOptionPane.ERROR_MESSAGE);
 					
 					// 업데이트 후 클릭 포커싱 유지
