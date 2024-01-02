@@ -317,7 +317,7 @@ public class FindPw extends JDialog {
 	}
 	
 	private void cancel() {
-		int checkCancle = JOptionPane.showConfirmDialog(null, "아이디 찾기를 취소 하시겠습니까?", "알림", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+		int checkCancle = JOptionPane.showConfirmDialog(null, "비밀번호 찾기를 취소 하시겠습니까?", "알림", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 		
 		if (checkCancle == JOptionPane.YES_OPTION) {
 			Login login = new Login();
