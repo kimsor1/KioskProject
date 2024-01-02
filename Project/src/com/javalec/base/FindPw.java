@@ -86,8 +86,8 @@ public class FindPw extends JDialog {
 	private JLabel getLbBack() {
 		if (lbBack == null) {
 			lbBack = new JLabel("");
-			lbBack.setBounds(0, 0, 512, 683);
-			lbBack.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/pwsmallFont.png")));
+			lbBack.setBounds(0, -28, 512, 683);
+			lbBack.setIcon(new ImageIcon(FindPw.class.getResource("/com/javalec/images/FindPw.png")));
 		}
 		return lbBack;
 	}
@@ -129,7 +129,7 @@ public class FindPw extends JDialog {
 			tfId.setText("아이디 입력");
 			tfId.setForeground(Color.LIGHT_GRAY);
 			tfId.setColumns(10);
-			tfId.setBounds(57, 218, 416, 47);
+			tfId.setBounds(57, 250, 416, 47);
 		}
 		return tfId;
 	}
@@ -158,7 +158,7 @@ public class FindPw extends JDialog {
 			tfName.setText("이름 입력");
 			tfName.setForeground(Color.LIGHT_GRAY);
 			tfName.setColumns(10);
-			tfName.setBounds(57, 278, 416, 47);
+			tfName.setBounds(57, 310, 416, 47);
 		}
 		return tfName;
 	}
@@ -187,7 +187,7 @@ public class FindPw extends JDialog {
 			});
 			tfPhone.setText("전화번호 입력");
 			tfPhone.setForeground(Color.LIGHT_GRAY);
-			tfPhone.setBounds(57, 338, 416, 47);
+			tfPhone.setBounds(57, 370, 416, 47);
 			tfPhone.setColumns(10);
 		}
 		return tfPhone;
@@ -216,7 +216,7 @@ public class FindPw extends JDialog {
 			tfAddress.setText("주소 입력");
 			tfAddress.setForeground(Color.LIGHT_GRAY);
 			tfAddress.setColumns(10);
-			tfAddress.setBounds(57, 398, 416, 47);
+			tfAddress.setBounds(57, 430, 416, 47);
 		}
 		return tfAddress;
 	}
@@ -236,7 +236,7 @@ public class FindPw extends JDialog {
 			});
 			lbOk.setForeground(Color.LIGHT_GRAY);
 			lbOk.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbOk.setBounds(183, 520, 61, 16);
+			lbOk.setBounds(183, 550, 61, 16);
 		}
 		return lbOk;
 	}
@@ -246,7 +246,7 @@ public class FindPw extends JDialog {
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lblNewLabel_2.setBounds(227, 520, 61, 16);
+			lblNewLabel_2.setBounds(227, 550, 61, 16);
 		}
 		return lblNewLabel_2;
 	}
@@ -261,7 +261,7 @@ public class FindPw extends JDialog {
 			});
 			lbCancel.setForeground(Color.LIGHT_GRAY);
 			lbCancel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbCancel.setBounds(300, 520, 61, 16);
+			lbCancel.setBounds(300, 550, 61, 16);
 		}
 		return lbCancel;
 	}

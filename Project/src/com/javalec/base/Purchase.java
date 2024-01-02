@@ -375,7 +375,7 @@ public class Purchase extends JDialog {
 		if (lbBackImage == null) {
 			lbBackImage = new JLabel("");
 			lbBackImage.setBounds(0, -28, 512, 683);
-			lbBackImage.setIcon(new ImageIcon(Purchase.class.getResource("/com/javalec/images/Product_new.png")));
+			lbBackImage.setIcon(new ImageIcon(Purchase.class.getResource("/com/javalec/images/Product.png")));
 		}
 		return lbBackImage;
 	}

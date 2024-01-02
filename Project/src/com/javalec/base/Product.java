@@ -246,7 +246,7 @@ public class Product extends JDialog {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("");
 			lblNewLabel_2.setBackground(SystemColor.window);
-			lblNewLabel_2.setIcon(new ImageIcon(Product.class.getResource("/com/javalec/images/Product_new.png")));
+			lblNewLabel_2.setIcon(new ImageIcon(Product.class.getResource("/com/javalec/images/Product.png")));
 			lblNewLabel_2.setBounds(0, -28, 512, 683);
 		}
 		return lblNewLabel_2;

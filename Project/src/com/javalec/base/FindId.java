@@ -28,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.SystemColor;
 
 public class FindId extends JDialog {
 	
@@ -86,8 +87,9 @@ public class FindId extends JDialog {
 	private JLabel getLbBack() {
 		if (lbBack == null) {
 			lbBack = new JLabel("");
-			lbBack.setBounds(0, 0, 512, 655);
-			lbBack.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/idsmallFont.png")));
+			lbBack.setBackground(SystemColor.window);
+			lbBack.setBounds(0, -27, 512, 683);
+			lbBack.setIcon(new ImageIcon(FindId.class.getResource("/com/javalec/images/FindId.png")));
 		}
 		return lbBack;
 	}
@@ -129,7 +131,7 @@ public class FindId extends JDialog {
 			tfName.setText("이름 입력");
 			tfName.setForeground(Color.LIGHT_GRAY);
 			tfName.setColumns(10);
-			tfName.setBounds(57, 208, 416, 47);
+			tfName.setBounds(57, 260, 416, 47);
 		}
 		return tfName;
 	}
@@ -158,7 +160,7 @@ public class FindId extends JDialog {
 			});
 			tfPhone.setText("전화번호 입력");
 			tfPhone.setForeground(Color.LIGHT_GRAY);
-			tfPhone.setBounds(57, 267, 416, 47);
+			tfPhone.setBounds(57, 330, 416, 47);
 			tfPhone.setColumns(10);
 		}
 		return tfPhone;
@@ -187,7 +189,7 @@ public class FindId extends JDialog {
 			tfAddress.setText("주소 입력");
 			tfAddress.setForeground(Color.LIGHT_GRAY);
 			tfAddress.setColumns(10);
-			tfAddress.setBounds(57, 326, 416, 47);
+			tfAddress.setBounds(57, 400, 416, 47);
 		}
 		return tfAddress;
 	}
@@ -206,7 +208,7 @@ public class FindId extends JDialog {
 			});
 			lbOk.setForeground(Color.LIGHT_GRAY);
 			lbOk.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbOk.setBounds(183, 500, 61, 16);
+			lbOk.setBounds(183, 550, 61, 16);
 		}
 		return lbOk;
 	}
@@ -216,7 +218,7 @@ public class FindId extends JDialog {
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
 			lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lblNewLabel_2.setBounds(227, 500, 61, 16);
+			lblNewLabel_2.setBounds(227, 550, 61, 16);
 		}
 		return lblNewLabel_2;
 	}
@@ -231,7 +233,7 @@ public class FindId extends JDialog {
 			});
 			lbCancel.setForeground(Color.LIGHT_GRAY);
 			lbCancel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-			lbCancel.setBounds(300, 500, 61, 16);
+			lbCancel.setBounds(300, 550, 61, 16);
 		}
 		return lbCancel;
 	}

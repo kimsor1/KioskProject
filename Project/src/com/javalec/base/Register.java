@@ -97,8 +97,8 @@ public class Register extends JDialog {
 	private JLabel getLbBack() {
 		if (lbBack == null) {
 			lbBack = new JLabel("");
-			lbBack.setBounds(0, 0, 512, 655);
-			lbBack.setIcon(new ImageIcon(Main.class.getResource("/com/javalec/images/registersmallFont.png")));
+			lbBack.setBounds(0, -27, 512, 683);
+			lbBack.setIcon(new ImageIcon(Register.class.getResource("/com/javalec/images/Register.png")));
 		}
 		return lbBack;
 	}
@@ -126,7 +126,7 @@ public class Register extends JDialog {
 			});
 			tfId.setText("아이디 입력");
 			tfId.setForeground(Color.LIGHT_GRAY);
-			tfId.setBounds(57, 201, 416, 47);
+			tfId.setBounds(57, 210, 416, 47);
 			tfId.setColumns(10);
 		}
 		return tfId;
@@ -156,7 +156,7 @@ public class Register extends JDialog {
 					}
 				}
 			});
-			pw.setBounds(57, 260, 416, 47);
+			pw.setBounds(57, 270, 416, 47);
 		}
 		return pw;
 	}
@@ -178,7 +178,7 @@ public class Register extends JDialog {
 			tfPw.setText("비밀번호 입력");
 			tfPw.setForeground(Color.LIGHT_GRAY);
 			tfPw.setColumns(10);
-			tfPw.setBounds(57, 260, 416, 47);
+			tfPw.setBounds(57, 270, 416, 47);
 		}
 		return tfPw;
 	}
@@ -208,7 +208,7 @@ public class Register extends JDialog {
 			tfName.setText("이름 입력");
 			tfName.setForeground(Color.LIGHT_GRAY);
 			tfName.setColumns(10);
-			tfName.setBounds(57, 318, 416, 47);
+			tfName.setBounds(57, 330, 416, 47);
 		}
 		return tfName;
 	}
@@ -238,7 +238,7 @@ public class Register extends JDialog {
 			tfPhone.setText("전화번호 입력");
 			tfPhone.setForeground(Color.LIGHT_GRAY);
 			tfPhone.setColumns(10);
-			tfPhone.setBounds(57, 374, 416, 47);
+			tfPhone.setBounds(57, 390, 416, 47);
 		}
 		return tfPhone;
 	}
@@ -266,7 +266,7 @@ public class Register extends JDialog {
 			tfAddress.setText("주소 입력");
 			tfAddress.setForeground(Color.LIGHT_GRAY);
 			tfAddress.setColumns(10);
-			tfAddress.setBounds(57, 430, 416, 47);
+			tfAddress.setBounds(57, 450, 416, 47);
 		}
 		return tfAddress;
 	}
@@ -329,7 +329,7 @@ public class Register extends JDialog {
 				}
 			});
 			btnCheckDup.setBackground(Color.GRAY);
-			btnCheckDup.setBounds(393, 211, 71, 29);
+			btnCheckDup.setBounds(393, 220, 71, 29);
 		}
 		return btnCheckDup;
 	}

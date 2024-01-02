@@ -269,7 +269,7 @@ public class ProductDetail extends JDialog {
 	private JLabel getLblNewLabel_2_1() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("New label");
-			lblNewLabel_2.setIcon(new ImageIcon(ProductDetail.class.getResource("/com/javalec/images/Product_new.png")));
+			lblNewLabel_2.setIcon(new ImageIcon(ProductDetail.class.getResource("/com/javalec/images/Product.png")));
 			lblNewLabel_2.setBackground(SystemColor.window);
 			lblNewLabel_2.setBounds(0, -28, 512, 683);
 		}

@@ -179,7 +179,7 @@ public class MyPage extends JDialog {
 		getContentPane().add(getBtnPw());
 
 		JLabel lbBack = new JLabel("");
-		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/Group 38 (2).png")));
+		lbBack.setIcon(new ImageIcon(MyPage.class.getResource("/com/javalec/images/MyPage.png")));
 		lbBack.setVerticalAlignment(SwingConstants.TOP);
 		lbBack.setHorizontalAlignment(SwingConstants.CENTER);
 		lbBack.setFont(new Font("Lucida Grande", Font.PLAIN, 5));
